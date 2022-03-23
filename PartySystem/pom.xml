@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>gyurix</groupId>
+    <artifactId>PartySystem</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>nftworlds</groupId>
+            <artifactId>server</artifactId>
+            <version>1.17.1</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/../lib/patched_1.17.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>nftworlds</groupId>
+            <artifactId>wrld-payments-api</artifactId>
+            <version>0.1.5</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/../lib/wrld-payments-api-0.1.5-shaded.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.sk89q</groupId>
+            <artifactId>worldedit</artifactId>
+            <version>7.2.9</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/../lib/worldedit-bukkit-7.2.9.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
