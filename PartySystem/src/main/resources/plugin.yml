@@ -1,0 +1,10 @@
+name: PartySystem
+author: gyuriX
+api-version: 1.13
+main: gyurix.partysystem.PartySystem
+version: 1.0
+softdepend: [ WRLDPaymentsAPI ]
+depend: [ WorldEdit ]
+commands:
+  party:
+    aliases: [ p ]

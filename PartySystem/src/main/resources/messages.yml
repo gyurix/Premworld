@@ -1,0 +1,97 @@
+prefix: "&c&lParty ► &e"
+noconsole: "&cThis command can only be used by players"
+help:
+  header:
+  - "&4&l&m-------&c&l Party System &4&l&m-------"
+  - ""
+  noparty:
+  - "&6"
+  - "&6Commands for players not in party:"
+  - "&6• /<cmd> [create] <player1> [<player2> [playerN]]:&f Create a new party and invite the given players to it"
+  - "&6• /<cmd> [join] <player>:&f Join to the given players party"
+  everyone:
+  - "&a"
+  - "&aCommands for everyone in party:"
+  - "&a• /<cmd> [help]:&f Show this help menu"
+  - "&a• /<cmd> info:&e Info about your party"
+  - "&a• /<cmd> leave:&e Leave your party"
+  mods:
+  - "&a"
+  - "&eCommands for party mods & owners:"
+  - "&e• /<cmd> [invite] <player1> [<player2> [playerN]]:&f Invite the given players to your party"
+  - "&e• /<cmd> kick <player1> [<player2> [playerN]]:&f Kick the given players from your party"
+  - "&e• /<cmd> open:&f Open your party, so anyone could join"
+  - "&e• /<cmd> close:&f Close your party, so joining would be invite only"
+  owners:
+  - "&c"
+  - "&cCommands for party owners:"
+  - "&c• /<cmd> disband:&e Disband your party"
+  - "&c• /<cmd> demote <player1> [<player2> [playerN]]:&f Demote the given players in your party"
+  - "&c• /<cmd> promote <player1> [<player2> [playerN]]:&f Promote the given players in your party"
+  - "&c• /<cmd> [set]owner <player1> [<player2> [playerN]]:&f Promote the given players to owners"
+in:
+  you: "&cYou are already in a party"
+  others: "&6&l<player>&e is already in a party"
+info:
+- "&4&l&m-------&c&l Party Info &4&l&m-------"
+- "&6• Total Players:&f <count> / <limit>"
+- "&c• Owners (<ownerCount>):&f <owners>"
+- "&e• Mods (<modCount>):&f <mods>"
+- "&a• Members (<memberCount>):&f <members>"
+notin:
+  you: "&cYou are not in a party"
+  others: "&6&l<player>&c is not in your party"
+  any: "&6&l<player>&c is not in a party"
+noplayer: "&cYou did not enter the player argument"
+wrongplayer: "&cPlayer &6&l<player>&c was not found"
+create: "Created new party"
+full:
+  you: "&cYour party is already full"
+  others: "&6&l<player>&c's party is already full"
+invite:
+  nomod: "&cOnly &6&lParty Moderators&c & &6&lParty Owners&c can invite players."
+  already: "&cPlayer &6&l<player>&c is already invited to your party"
+  sent: "Invited &6&l<player>&e to your party"
+  receive: "Received party invite from &6&l<player>&e, enter &a/p <player>&e to accept"
+  expire:
+    sender: "The party invite to &6&l<player>&e has expired"
+    receiver: "The party invite from &6&l<player>&e has expired"
+  no: "&6&l<player>&e did not invite you to his party"
+kick:
+  nomod: "&cOnly &6&lParty Moderators&c & &6&lParty Owners&c can kick players."
+  noperm: "&cPlayer &6&l<player>&c can only be kicked by &6&lParty Owners&c."
+  you: "&6&l<player>&e kicked you out from your party"
+  party: "&6&l<player>&e was kicked out from your party by &6&l<kicker>"
+join:
+  party: "&6&l<player>&a joined to your party"
+  you: "&aYou have joined to &6&l<player>&a's party"
+leave:
+  party: "&6&l<player>&c left your party"
+  you: "&cYou left the party"
+disband:
+  noperm: "&cOnly &6&lParty Owners&c can disband the party"
+  done: "Your party got disbanded"
+open:
+  already: "&cYour party is already open"
+  done: "Opened your party"
+  noperm: "&cOnly &6&lParty Owners&c can open the party"
+close:
+  already: "&cYour party is already closed"
+  done: "Closed your party"
+  noperm: "&cOnly &6&lParty Owners&c can close the party"
+ranks:
+  noperm: "&cOnly &6&lParty Owners&c can manage ranks."
+  member:
+    party: "&6&l<player>&e has been demoted to &6&lParty Member"
+    you: "&cYou have been demoted to &6&lParty Member"
+    already: "&6&l<player>&c is a &6&lParty Member&c already"
+  modpromote:
+    party: "&6&l<player>&e has been promoted to &6&lParty Moderator"
+    you: "&aYou have been promoted to &6&lParty Moderator"
+  moddemote:
+    party: "&6&l<player>&e has been demoted to &6&lParty Moderator"
+    you: "&cYou have been demoted to &6&lParty Moderator"
+  owner:
+    already: "&6&l<player>&c is a &6&lParty Owner&c already"
+    party: "&6&l<player>&e has been promoted to &6&lParty Owner"
+    you: "&aYou have been promoted to &6&lParty Owner"
