@@ -159,6 +159,7 @@ public class CommandParty implements CommandExecutor {
                 party.getMods().add(pln);
                 msg.msg(p, "ranks.moddemote.you");
                 party.msgOthers(pln, "ranks.moddemote.party", "player", pln);
+                party.findNextOwner();
                 continue;
             }
             party.getMods().remove(pln);
@@ -243,7 +244,7 @@ public class CommandParty implements CommandExecutor {
             return;
         }
         if (!party.isOpen()) {
-            msg.msg(plr, "invite.no", "player", target);
+            msg.msg(plr, "invite.none", "player", target);
             return;
         }
         if (party.countPlayers() >= conf.getPlayerLimit()) {

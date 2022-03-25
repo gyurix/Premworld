@@ -19,7 +19,7 @@ public class PartyInvite {
         this.party = party;
         this.sender = sender;
         this.receiver = receiver;
-        expirationTaskId = Bukkit.getScheduler().scheduleSyncDelayedTask(pl, this::expire);
+        expirationTaskId = Bukkit.getScheduler().scheduleSyncDelayedTask(pl, this::expire, conf.getInviteExpirationSeconds() * 20L);
     }
 
     public void accept(Player plr) {

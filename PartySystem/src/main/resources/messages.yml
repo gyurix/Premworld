@@ -7,14 +7,15 @@ help:
   noparty:
   - "&6"
   - "&6Commands for players not in party:"
+  - "&6• /<cmd> <player>:&f Accept party invite"
   - "&6• /<cmd> [create] <player1> [<player2> [playerN]]:&f Create a new party and invite the given players to it"
   - "&6• /<cmd> [join] <player>:&f Join to the given players party"
   everyone:
   - "&a"
   - "&aCommands for everyone in party:"
   - "&a• /<cmd> [help]:&f Show this help menu"
-  - "&a• /<cmd> info:&e Info about your party"
-  - "&a• /<cmd> leave:&e Leave your party"
+  - "&a• /<cmd> info:&f Info about your party"
+  - "&a• /<cmd> leave:&f Leave your party"
   mods:
   - "&a"
   - "&eCommands for party mods & owners:"
@@ -25,7 +26,7 @@ help:
   owners:
   - "&c"
   - "&cCommands for party owners:"
-  - "&c• /<cmd> disband:&e Disband your party"
+  - "&c• /<cmd> disband:&f Disband your party"
   - "&c• /<cmd> demote <player1> [<player2> [playerN]]:&f Demote the given players in your party"
   - "&c• /<cmd> promote <player1> [<player2> [playerN]]:&f Promote the given players in your party"
   - "&c• /<cmd> [set]owner <player1> [<player2> [playerN]]:&f Promote the given players to owners"
@@ -56,7 +57,7 @@ invite:
   expire:
     sender: "The party invite to &6&l<player>&e has expired"
     receiver: "The party invite from &6&l<player>&e has expired"
-  no: "&6&l<player>&e did not invite you to his party"
+  none: "&6&l<player>&e did not invite you to his party"
 kick:
   nomod: "&cOnly &6&lParty Moderators&c & &6&lParty Owners&c can kick players."
   noperm: "&cPlayer &6&l<player>&c can only be kicked by &6&lParty Owners&c."

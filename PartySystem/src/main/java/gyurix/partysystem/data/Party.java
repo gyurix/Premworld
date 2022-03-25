@@ -35,7 +35,7 @@ public class Party {
     }
 
     public void disband() {
-        msg("disband");
+        msg("disband.done");
         for (String pln : members)
             PartyAPI.partiesByPlayer.remove(pln);
         for (String pln : mods)
@@ -50,6 +50,8 @@ public class Party {
     }
 
     public void findNextOwner() {
+        if (!owners.isEmpty())
+            return;
         if (!mods.isEmpty())
             selectNextOwner(Lists.newArrayList(mods));
         else if (!members.isEmpty())
@@ -87,13 +89,14 @@ public class Party {
         }
         invites.put(pln, new PartyInvite(this, plr.getName(), pln));
         msg("invite.sent", "player", pln);
-        msg.msg(plr, "invite.receive", "player", plr.getName());
+        msg.msg(p, "invite.receive", "player", plr.getName());
     }
 
     public void join(Player plr) {
         String pln = plr.getName();
         msg("join.party", "player", pln);
         members.add(pln);
+        PartyAPI.partiesByPlayer.put(pln, this);
     }
 
     public void kick(Player plr, String pln, boolean memberOnly) {
@@ -118,9 +121,7 @@ public class Party {
         owners.remove(pln);
         if (!silent)
             msg("leave.party", "player", pln);
-        if (owners.isEmpty()) {
-            findNextOwner();
-        }
+        findNextOwner();
     }
 
     public void msg(String key, Object... args) {
