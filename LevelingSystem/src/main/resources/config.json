@@ -1,0 +1,48 @@
+{
+  "levelPrefix": "&2Level&a ",
+  "mySQL": {
+    "database": "minecraft",
+    "table": "leveling",
+    "host": "localhost",
+    "password": "password",
+    "username": "minecraft"
+  },
+  "leaderBoardGUI": {
+    "title": "&4&lTop 10 EXP",
+    "layout": [
+      "glass glass glass glass glass glass glass glass glass",
+      "glass glass glass glass top1  glass glass glass glass",
+      "glass glass glass top2  glass top3  glass glass glass",
+      "glass top4  top5  top6  top7  top8  top9  top10 glass",
+      "glass glass glass glass glass glass glass glass glass"
+    ],
+    "staticItems": {
+      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+      "noplayer": "BARRIER name:&6&l#<position> lore:&cNoone_Yet"
+    },
+    "customItems": {
+      "top": "PLAYER_HEAD name:&6&l#<position> lore:&e<player>|&a|&a•_Exp:&f_<exp>|&a•_Level:&f_<level>"
+    },
+    "updateTicks": 100
+  },
+  "levelExp": [
+    100,
+    250,
+    400,
+    600,
+    800,
+    1000,
+    1500,
+    2000,
+    3000,
+    4000,
+    5000,
+    7000,
+    9000,
+    12000,
+    15000,
+    20000
+  ],
+  "dbSaveSeconds": 300,
+  "leaderboardUpdateTicks": 100
+}

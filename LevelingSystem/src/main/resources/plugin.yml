@@ -1,0 +1,11 @@
+name: LevelingSystem
+author: gyuriX
+api-version: 1.13
+main: gyurix.levelingsystem.LevelingSystem
+version: 1.0
+softdepend: [ WRLDPaymentsAPI ]
+depend: [ WorldEdit ]
+commands:
+  level:
+  levela:
+  leaderboard:
