@@ -2,6 +2,7 @@ package gyurix.levelingsystem.gui;
 
 import gyurix.levelingsystem.conf.PostProcessable;
 import gyurix.levelingsystem.util.ItemUtils;
+import gyurix.levelingsystem.util.StrUtils;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,6 +20,7 @@ public class GUIConfig implements PostProcessable {
 
     @Override
     public void postProcess() {
+        title = StrUtils.colorize(title);
         int slot = 0;
         for (String row : layout) {
             String[] cols = row.split(" +");
@@ -29,6 +31,7 @@ public class GUIConfig implements PostProcessable {
                     staticMap.put(slot, staticItems.get(col));
                 else
                     customMap.put(slot, col);
+                ++slot;
             }
         }
     }

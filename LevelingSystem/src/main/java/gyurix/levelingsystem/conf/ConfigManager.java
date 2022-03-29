@@ -3,6 +3,7 @@ package gyurix.levelingsystem.conf;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gyurix.levelingsystem.conf.adapters.ItemStackAdapter;
+import gyurix.levelingsystem.conf.adapters.PostProcessableAdapter;
 import gyurix.levelingsystem.conf.adapters.StringSerializableAdapter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,6 +21,7 @@ public class ConfigManager {
         msgFile = new File(pl.getDataFolder() + File.separator + "messages.yml");
     public static Gson gson = new GsonBuilder()
         .registerTypeAdapterFactory(new StringSerializableAdapter())
+        .registerTypeAdapterFactory(new PostProcessableAdapter())
         .registerTypeAdapter(ItemStack.class, new ItemStackAdapter().nullSafe())
         .serializeNulls()
         .setPrettyPrinting()

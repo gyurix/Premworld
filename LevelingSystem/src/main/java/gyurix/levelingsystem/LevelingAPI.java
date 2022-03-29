@@ -1,9 +1,12 @@
 package gyurix.levelingsystem;
 
 import gyurix.levelingsystem.data.PlayerData;
+import gyurix.levelingsystem.gui.CustomGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -30,12 +33,12 @@ public class LevelingAPI {
             conf.mySQL.query("SELECT `level`, `exp` FROM `" + conf.mySQL.table + "` WHERE `uuid` = ? LIMIT 1", (rs) -> {
                 if (rs.next()) {
                     PlayerData pd = new PlayerData(plr.getUniqueId(), rs.getInt(1), rs.getInt(2));
-                    con.accept(pd);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> con.accept(pd));
                     return;
                 }
                 PlayerData pd = new PlayerData(plr);
                 pd.insert();
-                con.accept(pd);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> con.accept(pd));
             }, plr.getUniqueId());
         });
     }
@@ -50,13 +53,22 @@ public class LevelingAPI {
     }
 
     public static void refreshLeaderboard() {
+        saveAll();
         conf.mySQL.query("SELECT * FROM `" + conf.mySQL.table + "` ORDER BY `exp` DESC LIMIT 10", (rs) -> {
             TreeSet<PlayerData> players = new TreeSet<>();
             while (rs.next()) {
                 players.add(new PlayerData(UUID.fromString(rs.getString(1)), rs.getInt(2), rs.getInt(3)));
             }
-            players.addAll(data.values());
             top = new ArrayList<>(players).subList(0, Math.min(players.size(), 10));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    InventoryView view = p.getOpenInventory();
+                    Inventory top = view.getTopInventory();
+                    if (top.getHolder() instanceof CustomGUI) {
+                        ((CustomGUI) top.getHolder()).update();
+                    }
+                }
+            });
         });
     }
 

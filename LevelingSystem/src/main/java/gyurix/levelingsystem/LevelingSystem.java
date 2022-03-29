@@ -5,6 +5,7 @@ import gyurix.levelingsystem.cmd.CommandLevel;
 import gyurix.levelingsystem.cmd.CommandLevelA;
 import gyurix.levelingsystem.conf.ConfigManager;
 import gyurix.levelingsystem.data.PlayerData;
+import gyurix.levelingsystem.gui.GUIListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -52,6 +53,7 @@ public class LevelingSystem extends JavaPlugin {
 
     private void registerTasks() {
         Bukkit.getPluginManager().registerEvents(new LevelingListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
 
         BukkitScheduler sch = Bukkit.getScheduler();
         sch.runTaskAsynchronously(pl,

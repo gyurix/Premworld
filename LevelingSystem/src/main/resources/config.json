@@ -17,11 +17,11 @@
       "glass glass glass glass glass glass glass glass glass"
     ],
     "staticItems": {
-      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
-      "noplayer": "BARRIER name:&6&l#<position> lore:&cNoone_Yet"
+      "glass": "BLACK_STAINED_GLASS_PANE name:&c"
     },
     "customItems": {
-      "top": "PLAYER_HEAD name:&6&l#<position> lore:&e<player>|&a|&a•_Exp:&f_<exp>|&a•_Level:&f_<level>"
+      "top": "PLAYER_HEAD name:&6#<position> lore:&e<player>|&a|&a•_Exp：&f_<exp>|&a•_Level：&f_<level>",
+      "noplayer": "BARRIER name:&6#<position> lore:&cNoone_Yet"
     },
     "updateTicks": 100
   },
