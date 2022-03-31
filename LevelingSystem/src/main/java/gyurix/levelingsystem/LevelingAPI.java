@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.function.Consumer;
 
 import static gyurix.levelingsystem.LevelingSystem.pl;
 import static gyurix.levelingsystem.conf.ConfigManager.conf;
+import static gyurix.levelingsystem.util.StrUtils.DF;
 
 public class LevelingAPI {
     public static ConcurrentHashMap<UUID, PlayerData> data = new ConcurrentHashMap<>();
@@ -27,6 +29,32 @@ public class LevelingAPI {
     public static Scoreboard scoreboard;
     public static ConcurrentSkipListSet<PlayerData> toSave = new ConcurrentSkipListSet<>();
     public static List<PlayerData> top = new ArrayList<>();
+
+    public static void createScoreboard(PlayerData pd) {
+        Player p = Bukkit.getPlayer(pd.getUuid());
+        if (p == null)
+            return;
+        Team team = scoreboard.registerNewTeam(pd.getName());
+        team.addEntry(pd.getName());
+        team.setPrefix(conf.levelPrefix.replace("<level>", DF.format(pd.getLevel())));
+        team.setSuffix(conf.levelSuffix.replace("<level>", DF.format(pd.getLevel())));
+        objective.getScore(pd.getName()).setScore((int) pd.getExp());
+    }
+
+    public static void updateScoreboard(PlayerData pd) {
+        Player p = Bukkit.getPlayer(pd.getUuid());
+        if (p == null)
+            return;
+        Team team = scoreboard.getTeam(pd.getName());
+        team.setPrefix(conf.levelPrefix.replace("<level>", DF.format(pd.getLevel())));
+        team.setSuffix(conf.levelSuffix.replace("<level>", DF.format(pd.getLevel())));
+        objective.getScore(pd.getName()).setScore((int) pd.getExp());
+    }
+
+    public static void deleteScoreboard(PlayerData pd) {
+        objective.getScore(pd.getName()).resetScore();
+        scoreboard.getTeam(pd.getName()).unregister();
+    }
 
     public static void loadPlayer(OfflinePlayer plr, Consumer<PlayerData> con) {
         Bukkit.getScheduler().runTaskAsynchronously(pl, () -> {
@@ -82,7 +110,7 @@ public class LevelingAPI {
     }
 
     public static void unloadPlayer(Player plr) {
-        objective.getScore(plr.getName()).resetScore();
-        data.remove(plr.getUniqueId());
+        PlayerData pd = data.remove(plr.getUniqueId());
+        deleteScoreboard(pd);
     }
 }

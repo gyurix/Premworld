@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import static gyurix.levelingsystem.LevelingAPI.objective;
+import static gyurix.levelingsystem.LevelingAPI.updateScoreboard;
 import static gyurix.levelingsystem.LevelingSystem.pl;
 import static gyurix.levelingsystem.conf.ConfigManager.conf;
 import static gyurix.levelingsystem.conf.ConfigManager.msg;
@@ -42,9 +43,9 @@ public class PlayerData implements Comparable<PlayerData> {
             ++level;
             withPlayer(plr -> {
                 msg.msg(plr, "levelUp", "level", level);
-                objective.getScore(name).setScore(level);
             });
         }
+        updateScoreboard(this);
         LevelingAPI.toSave.add(this);
     }
 

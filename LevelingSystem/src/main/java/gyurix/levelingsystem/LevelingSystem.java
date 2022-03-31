@@ -9,6 +9,7 @@ import gyurix.levelingsystem.gui.GUIListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.RenderType;
 
 import static gyurix.levelingsystem.LevelingAPI.objective;
@@ -40,12 +41,12 @@ public class LevelingSystem extends JavaPlugin {
 
     private void registerScoreboard() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        objective = scoreboard.registerNewObjective("level", "level", conf.levelPrefix, RenderType.INTEGER);
-
+        objective = scoreboard.registerNewObjective("levelingexp", "levelingexp", conf.expSuffix, RenderType.INTEGER);
+        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
         Bukkit.getOnlinePlayers().forEach(plr -> {
             plr.setScoreboard(scoreboard);
             LevelingAPI.loadPlayer(plr, (pd) -> {
-                objective.getScore(plr.getName()).setScore(pd.getLevel());
+                LevelingAPI.createScoreboard(pd);
                 LevelingAPI.data.put(plr.getUniqueId(), pd);
             });
         });

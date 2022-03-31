@@ -1,10 +1,12 @@
 {
-  "levelPrefix": "&2Level&a ",
+  "levelPrefix": "&2[&a<level>&2] ",
+  "levelSuffix": "&6&l",
+  "expSuffix": "&e Exp",
   "mySQL": {
     "database": "minecraft",
     "table": "leveling",
     "host": "localhost",
-    "password": "password",
+    "password": "p&7h5y%_pC4Pk6tH",
     "username": "minecraft"
   },
   "leaderBoardGUI": {
