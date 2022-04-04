@@ -1,0 +1,11 @@
+prefix: "&6&lShop ► &e"
+noconsole: "&cThis command can only be used by players"
+noperm: "&cYou don't have permission for using this command"
+noplayer: "&cYou did not enter the player argument"
+notenoughmoney: "&cYou can not afford this item"
+notenoughspace: "&cYou don't have inventory space for this item"
+wrongplayer: "&cPlayer &e<player>&c was not found"
+wrongsub: "&cThe entered subcommand was not found"
+expired:
+- "&cThis ticket expired already"
+- "&cBuy a new ticket in &e/shop"

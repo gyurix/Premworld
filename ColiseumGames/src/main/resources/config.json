@@ -1,0 +1,30 @@
+{
+  "ingameItems": [
+    "BOW arrow_infinite:1 name:&6&lLSD_Shooter",
+    "ARROW"
+  ],
+  "minPlayers": 2,
+  "maxPlayers": 4,
+  "maxPointEntities": 200,
+  "counters": {
+    "starting": 30,
+    "maxplayer": 5,
+    "inarena": 5,
+    "ingame": 120,
+    "finish": 10
+  },
+  "titleFadeIn": 0,
+  "titleShowTime": 60,
+  "titleFadeOut": 10,
+  "rewardMultiplier": 0.95,
+  "points": [
+    "GRAY_TERRACOTTA 0.55 1",
+    "LIME_TERRACOTTA 0.3 2",
+    "PINK_WOOL 0.1 3 0.3",
+    "YELLOW_TERRACOTTA 0.03 5 0.3",
+    "RED_TERRACOTTA 0.02 10"
+  ],
+  "spawnedPointsPerSecond": 10,
+  "blindnessDuration": 4000,
+  "noBowDuration": 2000
+}

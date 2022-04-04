@@ -1,0 +1,273 @@
+{
+  "expirationFormat": "dd. MMM @ HH:mm:ss",
+  "tickets": {
+    "1v1s": {
+      "icon": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 4.5,
+      "price": 14.5,
+      "command": "coliseum queue <player> 1v1"
+    },
+    "2v2s": {
+      "icon": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 5,
+      "price": 16.5,
+      "command": "coliseum queue <player> 2v2"
+    },
+    "3v3s": {
+      "icon": "DIAMOND_SWORD 3 name:&6&l3v3_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "DIAMOND_SWORD name:&6&l3v3_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 5.5,
+      "price": 18.5,
+      "command": "coliseum queue <player> 3v3"
+    },
+    "4v4s": {
+      "icon": "NETHERITE_SWORD 4 name:&6&l4v4_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "NETHERITE_SWORD name:&6&l4v4_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 6,
+      "price": 19,
+      "command": "coliseum queue <player> 4v4"
+    },
+    "ctfs": {
+      "icon": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 6.5,
+      "price": 20,
+      "command": "coliseum queue <player> ctf"
+    },
+    "1v1m": {
+      "icon": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 45,
+      "price": 100,
+      "command": "coliseum queue <player> 1v1"
+    },
+    "2v2m": {
+      "icon": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 50,
+      "price": 110,
+      "command": "coliseum queue <player> 2v2"
+    },
+    "3v3m": {
+      "icon": "DIAMOND_SWORD 3 name:&6&l3v3_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "DIAMOND_SWORD name:&6&l3v3_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 55,
+      "price": 120,
+      "command": "coliseum queue <player> 3v3"
+    },
+    "4v4m": {
+      "icon": "NETHERITE_SWORD 4 name:&6&l4v4_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "NETHERITE_SWORD name:&6&l4v4_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 60,
+      "price": 130,
+      "command": "coliseum queue <player> 4v4"
+    },
+    "ctfm": {
+      "icon": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 65,
+      "price": 140,
+      "command": "coliseum queue <player> ctf"
+    },
+    "1v1l": {
+      "icon": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 450,
+      "price": 290,
+      "command": "coliseum queue <player> 1v1"
+    },
+    "2v2l": {
+      "icon": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 500,
+      "price": 300,
+      "command": "coliseum queue <player> 2v2"
+    },
+    "3v3l": {
+      "icon": "DIAMOND_SWORD 3 name:&6&l3v3_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "DIAMOND_SWORD name:&6&l3v3_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 550,
+      "price": 310,
+      "command": "coliseum queue <player> 3v3"
+    },
+    "4v4l": {
+      "icon": "NETHERITE_SWORD 4 name:&6&l4v4_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "NETHERITE_SWORD name:&6&l4v4_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 600,
+      "price": 320,
+      "command": "coliseum queue <player> 4v4"
+    },
+    "ctfl": {
+      "icon": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 650,
+      "price": 330,
+      "command": "coliseum queue <player> ctf"
+    },
+    "1v1xl": {
+      "icon": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "STONE_SWORD name:&6&l1v1_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 4500,
+      "price": 1000,
+      "command": "coliseum queue <player> 1v1"
+    },
+    "2v2xl": {
+      "icon": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "IRON_SWORD name:&6&l2v2_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 5000,
+      "price": 1050,
+      "command": "coliseum queue <player> 2v2"
+    },
+    "3v3xl": {
+      "icon": "DIAMOND_SWORD 3 name:&6&l3v3_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "DIAMOND_SWORD name:&6&l3v3_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 5500,
+      "price": 1100,
+      "command": "coliseum queue <player> 3v3"
+    },
+    "4v4xl": {
+      "icon": "NETHERITE_SWORD 4 name:&6&l4v4_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "NETHERITE_SWORD name:&6&l4v4_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 6000,
+      "price": 1150,
+      "command": "coliseum queue <player> 4v4"
+    },
+    "ctfxl": {
+      "icon": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 6500,
+      "price": 1200,
+      "command": "coliseum queue <player> ctf"
+    },
+    "hunts": {
+      "icon": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 5,
+      "price": 10,
+      "command": "hunt queue <player>"
+    },
+    "huntm": {
+      "icon": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 60,
+      "price": 50,
+      "command": "hunt queue <player>"
+    },
+    "huntl": {
+      "icon": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 600,
+      "price": 300,
+      "command": "hunt queue <player>"
+    },
+    "huntxl": {
+      "icon": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "LEATHER name:&6&lHunting_Games_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 6000,
+      "price": 1000,
+      "command": "hunt queue <player>"
+    },
+    "trs": {
+      "icon": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 5,
+      "price": 10,
+      "command": "trials queue <player>"
+    },
+    "trm": {
+      "icon": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 60,
+      "price": 40,
+      "command": "trials queue <player>"
+    },
+    "trl": {
+      "icon": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 600,
+      "price": 250,
+      "command": "trials queue <player>"
+    },
+    "trxl": {
+      "icon": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "MINECART name:&6&lTimed_Trials_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration>",
+      "durationMin": 14400,
+      "price": 1500,
+      "command": "trials queue <player>"
+    }
+  },
+  "shops": {
+    "main": {
+      "title": "&4&lShop",
+      "layout": [
+        "glass glass glass    glass glass   glass glass   glass exit",
+        "glass glass coliseum glass hunting glass trials  glass glass",
+        "glass glass glass    glass glass   glass glass   glass glass"
+      ],
+      "staticItems": {
+        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+        "coliseum": "DIAMOND_SWORD name:&6&lColiseum_Games",
+        "hunting": "BOW name:&6&lHunting_Games",
+        "trials": "MINECART name:&6&lTimed_Trials",
+        "exit": "BARRIER name:&cCloses_the_GUI"
+      },
+      "categories": {
+        "coliseum": "coliseum",
+        "hunting": "hunting"
+      }
+    },
+    "coliseum": {
+      "title": "&4&lShop - Coliseum",
+      "layout": [
+        "back  glass glass glass glass glass glass glass exit",
+        "glass glass 1v1s  2v2s  3v3s  4v4s  ctfs  glass glass",
+        "glass glass 1v1m  2v2m  3v3m  4v4m  ctfm  glass glass",
+        "glass glass 1v1l  2v2l  3v3l  4v4l  ctfl  glass glass",
+        "glass glass 1v1xl 2v2xl 3v3xl 4v4xl ctfxl glass glass",
+        "glass glass glass glass glass glass glass glass glass"
+      ],
+      "staticItems": {
+        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+        "back": "ARROW name:&6&l<--_Back_to_main_menu",
+        "exit": "BARRIER name:&cCloses_the_GUI"
+      },
+      "categories": {
+        "back": "main"
+      }
+    },
+    "hunting": {
+      "title": "&4&lShop - Hunting",
+      "layout": [
+        "back  glass glass glass glass glass glass glass  exit",
+        "glass hunts glass huntm glass huntl glass huntxl glass",
+        "glass glass glass glass glass glass glass glass  glass"
+      ],
+      "staticItems": {
+        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+        "back": "ARROW name:&6&l<--_Back_to_main_menu",
+        "exit": "BARRIER name:&cCloses_the_GUI"
+      },
+      "categories": {
+        "back": "main"
+      }
+    },
+    "trial": {
+      "title": "&4&lShop - Trials",
+      "layout": [
+        "back  glass glass glass glass glass glass glass exit",
+        "glass trs   glass trm   glass trl   glass trxl  glass",
+        "glass glass glass glass glass glass glass glass glass"
+      ],
+      "staticItems": {
+        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+        "back": "ARROW name:&6&l<--_Back_to_main_menu",
+        "exit": "BARRIER name:&cCloses_the_GUI"
+      },
+      "categories": {
+        "back": "main"
+      }
+    }
+  }
+}
