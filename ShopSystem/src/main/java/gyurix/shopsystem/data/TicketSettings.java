@@ -19,7 +19,7 @@ public class TicketSettings {
     private ItemStack item;
 
     public ItemStack getIcon() {
-        return ItemUtils.fillVariables(item, "price", DF.format(price), "duration", StrUtils.formatTime((long) (durationMin * 60000L)));
+        return ItemUtils.fillVariables(icon, "price", DF.format(price), "duration", StrUtils.formatTime((long) (durationMin * 60000L)));
     }
 
     public ItemStack getItem(Player plr) {

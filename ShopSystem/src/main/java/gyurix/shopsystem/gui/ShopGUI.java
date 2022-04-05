@@ -3,6 +3,7 @@ package gyurix.shopsystem.gui;
 import com.nftworlds.wallet.objects.NFTPlayer;
 import com.nftworlds.wallet.objects.Network;
 import com.nftworlds.wallet.objects.Wallet;
+import gyurix.shopsystem.conf.ShopRunnable;
 import gyurix.shopsystem.data.TicketSettings;
 import gyurix.shopsystem.util.ItemUtils;
 import org.bukkit.Bukkit;
@@ -15,6 +16,11 @@ import static gyurix.shopsystem.conf.ConfigManager.msg;
 public class ShopGUI extends CustomGUI {
     public ShopGUI(Player plr, ShopGUIConfig config) {
         super(plr, config);
+    }
+
+    @Override
+    public ItemStack getCustomItem(String name) {
+        return conf.tickets.get(name).getIcon();
     }
 
     @Override
@@ -39,11 +45,6 @@ public class ShopGUI extends CustomGUI {
             buyTicket(ticketSettings);
     }
 
-    @Override
-    public ItemStack getCustomItem(String name) {
-        return conf.tickets.get(name).getIcon();
-    }
-
     private void buyTicket(TicketSettings ticketSettings) {
         double price = ticketSettings.getPrice();
         ItemStack is = ticketSettings.getItem(plr);
@@ -53,12 +54,16 @@ public class ShopGUI extends CustomGUI {
         }
         Wallet wallet = NFTPlayer.getByUUID(plr.getUniqueId()).getPrimaryWallet();
         double balance = wallet.getPolygonWRLDBalance();
+        if (plr.hasPermission("shopsystem.free")) {
+            plr.getInventory().addItem(is);
+            return;
+        }
         if (balance < price) {
             msg.msg(plr, "notenoughmoney");
             return;
         }
-        wallet.requestWRLD(price, Network.POLYGON, "Buying " + ticketSettings.getItem().getItemMeta().getDisplayName(), false, null);
-        plr.getInventory().addItem(is);
+        wallet.requestWRLD(price, Network.POLYGON, "Buying " + ticketSettings.getItem().getItemMeta().getDisplayName(), false,
+            (ShopRunnable) () -> plr.getInventory().addItem(is));
     }
 
     private void openCategory(String category) {
@@ -71,6 +76,6 @@ public class ShopGUI extends CustomGUI {
             plr.closeInventory();
             return;
         }
-        new ShopGUI(plr, config);
+        new ShopGUI(plr, shopConfig);
     }
 }

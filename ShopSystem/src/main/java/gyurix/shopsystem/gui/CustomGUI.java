@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class CustomGUI implements InventoryHolder {
-    public boolean canClose;
     public ShopGUIConfig config;
     public Inventory inv;
     public Player plr;
@@ -21,7 +20,7 @@ public abstract class CustomGUI implements InventoryHolder {
     }
 
     public void create() {
-        inv = Bukkit.createInventory(this, config.getLayout().size() * 9, config.getTitle());
+        inv = Bukkit.createInventory(this, config.getLayout().size(), config.getTitle());
         config.getStaticMap().forEach((slot, is) -> inv.setItem(slot, is));
         update();
     }
