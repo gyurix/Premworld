@@ -28,7 +28,6 @@ public class Game {
     private final HashMap<String, PlayerData> spectators = new HashMap<>();
     private final Scoreboard scoreboard;
     private int counter = 0;
-    private Area pointsArea;
     private int prize = 0;
     private GameState state = GameState.WAITING;
     private String winner;
@@ -36,8 +35,6 @@ public class Game {
     public Game(Arena arena) {
         this.arena = arena;
         arena.getArea().clearEntities();
-        pointsArea = arena.getArea().clone();
-        pointsArea.setMaxY(pointsArea.getMaxY() - 2);
         scoreboard = ScoreboardUtils.createScoreboard(
             msg.get("scoreboard.title"),
             msg.getList("scoreboard.waiting"),

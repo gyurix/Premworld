@@ -34,10 +34,9 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
     public static List<String> types = Lists.newArrayList("1v1", "2v2", "3v3", "4v4", "ctf");
 
     public CommandColiseum() {
-        PluginCommand cmd = pl.getCommand("coliseumgames");
+        PluginCommand cmd = pl.getCommand("coliseum");
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
-        addLaneSettings();
     }
 
     @Override
@@ -136,13 +135,6 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
             }
         }
         return List.of();
-    }
-
-    private void addLaneSettings() {
-        for (int i = 1; i <= conf.getMaxPlayers(); ++i) {
-            settings.add("lane" + i + "start");
-            settings.add("lane" + i + "finish");
-        }
     }
 
     @SneakyThrows

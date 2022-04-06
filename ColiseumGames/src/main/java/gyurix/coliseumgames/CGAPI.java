@@ -14,9 +14,9 @@ public class CGAPI {
     public static List<Game> games = new ArrayList<>();
     public static Map<String, Game> playerGames = new HashMap<>();
 
-    public static boolean queue(Player plr, String mode) {
+    public static boolean queue(Player plr, String type) {
         for (Game g : games) {
-            if (g.getArena().getType().equals(mode) && g.join(plr))
+            if (g.getArena().getType().equals(type) && g.join(plr))
                 return true;
         }
         if (arenas.isEmpty()) {
@@ -29,7 +29,7 @@ public class CGAPI {
         }
         Collections.shuffle(arenas);
         for (Arena arena : arenas) {
-            if (!arena.isConfigured())
+            if (!arena.isConfigured() || !arena.getType().equals(type))
                 continue;
             Game game = new Game(arena);
             game.join(plr);

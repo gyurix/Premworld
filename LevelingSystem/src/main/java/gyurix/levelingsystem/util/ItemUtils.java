@@ -223,7 +223,7 @@ public class ItemUtils {
         for (int i = hasAmount ? 2 : 1; i < d.length; ++i) {
             String m = d[i];
             try {
-                String[] parts = m.split(":");
+                String[] parts = m.split(":",2);
                 switch (parts[0]) {
                     case "addattribute" -> meta.addAttributeModifier(Attribute.valueOf(parts[1].toUpperCase()), new AttributeModifier(UUID.randomUUID(),
                         UUID.randomUUID().toString().substring(16, 32), Double.parseDouble(parts[3]), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.valueOf(parts[2].toUpperCase())));

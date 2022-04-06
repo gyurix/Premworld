@@ -6,4 +6,5 @@ version: 1.0
 softdepend: [ WRLDPaymentsAPI ]
 depend: [ WorldEdit ]
 commands:
-  shop:
+  coliseum:
+

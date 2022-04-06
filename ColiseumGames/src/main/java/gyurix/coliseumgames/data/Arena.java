@@ -17,6 +17,6 @@ public class Arena {
     }
 
     public boolean isConfigured() {
-        return name != null && type!=null && area != null && queue != null && start != null && finish != null && spec != null;
+        return name != null && type != null && area != null && queue != null && start != null && finish != null && spec != null;
     }
 }
