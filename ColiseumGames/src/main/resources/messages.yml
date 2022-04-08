@@ -225,6 +225,10 @@ win:
   title: "&a&lVictory"
   subtitle: "&2Congratulation you won the game"
   actionbar: "&eYour reward is &e<prize>"
+lose:
+  title: "&4&lDefeat"
+  subtitle: "&cYou lost the game"
+  actionbar: "&cYou lost the game"
 arena:
   help:
   - "&6&l----- Coliseum Games - Arena commands -----"
@@ -242,10 +246,10 @@ arena:
   - "&e"
   - "&6&lAreas:"
   - "&e• Area: &f<area>"
-  - "&e• Finish: &f<finish>"
   - "&e• Queue: &f<queue>"
   - "&e• Spec: &f<spec>"
-  - "&e• Start: &f<start>"
+  - "&e• Team 1: &f<team1>"
+  - "&e• Team 2: &f<team2>"
   notset: "&cNot set"
   none:
   - "&6&l-------- Coliseum Games - Error --------"
@@ -274,11 +278,9 @@ arena:
 player:
   none: "&cYou did not enter the player argument"
   wrong: "&cPlayer &e<player>&c was not found"
-ticket: "Gave &6&l$<price>&e ticket to &6&l<player>"
-finish:
-  title: "&6&l<winner>"
-  subtitle: "&ewon the game"
-  actionbar: "&6&l<winner>&e won the game"
+wrongsub: "&cThe entered subcommand was not found."
+party:
+  notowner: "&cOnly the party owner can start games"
 game:
   join: "Joined to &6&l<type>&e, arena &6&l<arena>"
   notin: "&cYou are not in a game"

@@ -64,7 +64,7 @@ public class CGListener implements Listener {
         Game game = CGAPI.playerGames.get(plr.getName());
         if (game == null)
             return;
-
+        game.spectate(plr);
         Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> plr.spigot().respawn(), 2);
     }
 

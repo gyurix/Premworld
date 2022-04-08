@@ -30,7 +30,7 @@ import static gyurix.coliseumgames.conf.ConfigManager.*;
 public class CommandColiseum implements CommandExecutor, TabCompleter {
     public static List<String> arenaCommands = List.of("create", "remove", "info", "set");
     public static List<String> mainCommands = List.of("help", "arena", "start", "stop", "queue", "ticket");
-    public static List<String> settings = Lists.newArrayList("area", "queue", "start", "finish", "spec", "type");
+    public static List<String> settings = Lists.newArrayList("area", "queue", "spec", "team1", "team2", "type");
     public static List<String> types = Lists.newArrayList("1v1", "2v2", "3v3", "4v4", "ctf");
 
     public CommandColiseum() {
@@ -54,13 +54,13 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
             case "arena" -> {
                 if (args.length == 1) {
                     msg.msg(sender, "arena.help",
-                        "settings", StringUtils.join(settings, ", "),
-                        "arenas", StringUtils.join(arenas.keySet(), ", "));
+                            "settings", StringUtils.join(settings, ", "),
+                            "arenas", StringUtils.join(arenas.keySet(), ", "));
                     return true;
                 }
                 if (args.length == 2) {
                     msg.msg(sender, "arena.none",
-                        "arenas", StringUtils.join(arenas.keySet(), ", "));
+                            "arenas", StringUtils.join(arenas.keySet(), ", "));
                     return true;
                 }
                 arenaCmd(sender, args);
@@ -89,6 +89,7 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                 return true;
             }
         }
+        msg.msg(sender, "wrongsub");
         return true;
     }
 
@@ -110,8 +111,11 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                     if (!arenaCmd.equals("create") && arenaCommands.contains(arenaCmd))
                         return filterStart(arenas.keySet(), args[2]);
                     return List.of();
-                } else if (args.length == 4 && arenaCmd.equals("set")) {
-                    return filterStart(settings, args[3]);
+                } else if (arenaCmd.equals("set")) {
+                    if (args.length == 4)
+                        return filterStart(settings, args[3]);
+                    if (args.length == 5 && args[3].equalsIgnoreCase("type"))
+                        return filterStart(types, args[4]);
                 }
                 return List.of();
             }
@@ -124,9 +128,9 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
             case "queue" -> {
                 if (args.length == 2)
                     return filterStart(Bukkit.getOnlinePlayers().stream()
-                        .map(Player::getName)
-                        .filter(name -> !playerGames.containsKey(name))
-                        .toList(), args[1]);
+                            .map(Player::getName)
+                            .filter(name -> !playerGames.containsKey(name))
+                            .toList(), args[1]);
 
                 if (args.length == 3)
                     return filterStart(types, args[2]);
@@ -163,13 +167,13 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
             }
             case "info" -> {
                 msg.msg(sender, "arena.info", "arena", name,
-                    "area", toStr(arena.getArea()),
-                    "finish", toStr(arena.getFinish()),
-                    "queue", toStr(arena.getQueue()),
-                    "spec", toStr(arena.getSpec()),
-                    "start", toStr(arena.getStart()),
-                    "type", toStr(arena.getType()),
-                    "configured", arena.isConfigured() ? "§ayes" : "§cno");
+                        "area", toStr(arena.getArea()),
+                        "queue", toStr(arena.getQueue()),
+                        "spec", toStr(arena.getSpec()),
+                        "team1", toStr(arena.getTeam1()),
+                        "team2", toStr(arena.getTeam2()),
+                        "type", toStr(arena.getType()),
+                        "configured", arena.isConfigured() ? "§ayes" : "§cno");
                 return;
             }
             case "set" -> {

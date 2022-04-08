@@ -17,30 +17,25 @@ public class MoveDetector implements Runnable {
         Game game = CGAPI.playerGames.get(plr.getName());
         if (game == null)
             return false;
-        PlayerData pd = game.getPlayers().get(plr.getName());
+        boolean secondTeam = game.getTeam2().containsKey(plr.getName());
+        PlayerData pd = (secondTeam ? game.getTeam2() : game.getTeam1()).get(plr.getName());
         Arena arena = game.getArena();
+        if (pd == null)
+            return !arena.getSpec().contains(to);
         switch (game.getState()) {
             case WAITING, STARTING -> {
                 return !arena.getQueue().contains(to);
             }
             case INARENA -> {
-                return !arena.getStart().contains(to);
+                return !(secondTeam ? arena.getTeam2() : arena.getTeam1()).contains(to);
             }
             case INGAME -> {
-                if (pd == null)
-                    return !arena.getSpec().contains(to);
                 Area area = arena.getArea();
-                Area finish = arena.getFinish();
-                if (finish.contains(to))
-                    game.finish();
-                return !(area.contains(to) || finish.contains(to));
+                return !area.contains(to);
             }
             case FINISH -> {
-                if (pd == null)
-                    return !arena.getSpec().contains(to);
                 Area area = arena.getArea();
-                Area finish = arena.getFinish();
-                return !(area.contains(to) || finish.contains(to));
+                return area.contains(to);
             }
         }
         return false;

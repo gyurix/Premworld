@@ -3,8 +3,20 @@
     "BOW arrow_infinite:1 name:&6&lLSD_Shooter",
     "ARROW"
   ],
-  "minPlayers": 2,
-  "maxPlayers": 4,
+  "minPlayersPerTeam": {
+    "1v1": 1,
+    "2v2": 2,
+    "3v3": 3,
+    "4v4": 4,
+    "ctf": 6
+  },
+  "maxPlayersPerTeam": {
+    "1v1": 1,
+    "2v2": 2,
+    "3v3": 3,
+    "4v4": 4,
+    "ctf": 12
+  },
   "maxPointEntities": 200,
   "counters": {
     "starting": 30,
