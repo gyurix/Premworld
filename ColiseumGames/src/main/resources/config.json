@@ -1,8 +1,164 @@
 {
-  "ingameItems": [
-    "BOW arrow_infinite:1 name:&6&lLSD_Shooter",
-    "ARROW"
+  "healthSuffix": "&c♥",
+  "upgradeItem": "BEACON name:&b&lUpgrades luck:1 hide:enchants",
+  "upgradeItemSlot": 4,
+  "defaultUpgrades": [
+    "accessories",
+    "leather_armor",
+    "wooden_sword"
   ],
+  "upgradesGUI": {
+    "title": "&1&lUpgrades",
+    "layout": [
+      "glass glass         glass        glass           glass      glass         glass           glass exit",
+      "glass leather_armor golden_armor chainmail_armor iron_armor diamond_armor netherite_armor glass glass",
+      "glass wooden_sword  golden_sword stone_sword     iron_sword diamond_sword netherite_sword glass glass",
+      "glass glass         glass        glass           glass      glass         glass           glass glass"
+    ],
+    "staticItems": {
+      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+      "exit": "BARRIER name:&c&lClose_GUI"
+    },
+    "updateTicks": 100
+  },
+  "upgrades": {
+    "accessories": {
+      "type": "accessory",
+      "cost": 0,
+      "items": {
+        "1": "BOW",
+        "2": "ARROW 16",
+        "3": "COOKED_PORKCHOP 8",
+        "4": "GOLDEN_APPLE 2"
+      }
+    },
+    "leather_armor": {
+      "type": "armor",
+      "cost": 0,
+      "icon": "LEATHER_CHESTPLATE name:&6&lLeather_Armor lore:&c|&7Full_set_of_&6leather_armor|&7•_&aFree",
+      "iconSel": "LEATHER_CHESTPLATE name:&6&lLeather_Armor lore:&c|&7Full_set_of_&6leather_armor|&7•_&aFree|&7|&a&m---&a_Selected_&m--- luck:1 hide:enchants",
+      "items": {
+        "36": "LEATHER_BOOTS",
+        "37": "LEATHER_LEGGINGS",
+        "38": "LEATHER_CHESTPLATE",
+        "39": "LEATHER_HELMET"
+      }
+    },
+    "golden_armor": {
+      "type": "armor",
+      "cost": 1,
+      "icon": "GOLDEN_CHESTPLATE name:&e&lGolden_Armor lore:&c|&7Full_set_of_&egolden_armor|&7•_&cCosts_$1",
+      "iconSel": "GOLDEN_CHESTPLATE name:&e&lGolden_Armor lore:&c|&7Full_set_of_&egolden_armor|&7•_&cCosts_$1|&7|&a&m---&a_Selected_&m--- luck:1 hide:enchants",
+      "items": {
+        "36": "GOLDEN_BOOTS",
+        "37": "GOLDEN_LEGGINGS",
+        "38": "GOLDEN_CHESTPLATE",
+        "39": "GOLDEN_HELMET"
+      }
+    },
+    "chainmail_armor": {
+      "type": "armor",
+      "cost": 2,
+      "icon": "CHAINMAIL_CHESTPLATE name:&8&lChainmail_Armor lore:&c|&7Full_set_of_&8chainmail_armor|&7•_&cCosts_$2",
+      "iconSel": "CHAINMAIL_CHESTPLATE name:&8&lChainmail_Armor lore:&c|&7Full_set_of_&8chainmail_armor|&7•_&cCosts_$2|&7|&a&m---&a_Selected_&m--- luck:1 hide:enchants",
+      "items": {
+        "36": "CHAINMAIL_BOOTS",
+        "37": "CHAINMAIL_LEGGINGS",
+        "38": "CHAINMAIL_CHESTPLATE",
+        "39": "CHAINMAIL_HELMET"
+      }
+    },
+    "iron_armor": {
+      "type": "armor",
+      "cost": 3,
+      "icon": "IRON_CHESTPLATE name:&f&lIron_Armor lore:&c|&7Full_set_of_&firon_armor|&7•_&cCosts_$3",
+      "iconSel": "IRON_CHESTPLATE name:&f&lIron_Armor lore:&c|&7Full_set_of_&firon_armor|&7•_&cCosts_$3|&7|&a&m---&a_Selected_&m--- luck:1 hide:enchants",
+      "items": {
+        "36": "IRON_BOOTS",
+        "37": "IRON_LEGGINGS",
+        "38": "IRON_CHESTPLATE",
+        "39": "IRON_HELMET"
+      }
+    },
+    "diamond_armor": {
+      "type": "armor",
+      "cost": 4,
+      "icon": "DIAMOND_CHESTPLATE name:&b&lDiamond_Armor lore:&c|&7Full_set_of_&bdiamond_armor|&7•_&cCosts_$4",
+      "iconSel": "DIAMOND_CHESTPLATE name:&b&lDiamond_Armor lore:&c|&7Full_set_of_&bdiamond_armor|&7•_&cCosts_$4|&7|&a&m---&a_Selected_&m--- luck:1 hide:enchants",
+      "items": {
+        "36": "DIAMOND_BOOTS",
+        "37": "DIAMOND_LEGGINGS",
+        "38": "DIAMOND_CHESTPLATE",
+        "39": "DIAMOND_HELMET"
+      }
+    },
+    "netherite_armor": {
+      "type": "armor",
+      "cost": 5,
+      "icon": "NETHERITE_CHESTPLATE name:&c&lNetherite_Armor lore:&c|&7Full_set_of_&cnetherite_armor|&7•_&cCosts_$5",
+      "iconSel": "NETHERITE_CHESTPLATE name:&c&lNetherite_Armor lore:&c|&7Full_set_of_&cnetherite_armor|&7•_&cCosts_$5|&7|&a&m---&a_Selected_&m--- luck:1 hide:enchants",
+      "items": {
+        "36": "NETHERITE_BOOTS",
+        "37": "NETHERITE_LEGGINGS",
+        "38": "NETHERITE_CHESTPLATE",
+        "39": "NETHERITE_HELMET"
+      }
+    },
+    "wooden_sword": {
+      "type": "weapon",
+      "cost": 0,
+      "icon": "WOODEN_SWORD damage_all:1 name:&6&lWooden_Sword lore:&c|&7•_&aFree",
+      "iconSel": "WOODEN_SWORD damage_all:1 name:&6&lWooden_Sword lore:&c|&7•_&aFree|&7|&a&m---&a_Selected_&m---",
+      "items": {
+        "0": "WOODEN_SWORD damage_all:1 name:&6&lWooden_Sword"
+      }
+    },
+    "golden_sword": {
+      "type": "weapon",
+      "cost": 1,
+      "icon": "GOLDEN_SWORD damage_all:2 name:&e&lGolden_Sword lore:&c|&7•_&cCosts_$1",
+      "iconSel": "GOLDEN_SWORD damage_all:2 name:&e&lGolden_Sword lore:&c|&7•_&cCosts_$1|&7|&a&m---&a_Selected_&m---",
+      "items": {
+        "0": "GOLDEN_SWORD damage_all:2 name:&e&lGolden_Sword"
+      }
+    },
+    "stone_sword": {
+      "type": "weapon",
+      "cost": 2,
+      "icon": "STONE_SWORD damage_all:2 name:&8&lStone_Sword lore:&c|&7•_&cCosts_$2",
+      "iconSel": "STONE_SWORD damage_all:2 name:&8&lStone_Sword lore:&c|&7•_&cCosts_$2|&7|&a&m---&a_Selected_&m---",
+      "items": {
+        "0": "STONE_SWORD damage_all:2 name:&8&lStone_Sword"
+      }
+    },
+    "iron_sword": {
+      "type": "weapon",
+      "cost": 3,
+      "icon": "IRON_SWORD damage_all:3 name:&f&lIron_Sword lore:&c|&7•_&cCosts_$3",
+      "iconSel": "IRON_SWORD damage_all:3 name:&f&lIron_Sword lore:&c|&7•_&cCosts_$3|&7|&a&m---&a_Selected_&m---",
+      "items": {
+        "0": "IRON_SWORD damage_all:3 name:&f&lIron_Sword"
+      }
+    },
+    "diamond_sword": {
+      "type": "weapon",
+      "cost": 4,
+      "icon": "DIAMOND_SWORD damage_all:4 name:&b&lDiamond_Sword lore:&c|&7•_&cCosts_$4",
+      "iconSel": "DIAMOND_SWORD damage_all:4 name:&b&lDiamond_Sword lore:&c|&7•_&cCosts_$4|&7|&a&m---&a_Selected_&m---",
+      "items": {
+        "0": "DIAMOND_SWORD damage_all:4 name:&b&lDiamond_Sword"
+      }
+    },
+    "netherite_sword": {
+      "type": "weapon",
+      "cost": 5,
+      "icon": "NETHERITE_SWORD damage_all:5 name:&c&lNetherite_Sword lore:&c|&7•_&cCosts_$5",
+      "iconSel": "NETHERITE_SWORD damage_all:5 name:&c&lNetherite_Sword lore:&c|&7•_&cCosts_$5|&7|&a&m---&a_Selected_&m---",
+      "items": {
+        "0": "NETHERITE_SWORD damage_all:5 name:&c&lNetherite_Sword"
+      }
+    }
+  },
   "minPlayersPerTeam": {
     "1v1": 1,
     "2v2": 2,
@@ -19,24 +175,43 @@
   },
   "maxPointEntities": 200,
   "counters": {
-    "starting": 30,
-    "maxplayer": 5,
-    "inarena": 5,
-    "ingame": 120,
-    "finish": 10
+    "1v1": {
+      "starting": 15,
+      "maxplayer": 15,
+      "inarena": 5,
+      "ingame": 120,
+      "finish": 5
+    },
+    "2v2": {
+      "starting": 30,
+      "maxplayer": 5,
+      "inarena": 5,
+      "ingame": 120,
+      "finish": 5
+    },
+    "3v3": {
+      "starting": 30,
+      "maxplayer": 5,
+      "inarena": 5,
+      "ingame": 120,
+      "finish": 5
+    },
+    "4v4": {
+      "starting": 30,
+      "maxplayer": 5,
+      "inarena": 5,
+      "ingame": 120,
+      "finish": 5
+    },
+    "ctf": {
+      "starting": 30,
+      "maxplayer": 5,
+      "inarena": 5,
+      "ingame": 120,
+      "finish": 5
+    }
   },
   "titleFadeIn": 0,
   "titleShowTime": 60,
-  "titleFadeOut": 10,
-  "rewardMultiplier": 0.95,
-  "points": [
-    "GRAY_TERRACOTTA 0.55 1",
-    "LIME_TERRACOTTA 0.3 2",
-    "PINK_WOOL 0.1 3 0.3",
-    "YELLOW_TERRACOTTA 0.03 5 0.3",
-    "RED_TERRACOTTA 0.02 10"
-  ],
-  "spawnedPointsPerSecond": 10,
-  "blindnessDuration": 4000,
-  "noBowDuration": 2000
+  "titleFadeOut": 10
 }

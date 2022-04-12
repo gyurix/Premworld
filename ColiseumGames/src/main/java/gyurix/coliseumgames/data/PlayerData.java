@@ -10,26 +10,30 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static gyurix.coliseumgames.conf.ConfigManager.conf;
 
 @Getter
 public class PlayerData {
-    private final GameMode gameMode;
-    private final List<ItemStack> items = new ArrayList<>();
-    private final Location loc;
-    private final String name;
-    private final int xp;
-    private final int level;
-    private final double health;
-    private final double maxHealth;
-    private final boolean flying;
     private final boolean allowFlight;
+    private final boolean flying;
     private final int food;
+    private final GameMode gameMode;
+    private final double health;
+    private final List<ItemStack> items = new ArrayList<>();
+    private final int level;
+    private final Location loc;
+    private final double maxHealth;
+    private final String name;
     private final float saturation;
+    private final Scoreboard scoreboard;
+    private final HashMap<String, String> upgrades = new HashMap<>();
+    private final int xp;
 
     public PlayerData(Player plr, Location loc) {
         this.name = plr.getName();
@@ -44,6 +48,8 @@ public class PlayerData {
         this.xp = plr.getTotalExperience();
         this.food = plr.getFoodLevel();
         this.saturation = plr.getSaturation();
+        this.scoreboard = plr.getScoreboard();
+        conf.getDefaultUpgrades().forEach((upg) -> upgrades.put(conf.getUpgrades().get(upg).getType(), upg));
 
         saveAndClearInv(plr);
 
@@ -55,6 +61,14 @@ public class PlayerData {
         plr.setFoodLevel(20);
         plr.setSaturation(100);
         plr.teleport(loc);
+    }
+
+    private BossBar createBar(Player plr, String title, BarColor color) {
+        BossBar bar = Bukkit.createBossBar(title, color, BarStyle.SOLID);
+        bar.setProgress(0);
+        bar.setVisible(false);
+        bar.addPlayer(plr);
+        return bar;
     }
 
     public Player getPlayer() {
@@ -76,7 +90,7 @@ public class PlayerData {
         plr.setLevel(level);
         plr.setAllowFlight(allowFlight);
         plr.setFlying(flying);
-        plr.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        plr.setScoreboard(scoreboard);
         plr.setMaxHealth(maxHealth);
         plr.setHealth(health);
         plr.setFoodLevel(food);
@@ -97,22 +111,15 @@ public class PlayerData {
             items.add(inv.getItem(i));
             inv.setItem(i, null);
         }
-    }
-
-    public void updateBossBars() {
-
-    }
-
-    private BossBar createBar(Player plr, String title, BarColor color) {
-        BossBar bar = Bukkit.createBossBar(title, color, BarStyle.SOLID);
-        bar.setProgress(0);
-        bar.setVisible(false);
-        bar.addPlayer(plr);
-        return bar;
+        inv.setItem(conf.getUpgradeItemSlot(), conf.getUpgradeItem());
     }
 
     private void updateBossBar(long time, long until, BossBar bar, int duration) {
         bar.setProgress(Math.max(0, (until - time) * 1.0 / duration));
         bar.setVisible(bar.getProgress() > 0);
+    }
+
+    public void updateBossBars() {
+
     }
 }

@@ -97,5 +97,4 @@ public class StrUtils {
             out.append('§').append(c);
         return out.toString();
     }
-
 }

@@ -11,6 +11,8 @@ public class Arena {
     private String name;
     @Setter
     private String type;
+    @Setter
+    private float team1Rot, team2Rot;
 
     public Arena(String name) {
         this.name = name;

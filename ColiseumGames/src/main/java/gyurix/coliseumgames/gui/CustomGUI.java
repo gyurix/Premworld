@@ -1,4 +1,4 @@
-package gyurix.shopsystem.gui;
+package gyurix.coliseumgames.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

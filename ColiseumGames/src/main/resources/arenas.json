@@ -4,6 +4,8 @@
     "queue": "world -5 15 -102 16 16 -83",
     "team1": "world -9 5 -68 23 13 -54",
     "team2": "world -9 5 -128 23 13 -114",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -123 33 28 -57",
     "name": "1v1a",
     "type": "1v1"
@@ -13,6 +15,8 @@
     "queue": "world -5 15 -185 16 16 -166",
     "team1": "world -9 5 -151 23 13 -137",
     "team2": "world -9 5 -211 23 13 -197",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -206 33 28 -140",
     "name": "1v1a",
     "type": "1v1"
@@ -22,6 +26,8 @@
     "queue": "world -5 15 -268 16 16 -249",
     "team1": "world -9 5 -234 23 13 -220",
     "team2": "world -9 5 -294 23 13 -280",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -289 33 28 -223",
     "name": "2v2a",
     "type": "2v2"
@@ -31,6 +37,8 @@
     "queue": "world -5 15 -351 16 16 -332",
     "team1": "world -9 5 -317 23 13 -303",
     "team2": "world -9 5 -377 23 13 -363",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -372 33 28 -306",
     "name": "2v2b",
     "type": "2v2"
@@ -40,6 +48,8 @@
     "queue": "world -5 15 -434 16 16 -415",
     "team1": "world -9 5 -400 23 13 -386",
     "team2": "world -9 5 -460 23 13 -446",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -455 33 28 -389",
     "name": "3v3a",
     "type": "3v3"
@@ -49,6 +59,8 @@
     "queue": "world -5 15 -517 16 16 -498",
     "team1": "world -9 5 -483 23 13 -469",
     "team2": "world -9 5 -543 23 13 -529",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -538 33 28 -472",
     "name": "3v3b",
     "type": "3v3"
@@ -58,6 +70,8 @@
     "queue": "world -5 15 -600 16 16 -581",
     "team1": "world -9 5 -566 23 13 -552",
     "team2": "world -9 5 -626 23 13 -612",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -621 33 28 -555",
     "name": "4v4a",
     "type": "4v4"
@@ -67,6 +81,8 @@
     "queue": "world -5 15 -683 16 16 -664",
     "team1": "world -9 5 -649 23 13 -635",
     "team2": "world -9 5 -709 23 13 -695",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -704 33 28 -538",
     "name": "4v4a",
     "type": "4v4"
@@ -76,6 +92,8 @@
     "queue": "world -5 15 -766 16 16 -747",
     "team1": "world -9 5 -732 23 13 -718",
     "team2": "world -9 5 -792 23 13 -778",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -787 33 28 -721",
     "name": "ctfa",
     "type": "ctf"
@@ -85,6 +103,8 @@
     "queue": "world -5 15 -849 16 16 -830",
     "team1": "world -9 5 -815 23 13 -801",
     "team2": "world -9 5 -875 23 13 -861",
+    "team1Rot": 180,
+    "team2Rot": 0,
     "spec": "world -15 6 -870 33 28 -804",
     "name": "ctfb",
     "type": "ctf"

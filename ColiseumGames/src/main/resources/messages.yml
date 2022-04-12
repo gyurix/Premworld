@@ -1,4 +1,4 @@
-prefix: "&6&lColiseum Games&c ► &e"
+prefix: "&6&lColiseum&c ► &e"
 help:
 - "&6&l---------- Coliseum Games ----------"
 - "&6• /coliseum OR /coliseum help:&e Shows this help menu"
@@ -13,18 +13,18 @@ scoreboard:
   1v1:
     title: "&6&lColiseum Games"
     waiting:
-    - "&6&l      1v1"
+    - "&6&l         1v1"
     - "&1&7---------------"
     - "&7Waiting for your"
     - "&7opponent to join"
     - "&7---------------"
     starting:
-    - "&6&l      1v1"
+    - "&6&l         1v1"
     - "&7---------------"
     - "&7Teleporting in &c<counter> sec"
     - "&3&7---------------"
     inarena:
-    - "&6&l      1v1"
+    - "&6&l         1v1"
     - "&7---------------"
     - "&7Opponent:"
     - "&c<opponent1>"
@@ -34,7 +34,7 @@ scoreboard:
     - "&b"
     - "&3&7---------------"
     ingame:
-    - "&6&l      1v1"
+    - "&6&l         1v1"
     - "&7---------------"
     - "&7Opponent:"
     - "&c<opponent1>"
@@ -43,25 +43,25 @@ scoreboard:
     - "&c<counter> seconds"
     - "&3&7---------------"
     finish:
-    - "&6&l      1v1"
+    - "&6&l         1v1"
     - "&7---------------"
     - "&6&l<winner>&e won the game"
     - "&3&7---------------"
   2v2:
     title: "&6&lColiseum Games"
     waiting:
-    - "&6&l      2v2"
+    - "&6&l         2v2"
     - "&1&7---------------"
-    - "&7Waiting for <needed>"
+    - "&7Waiting for &c&l<needed>"
     - "&7more players to join"
     - "&7---------------"
     starting:
-    - "&6&l      2v2"
+    - "&6&l         2v2"
     - "&7---------------"
     - "&7Teleporting in &c<counter> sec"
     - "&3&7---------------"
     inarena:
-    - "&6&l      2v2"
+    - "&6&l         2v2"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -75,7 +75,7 @@ scoreboard:
     - "&c<counter> seconds"
     - "&3&7---------------"
     ingame:
-    - "&6&l      2v2"
+    - "&6&l         2v2"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -89,7 +89,7 @@ scoreboard:
     - "&c<counter> seconds"
     - "&3&7---------------"
     finish:
-    - "&6&l      2v2"
+    - "&6&l         2v2"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -104,18 +104,18 @@ scoreboard:
   3v3:
     title: "&6&lColiseum Games"
     waiting:
-    - "&6&l      3v3"
+    - "&6&l         3v3"
     - "&1&7---------------"
-    - "&7Waiting for <needed>"
+    - "&7Waiting for &c&l<needed>"
     - "&7more players to join"
     - "&7---------------"
     starting:
-    - "&6&l      3v3"
+    - "&6&l         3v3"
     - "&7---------------"
     - "&7Teleporting in &c<counter> sec"
     - "&3&7---------------"
     inarena:
-    - "&6&l      3v3"
+    - "&6&l         3v3"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -131,7 +131,7 @@ scoreboard:
     - "&c<counter> seconds"
     - "&3&7---------------"
     ingame:
-    - "&6&l      3v3"
+    - "&6&l         3v3"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -147,7 +147,7 @@ scoreboard:
     - "&c<counter> seconds"
     - "&3&7---------------"
     finish:
-    - "&6&l      3v3"
+    - "&6&l         3v3"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -164,18 +164,18 @@ scoreboard:
   4v4:
     title: "&6&lColiseum Games"
     waiting:
-    - "&6&l      4v4"
+    - "&6&l         4v4"
     - "&1&7---------------"
-    - "&7Waiting for <needed>"
+    - "&7Waiting for &c&l<needed>"
     - "&7more players to join"
     - "&7---------------"
     starting:
-    - "&6&l      4v4"
+    - "&6&l         4v4"
     - "&7---------------"
     - "&7Teleporting in &c<counter> sec"
     - "&3&7---------------"
     inarena:
-    - "&6&l      4v4"
+    - "&6&l         4v4"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -191,7 +191,7 @@ scoreboard:
     - "&7Starting in:&c"
     - "&c<counter> seconds"
     ingame:
-    - "&6&l      4v4"
+    - "&6&l         4v4"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -207,7 +207,7 @@ scoreboard:
     - "&7Remaining time:&c"
     - "&c<counter> seconds"
     finish:
-    - "&6&l      4v4"
+    - "&6&l         4v4"
     - "&7---------------"
     - "&7Your Team:"
     - "&a<team1>"
@@ -223,12 +223,20 @@ scoreboard:
     - "&6&l<winner>&e won the game"
 win:
   title: "&a&lVictory"
-  subtitle: "&2Congratulation you won the game"
-  actionbar: "&eYour reward is &e<prize>"
+  subtitle: "&aCongratulation you won the game"
+  actionbar: "&aCongratulation you won the game"
 lose:
   title: "&4&lDefeat"
   subtitle: "&cYou lost the game"
   actionbar: "&cYou lost the game"
+draw:
+  title: "&d&lDraw"
+  subtitle: "&cNoone won the game"
+  actionbar: "&cNoone won the game"
+forcestop:
+  title: "&4&lForce Stopped"
+  subtitle: "&cYour game was force stopped"
+  actionbar: "&cYour game was force stopped"
 arena:
   help:
   - "&6&l----- Coliseum Games - Arena commands -----"
@@ -249,7 +257,9 @@ arena:
   - "&e• Queue: &f<queue>"
   - "&e• Spec: &f<spec>"
   - "&e• Team 1: &f<team1>"
+  - "&e• Team 1 rotation: &f<team1Rot>"
   - "&e• Team 2: &f<team2>"
+  - "&e• Team 2 rotation: &f<team2Rot>"
   notset: "&cNot set"
   none:
   - "&6&l-------- Coliseum Games - Error --------"
@@ -282,15 +292,18 @@ wrongsub: "&cThe entered subcommand was not found."
 party:
   notowner: "&cOnly the party owner can start games"
 game:
-  join: "Joined to &6&l<type>&e, arena &6&l<arena>"
-  notin: "&cYou are not in a game"
-  notinothers: "&cPlayer &e<player>&c is not in a game"
   in: "&cYou are already in a game"
   inothers: "&cPlayer &e<player>&c is already in a game"
-  start: "Force started game"
-  stop: "Force stopped game"
-  running: "&cThe found game is running already"
+  join: "Joined to &6&l<type>&e, arena &6&l<arena>"
+  nodrop: "&cYou are not allowed to drop items"
+  nodamage: "&cYou are not allowed to damage &e&l<player>"
+  notin: "&cYou are not in a game"
+  notinothers: "&cPlayer &e<player>&c is not in a game"
+  notype: "&cYou did not enter the &etype&c argument. Valid types:&e <types>"
   queue: "&aQueued player &e<player>"
   queuefail: "&cFailed to queue player &e<player>"
+  running: "&cThe found game is running already"
+  start: "Force started game"
+  stop: "Force stopped game"
+  upgrade: "Selected <upgrade>&e upgrade"
   wrongtype: "&cType &e<type>&c was not found. Valid types:&e <types>"
-  notype: "&cYou did not enter the &etype&c argument. Valid types:&e <types>"

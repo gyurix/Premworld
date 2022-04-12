@@ -34,7 +34,7 @@ public class ShopGUI extends CustomGUI {
             plr.closeInventory();
             return;
         }
-        String category = config.getCategories().get(slotName);
+        String category = ((ShopGUIConfig) config).getCategories().get(slotName);
         if (category != null) {
             openCategory(category);
             return;
@@ -63,7 +63,7 @@ public class ShopGUI extends CustomGUI {
             return;
         }
         wallet.requestWRLD(price, Network.POLYGON, "Buying " + ticketSettings.getItem().getItemMeta().getDisplayName(), false,
-            (ShopRunnable) () -> plr.getInventory().addItem(is));
+                (ShopRunnable) () -> plr.getInventory().addItem(is));
     }
 
     private void openCategory(String category) {

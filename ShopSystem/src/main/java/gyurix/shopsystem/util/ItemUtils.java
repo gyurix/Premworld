@@ -1,6 +1,7 @@
 package gyurix.shopsystem.util;
 
 import com.google.common.collect.Lists;
+import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -88,7 +89,11 @@ public class ItemUtils {
         is = is.clone();
         ItemMeta meta = is.getItemMeta();
         meta.setDisplayName(StrUtils.fillVariables(meta.getDisplayName(), vars));
-        meta.setLore(StrUtils.fillVariables(meta.getLore(), vars));
+        List<String> newLore = StrUtils.fillVariables(meta.getLore(), vars);
+        List<Component> newLoreComponents = new ArrayList<>();
+        for (String line : newLore)
+            newLoreComponents.add(Component.text(line));
+        meta.lore(newLoreComponents);
         is.setItemMeta(meta);
         return is;
     }
@@ -130,7 +135,7 @@ public class ItemUtils {
 
         if (meta instanceof PotionMeta && ((PotionMeta) meta).hasCustomEffects())
             ((PotionMeta) meta).getCustomEffects().forEach(pe ->
-                sb.append(' ').append(pe.getType()).append(':').append(pe.getAmplifier()).append(':').append(pe.getDuration()));
+                    sb.append(' ').append(pe.getType()).append(':').append(pe.getAmplifier()).append(':').append(pe.getDuration()));
 
         meta.getEnchants().forEach((e, lvl) -> sb.append(' ').append(e.getName()).append(':').append(lvl));
         return sb.toString();
@@ -153,10 +158,10 @@ public class ItemUtils {
         for (int i = hasAmount ? 2 : 1; i < d.length; ++i) {
             String m = d[i];
             try {
-                String[] parts = m.split(":",2);
+                String[] parts = m.split(":", 2);
                 switch (parts[0]) {
                     case "addattribute" -> meta.addAttributeModifier(Attribute.valueOf(parts[1].toUpperCase()), new AttributeModifier(UUID.randomUUID(),
-                        UUID.randomUUID().toString().substring(16, 32), Double.parseDouble(parts[3]), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.valueOf(parts[2].toUpperCase())));
+                            UUID.randomUUID().toString().substring(16, 32), Double.parseDouble(parts[3]), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.valueOf(parts[2].toUpperCase())));
                     case "name" -> meta.setDisplayName(parts[1].replace("_", " "));
                     case "lore" -> meta.setLore(Lists.newArrayList(parts[1].replace("_", " ").split("\\|")));
                     case "hide" -> meta.addItemFlags(ItemFlag.valueOf("HIDE_" + parts[1].toUpperCase()));

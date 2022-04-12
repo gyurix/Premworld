@@ -30,8 +30,11 @@ public class ShopListener implements Listener {
         String ticketData = StrUtils.getInvisibleText(lore);
         if (ticketData == null)
             return;
+        System.out.println(ticketData);
         String[] d = ticketData.split(" ", 2);
         long expiration = Long.parseLong(d[0]);
+        System.out.println("Expiration: "+expiration);
+        System.out.println("Time: "+System.currentTimeMillis());
         Player plr = e.getPlayer();
         if (expiration < System.currentTimeMillis()) {
             msg.msg(plr, "expired");

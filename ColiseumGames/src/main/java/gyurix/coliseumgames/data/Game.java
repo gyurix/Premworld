@@ -12,8 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -26,6 +29,7 @@ import static gyurix.coliseumgames.util.ScoreboardUtils.updateScoreboard;
 @Getter
 public class Game {
     private final Arena arena;
+    private final Counter counters;
     private final HashMap<String, PlayerData> team1 = new HashMap<>();
     private final Scoreboard team1Board, team2Board;
     private final HashMap<String, PlayerData> team1Spec = new HashMap<>();
@@ -42,14 +46,17 @@ public class Game {
         arena.getArea().clearEntities();
         minPlayersPerTeam = conf.getMinPlayersPerTeam().get(arena.getType());
         maxPlayersPerTeam = conf.getMaxPlayersPerTeam().get(arena.getType());
+
+        String type = arena.getType();
+        counters = conf.getCounters().get(type);
         team1Board = ScoreboardUtils.createScoreboard(
-                msg.get("scoreboard.title"),
-                msg.getList("scoreboard.waiting"),
+                msg.get("scoreboard." + type + ".title"),
+                msg.getList("scoreboard." + type + ".waiting"),
                 "players", "0",
                 "maxplayers", maxPlayersPerTeam * 2,
                 "needed", minPlayersPerTeam * 2);
         team2Board = ScoreboardUtils.createScoreboard(
-                msg.get("scoreboard.title"),
+                msg.get("scoreboard." + type + ".title"),
                 msg.getList("scoreboard.waiting"),
                 "players", "0",
                 "maxplayers", maxPlayersPerTeam * 2,
@@ -65,21 +72,33 @@ public class Game {
     }
 
     public void finish() {
+        if (team1.size() == team2.size()) {
+            for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
+                sendTitle(team.values(), msg.get("draw.title"),
+                        msg.get("draw.subtitle"),
+                        msg.get("draw.actionbar"));
+            switchToNextState();
+            return;
+        }
         boolean secondTeamWin = team2.size() > team1.size();
         if (secondTeamWin) {
-            sendTitle(team1.values(), msg.get("lose.title"),
-                    msg.get("lose.subtitle"),
-                    msg.get("lose.actionbar"));
-            sendTitle(team2.values(), msg.get("lose.title"),
-                    msg.get("lose.subtitle"),
-                    msg.get("lose.actionbar"));
+            for (HashMap<String, PlayerData> team : List.of(team1, team1Spec))
+                sendTitle(team.values(), msg.get("lose.title"),
+                        msg.get("lose.subtitle"),
+                        msg.get("lose.actionbar"));
+            for (HashMap<String, PlayerData> team : List.of(team2, team2Spec))
+                sendTitle(team.values(), msg.get("win.title"),
+                        msg.get("win.subtitle"),
+                        msg.get("win.actionbar"));
         } else {
-            sendTitle(team1.values(), msg.get("win.title"),
-                    msg.get("win.subtitle"),
-                    msg.get("win.actionbar"));
-            sendTitle(team2.values(), msg.get("lose.title"),
-                    msg.get("lose.subtitle"),
-                    msg.get("lose.actionbar"));
+            for (HashMap<String, PlayerData> team : List.of(team1, team1Spec))
+                sendTitle(team.values(), msg.get("win.title"),
+                        msg.get("win.subtitle"),
+                        msg.get("win.actionbar"));
+            for (HashMap<String, PlayerData> team : List.of(team2, team2Spec))
+                sendTitle(team.values(), msg.get("lose.title"),
+                        msg.get("lose.subtitle"),
+                        msg.get("lose.actionbar"));
         }
         if (prize > 0) {
             (secondTeamWin ? team2 : team1).values().forEach(pd -> {
@@ -118,17 +137,56 @@ public class Game {
         List<PlayerData> team1List = team1.values().stream().sorted(Comparator.comparing(PlayerData::getName)).toList();
         List<PlayerData> team2List = team2.values().stream().sorted(Comparator.comparing(PlayerData::getName)).toList();
         for (int i = 1; i <= maxPlayersPerTeam; ++i) {
-            out.addAll(List.of((secondTeam ? "opponent" : "team") + i, team1List.size() > i ? team1List.get(i - 1) : ""));
-            out.addAll(List.of((secondTeam ? "team" : "opponent") + i, team2List.size() > i ? team2List.get(i - 1) : ""));
+            out.addAll(List.of((secondTeam ? "opponent" : "team") + i, team1List.size() >= i ? team1List.get(i - 1).getName() : ""));
+            out.addAll(List.of((secondTeam ? "team" : "opponent") + i, team2List.size() >= i ? team2List.get(i - 1).getName() : ""));
         }
+
+        out.add("winner");
+        boolean secondTeamWin = team2.size() > team1.size();
+        boolean type1v1 = arena.getType().equals("1v1");
+        if (team1.size() == team2.size())
+            out.add("Noone");
+        else if (secondTeam == secondTeamWin)
+            out.add(type1v1 ? "You" : "Your Team");
+        else
+            out.add(type1v1 ? (secondTeamWin ? team2 : team1).keySet().iterator().next() : "Opponent Team");
+
         return out.toArray();
     }
 
     private boolean join(HashMap<String, PlayerData> team, List<Player> players) {
-        for (Player plr : players) {
+        for (Player plr : players)
             team.put(plr.getName(), new PlayerData(plr, LocUtils.fixLoc(arena.getQueue().randomLoc())));
+
+        boolean secondTeam = team == team2;
+        if (state == GameState.WAITING && team1.size() >= minPlayersPerTeam && team2.size() >= minPlayersPerTeam) {
+            state = GameState.STARTING;
+            counter = counters.getStarting();
         }
-        postJoin(team == team2, players);
+        if (team1.size() >= maxPlayersPerTeam && team2.size() >= maxPlayersPerTeam) {
+            counter = counters.getMaxplayer();
+        }
+
+        String type = arena.getType();
+        for (Scoreboard board : List.of(team1Board, team2Board)) {
+            Team sbTeam = board.getTeam(secondTeam ? "team2" : "team1");
+            Objective hpObj = board.getObjective("hp");
+            players.forEach(plr -> {
+                sbTeam.addEntry(plr.getName());
+                hpObj.getScore(plr.getName()).setScore((int) plr.getHealth());
+            });
+            updateScoreboard(board,
+                    msg.getList(state == GameState.WAITING ? "scoreboard." + type + ".waiting" : "scoreboard." + type + ".starting"),
+                    "needed", getNeededPlayerCount(),
+                    "counter", counter);
+        }
+
+        for (Player plr : players) {
+            CGAPI.playerGames.put(plr.getName(), this);
+            plr.setGameMode(GameMode.ADVENTURE);
+            plr.setScoreboard(secondTeam ? team2Board : team1Board);
+            msg.msg(plr, "game.join", "arena", arena.getName(), "type", arena.getType());
+        }
         return true;
     }
 
@@ -150,33 +208,13 @@ public class Game {
         return join(secondTeam ? team2 : team1, players);
     }
 
-    private void postJoin(boolean secondTeam, List<Player> players) {
-
-        if (state == GameState.WAITING && team1.size() >= minPlayersPerTeam && team2.size() >= minPlayersPerTeam) {
-            state = GameState.STARTING;
-            counter = conf.getCounters().getStarting();
-        }
-        if (team1.size() >= maxPlayersPerTeam && team2.size() >= maxPlayersPerTeam) {
-            counter = conf.getCounters().getMaxplayer();
-        }
-
-        for (Scoreboard board : List.of(team1Board, team2Board)) {
-            updateScoreboard(board,
-                    msg.getList(state == GameState.WAITING ? "scoreboard.waiting" : "scoreboard.starting"),
-                    "needed", getNeededPlayerCount(),
-                    "counter", counter);
-        }
-
-        for (Player plr : players) {
-            CGAPI.playerGames.put(plr.getName(), this);
-            plr.setGameMode(GameMode.ADVENTURE);
-            plr.setScoreboard(secondTeam ? team2Board : team1Board);
-            msg.msg(plr, "game.join", "arena", arena.getName());
-        }
-    }
-
     public void quit(Player plr) {
         String pln = plr.getName();
+        team1Board.getTeam("team1").removeEntry(pln);
+        team2Board.getTeam("team1").removeEntry(pln);
+        team1Board.getTeam("team2").removeEntry(pln);
+        team2Board.getTeam("team2").removeEntry(pln);
+
         PlayerData pd = team1.remove(pln);
         if (pd == null)
             pd = team2.remove(pln);
@@ -191,18 +229,19 @@ public class Game {
         if (team1.isEmpty() && team2.isEmpty()) {
             CGAPI.games.remove(this);
             return;
-        } else if (state == GameState.INGAME && (team1.size() == 0 || team2.size() == 0)) {
+        } else if (state == GameState.INGAME && (team1.isEmpty() || team2.isEmpty())) {
             finish();
             return;
         }
 
+        String type = arena.getType();
         if (state == GameState.WAITING || state == GameState.STARTING) {
             if (team1.size() < minPlayersPerTeam || team2.size() < minPlayersPerTeam) {
                 counter = 0;
                 state = GameState.WAITING;
             }
             updateScoreboard(team1Board,
-                    msg.getList(state == GameState.WAITING ? "scoreboard.waiting" : "scoreboard.starting"),
+                    msg.getList(state == GameState.WAITING ? "scoreboard." + type + ".waiting" : "scoreboard." + type + ".starting"),
                     "players", team1.size() + team2.size(),
                     "maxplayers", maxPlayersPerTeam * 2,
                     "needed", getNeededPlayerCount(),
@@ -224,12 +263,21 @@ public class Game {
         PlayerData pd = (secondTeam ? team2 : team1).remove(pln);
         if (pd == null)
             return;
-        plr.teleport(arena.getSpec().randomLoc());
         plr.setGameMode(GameMode.SPECTATOR);
         (secondTeam ? team2Spec : team1Spec).put(pln, pd);
+        if (state == GameState.INGAME && (team1.isEmpty() || team2.isEmpty()))
+            finish();
     }
 
-    public void stop() {
+    public void forceStop() {
+        for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
+            sendTitle(team.values(), msg.get("forcestop.title"),
+                    msg.get("forcestop.subtitle"),
+                    msg.get("forcestop.actionbar"));
+        stop();
+    }
+
+    private void stop() {
         arena.getArea().clearEntities();
 
         for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec)) {
@@ -247,26 +295,31 @@ public class Game {
     }
 
     private void switchToNextState() {
+        String type = arena.getType();
         switch (state) {
             case STARTING -> {
-                team1.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getTeam1().randomLoc())));
-                team2.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getTeam2().randomLoc())));
+                team1.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getTeam1().randomLoc(), arena.getTeam1Rot())));
+                team2.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getTeam2().randomLoc(), arena.getTeam2Rot())));
                 state = GameState.INARENA;
-                counter = conf.getCounters().getInarena();
-                updateScoreboard(team1Board, msg.getList("scoreboard.inarena"), getVariables(false));
-                updateScoreboard(team2Board, msg.getList("scoreboard.inarena"), getVariables(true));
+                counter = counters.getInarena();
+                team1.values().forEach(pd -> pd.getUpgrades().values().forEach((upg) -> conf.getUpgrades().get(upg).apply(pd)));
+                team2.values().forEach(pd -> pd.getUpgrades().values().forEach((upg) -> conf.getUpgrades().get(upg).apply(pd)));
+                updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".inarena"), getVariables(false));
+                updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".inarena"), getVariables(true));
             }
             case INARENA -> {
                 state = GameState.INGAME;
-                counter = conf.getCounters().getIngame();
-                updateScoreboard(team1Board, msg.getList("scoreboard.ingame"), getVariables(false));
-                updateScoreboard(team2Board, msg.getList("scoreboard.ingame"), getVariables(true));
+                counter = counters.getIngame();
+                updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".ingame"), getVariables(false));
+                updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".ingame"), getVariables(true));
             }
             case INGAME -> {
                 state = GameState.FINISH;
-                updateScoreboard(team1Board, msg.getList("scoreboard.finish"), getVariables(false));
-                updateScoreboard(team2Board, msg.getList("scoreboard.finish"), getVariables(true));
-                counter = conf.getCounters().getFinish();
+                updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".finish"), getVariables(false));
+                updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".finish"), getVariables(true));
+                new ArrayList<>(team1.values()).forEach(pd -> spectate(pd.getPlayer()));
+                new ArrayList<>(team2.values()).forEach(pd -> spectate(pd.getPlayer()));
+                counter = counters.getFinish();
             }
             case FINISH -> {
                 stop();
@@ -284,18 +337,19 @@ public class Game {
             for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
                 team.values().forEach(pd -> pd.getPlayer().setLevel(counter));
         }
+        String type = arena.getType();
         switch (state) {
             case STARTING -> {
-                updateScoreboard(team1Board, msg.getList("scoreboard.starting"), getVariables(false));
-                updateScoreboard(team2Board, msg.getList("scoreboard.starting"), getVariables(true));
+                updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".starting"), getVariables(false));
+                updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".starting"), getVariables(true));
             }
             case INARENA -> {
-                updateScoreboard(team1Board, msg.getList("scoreboard.inarena"), getVariables(false));
-                updateScoreboard(team2Board, msg.getList("scoreboard.inarena"), getVariables(true));
+                updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".inarena"), getVariables(false));
+                updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".inarena"), getVariables(true));
             }
             case INGAME -> {
-                updateScoreboard(team1Board, msg.getList("scoreboard.ingame"), getVariables(false));
-                updateScoreboard(team1Board, msg.getList("scoreboard.ingame"), getVariables(true));
+                updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".ingame"), getVariables(false));
+                updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".ingame"), getVariables(true));
             }
             case FINISH -> {
 

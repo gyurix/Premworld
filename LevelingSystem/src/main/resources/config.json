@@ -1,7 +1,7 @@
 {
   "levelPrefix": "&2[&a<level>&2] ",
   "levelSuffix": "&6&l",
-  "expSuffix": "&e Exp",
+  "expSuffix": "&eExp",
   "mySQL": {
     "database": "minecraft",
     "table": "leveling",

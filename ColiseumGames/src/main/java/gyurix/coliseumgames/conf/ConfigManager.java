@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import gyurix.coliseumgames.conf.adapters.ItemStackAdapter;
+import gyurix.coliseumgames.conf.adapters.PostProcessableAdapter;
 import gyurix.coliseumgames.conf.adapters.StringSerializableAdapter;
 import gyurix.coliseumgames.data.Arena;
 import gyurix.coliseumgames.data.Config;
@@ -20,16 +21,17 @@ import static gyurix.coliseumgames.CGPlugin.pl;
 
 public class ConfigManager {
     public static File arenaFile = new File(pl.getDataFolder() + File.separator + "arenas.json"),
-        confFile = new File(pl.getDataFolder() + File.separator + "config.json"),
-        msgFile = new File(pl.getDataFolder() + File.separator + "messages.yml");
+            confFile = new File(pl.getDataFolder() + File.separator + "config.json"),
+            msgFile = new File(pl.getDataFolder() + File.separator + "messages.yml");
     public static TreeMap<String, Arena> arenas = new TreeMap<>();
     public static Config conf;
     public static Gson gson = new GsonBuilder()
-        .registerTypeAdapterFactory(new StringSerializableAdapter())
-        .registerTypeAdapter(ItemStack.class, new ItemStackAdapter().nullSafe())
-        .serializeNulls()
-        .setPrettyPrinting()
-        .create();
+            .registerTypeAdapterFactory(new StringSerializableAdapter())
+            .registerTypeAdapterFactory(new PostProcessableAdapter())
+            .registerTypeAdapter(ItemStack.class, new ItemStackAdapter().nullSafe())
+            .serializeNulls()
+            .setPrettyPrinting()
+            .create();
     public static Messages msg;
 
     @SneakyThrows

@@ -20,8 +20,9 @@ public class MoveDetector implements Runnable {
         boolean secondTeam = game.getTeam2().containsKey(plr.getName());
         PlayerData pd = (secondTeam ? game.getTeam2() : game.getTeam1()).get(plr.getName());
         Arena arena = game.getArena();
+        Area area = arena.getArea();
         if (pd == null)
-            return !arena.getSpec().contains(to);
+            return !area.contains(to) && !arena.getSpec().contains(to);
         switch (game.getState()) {
             case WAITING, STARTING -> {
                 return !arena.getQueue().contains(to);
@@ -29,13 +30,8 @@ public class MoveDetector implements Runnable {
             case INARENA -> {
                 return !(secondTeam ? arena.getTeam2() : arena.getTeam1()).contains(to);
             }
-            case INGAME -> {
-                Area area = arena.getArea();
+            case INGAME, FINISH -> {
                 return !area.contains(to);
-            }
-            case FINISH -> {
-                Area area = arena.getArea();
-                return area.contains(to);
             }
         }
         return false;

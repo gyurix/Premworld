@@ -26,6 +26,7 @@ import static gyurix.coliseumgames.CGAPI.games;
 import static gyurix.coliseumgames.CGAPI.playerGames;
 import static gyurix.coliseumgames.CGPlugin.pl;
 import static gyurix.coliseumgames.conf.ConfigManager.*;
+import static gyurix.coliseumgames.util.StrUtils.DF;
 
 public class CommandColiseum implements CommandExecutor, TabCompleter {
     public static List<String> arenaCommands = List.of("create", "remove", "info", "set");
@@ -72,7 +73,7 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
             }
             case "stop" -> {
                 withGame(sender, args, game -> {
-                    game.stop();
+                    game.forceStop();
                     msg.msg(sender, "game.stop");
                 });
                 return true;
@@ -215,6 +216,13 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                         Area area = new Area(bPlayer.getWorld().getName(), region);
                         f.set(arena, area);
                         msg.msg(sender, "arena.set", "setting", setting, "arena", name, "value", area);
+                        if (setting.equals("team1")) {
+                            arena.setTeam1Rot(((Player) sender).getLocation().getYaw());
+                            msg.msg(sender, "arena.set", "setting", "team1Rot", "arena", name, "value", DF.format(arena.getTeam1Rot()));
+                        } else if (setting.equals("team2")) {
+                            arena.setTeam2Rot(((Player) sender).getLocation().getYaw());
+                            msg.msg(sender, "arena.set", "setting", "team2Rot", "arena", name, "value", DF.format(arena.getTeam2Rot()));
+                        }
                     }
                 }
                 saveArenas();
