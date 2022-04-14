@@ -7,25 +7,23 @@ import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.TreeMap;
 
 @SuppressWarnings("unused")
 @Getter
 public class Config implements PostProcessable {
-    private HashMap<String, Counter> counters;
-    private List<String> defaultUpgrades;
+    private TreeMap<String, GameType> gameTypes;
+    private HashMap<String, GUIConfig> guis;
     private String healthSuffix;
-    private List<ItemStack> ingameItems;
-    private HashMap<String, Integer> minPlayersPerTeam, maxPlayersPerTeam;
-    private int titleFadeIn, titleShowTime, titleFadeOut, blindnessDuration, noBowDuration, spawnedPointsPerSecond, maxPointEntities;
-    private ItemStack upgradeItem;
+    private int titleFadeIn, titleShowTime, titleFadeOut;
+    private ItemStack upgradeItem, flag1, flag2;
     private int upgradeItemSlot;
     private HashMap<String, Upgrade> upgrades;
-    private GUIConfig upgradesGUI;
 
     @Override
     public void postProcess() {
         healthSuffix = StrUtils.colorize(healthSuffix);
         upgrades.forEach((name, upgrade) -> upgrade.setName(name));
+        gameTypes.forEach((name, gameType) -> gameType.setName(name));
     }
 }

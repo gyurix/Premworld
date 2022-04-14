@@ -2,24 +2,128 @@
   "healthSuffix": "&c♥",
   "upgradeItem": "BEACON name:&b&lUpgrades luck:1 hide:enchants",
   "upgradeItemSlot": 4,
-  "defaultUpgrades": [
-    "accessories",
-    "leather_armor",
-    "wooden_sword"
-  ],
-  "upgradesGUI": {
-    "title": "&1&lUpgrades",
-    "layout": [
-      "glass glass         glass        glass           glass      glass         glass           glass exit",
-      "glass leather_armor golden_armor chainmail_armor iron_armor diamond_armor netherite_armor glass glass",
-      "glass wooden_sword  golden_sword stone_sword     iron_sword diamond_sword netherite_sword glass glass",
-      "glass glass         glass        glass           glass      glass         glass           glass glass"
-    ],
-    "staticItems": {
-      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
-      "exit": "BARRIER name:&c&lClose_GUI"
+  "flag1": "BLUE_WOOL name:&b&lBlue_Flag lore:&7|&7Bring_it_to_your_team luck:1 hide:enchants",
+  "flag2": "RED_WOOL name:&c&lRed_Flag lore:&7|&7Bring_it_to_your_team luck:1 hide:enchants",
+  "gameTypes": {
+    "1v1": {
+      "minPlayersPerTeam": 1,
+      "maxPlayersPerTeam": 1,
+      "counters": {
+        "starting": 15,
+        "maxplayer": 15,
+        "inarena": 5,
+        "ingame": 120,
+        "finish": 5
+      },
+      "defaultUpgrades": [
+        "accessories",
+        "leather_armor",
+        "wooden_sword"
+      ],
+      "upgradesGUI": "upgrades"
     },
-    "updateTicks": 100
+    "2v2": {
+      "minPlayersPerTeam": 2,
+      "maxPlayersPerTeam": 2,
+      "counters": {
+        "starting": 5,
+        "maxplayer": 5,
+        "inarena": 5,
+        "ingame": 120,
+        "finish": 5
+      },
+      "defaultUpgrades": [
+        "accessories",
+        "leather_armor",
+        "wooden_sword"
+      ],
+      "upgradesGUI": "upgrades"
+    },
+    "3v3": {
+      "minPlayersPerTeam": 3,
+      "maxPlayersPerTeam": 3,
+      "counters": {
+        "starting": 5,
+        "maxplayer": 5,
+        "inarena": 5,
+        "ingame": 120,
+        "finish": 5
+      },
+      "defaultUpgrades": [
+        "accessories",
+        "leather_armor",
+        "wooden_sword"
+      ],
+      "upgradesGUI": "upgrades"
+    },
+    "4v4": {
+      "minPlayersPerTeam": 4,
+      "maxPlayersPerTeam": 4,
+      "counters": {
+        "starting": 5,
+        "maxplayer": 5,
+        "inarena": 5,
+        "ingame": 120,
+        "finish": 5
+      },
+      "defaultUpgrades": [
+        "accessories",
+        "leather_armor",
+        "wooden_sword"
+      ],
+      "upgradesGUI": "upgrades"
+    },
+    "ctf1": {
+      "minPlayersPerTeam": 6,
+      "maxPlayersPerTeam": 6,
+      "counters": {
+        "starting": 60,
+        "maxplayer": 5,
+        "inarena": 5,
+        "ingame": 120,
+        "finish": 5
+      },
+      "defaultUpgrades": [
+        "accessories",
+        "leather_armor",
+        "wooden_sword"
+      ],
+      "flagCount": 5,
+      "upgradesGUI": "upgrades"
+    },
+    "ctf2": {
+      "minPlayersPerTeam": 12,
+      "maxPlayersPerTeam": 12,
+      "counters": {
+        "starting": 60,
+        "maxplayer": 5,
+        "inarena": 5,
+        "ingame": 120,
+        "finish": 5
+      },
+      "defaultUpgrades": [
+        "accessories",
+        "leather_armor",
+        "wooden_sword"
+      ],
+      "flagCount": 5,
+      "upgradesGUI": "upgrades"
+    }
+  },
+  "guis": {
+    "upgrades": {
+      "title": "&1&lUpgrades",
+      "layout": [
+        "glass glass         glass        glass           glass      glass         glass           glass exit",
+        "glass leather_armor golden_armor chainmail_armor iron_armor diamond_armor netherite_armor glass glass",
+        "glass wooden_sword  golden_sword stone_sword     iron_sword diamond_sword netherite_sword glass glass",
+        "glass glass         glass        glass           glass      glass         glass           glass glass"
+      ],
+      "staticItems": {
+        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+        "exit": "BARRIER name:&c&lClose_GUI"
+      }
+    }
   },
   "upgrades": {
     "accessories": {
@@ -157,58 +261,6 @@
       "items": {
         "0": "NETHERITE_SWORD damage_all:5 name:&c&lNetherite_Sword"
       }
-    }
-  },
-  "minPlayersPerTeam": {
-    "1v1": 1,
-    "2v2": 2,
-    "3v3": 3,
-    "4v4": 4,
-    "ctf": 6
-  },
-  "maxPlayersPerTeam": {
-    "1v1": 1,
-    "2v2": 2,
-    "3v3": 3,
-    "4v4": 4,
-    "ctf": 12
-  },
-  "maxPointEntities": 200,
-  "counters": {
-    "1v1": {
-      "starting": 15,
-      "maxplayer": 15,
-      "inarena": 5,
-      "ingame": 120,
-      "finish": 5
-    },
-    "2v2": {
-      "starting": 30,
-      "maxplayer": 5,
-      "inarena": 5,
-      "ingame": 120,
-      "finish": 5
-    },
-    "3v3": {
-      "starting": 30,
-      "maxplayer": 5,
-      "inarena": 5,
-      "ingame": 120,
-      "finish": 5
-    },
-    "4v4": {
-      "starting": 30,
-      "maxplayer": 5,
-      "inarena": 5,
-      "ingame": 120,
-      "finish": 5
-    },
-    "ctf": {
-      "starting": 30,
-      "maxplayer": 5,
-      "inarena": 5,
-      "ingame": 120,
-      "finish": 5
     }
   },
   "titleFadeIn": 0,

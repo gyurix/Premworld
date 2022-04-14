@@ -10,8 +10,12 @@ import gyurix.coliseumgames.util.ScoreboardUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -24,6 +28,7 @@ import java.util.List;
 
 import static gyurix.coliseumgames.conf.ConfigManager.conf;
 import static gyurix.coliseumgames.conf.ConfigManager.msg;
+import static gyurix.coliseumgames.util.LocUtils.fixLoc;
 import static gyurix.coliseumgames.util.ScoreboardUtils.updateScoreboard;
 
 @Getter
@@ -40,15 +45,19 @@ public class Game {
     private int minPlayersPerTeam;
     private int prize = 0;
     private GameState state = GameState.WAITING;
+    private String team1Carrier, team2Carrier;
+    private int team1Collected, team2Collected;
+    private ArmorStand team1Flag, team2Flag;
+    private GameType type;
 
     public Game(Arena arena) {
         this.arena = arena;
+        this.type = conf.getGameTypes().get(arena.getType());
         arena.getArea().clearEntities();
-        minPlayersPerTeam = conf.getMinPlayersPerTeam().get(arena.getType());
-        maxPlayersPerTeam = conf.getMaxPlayersPerTeam().get(arena.getType());
+        minPlayersPerTeam = type.getMinPlayersPerTeam();
+        maxPlayersPerTeam = type.getMaxPlayersPerTeam();
 
-        String type = arena.getType();
-        counters = conf.getCounters().get(type);
+        counters = type.getCounters();
         team1Board = ScoreboardUtils.createScoreboard(
                 msg.get("scoreboard." + type + ".title"),
                 msg.getList("scoreboard." + type + ".waiting"),
@@ -57,11 +66,23 @@ public class Game {
                 "needed", minPlayersPerTeam * 2);
         team2Board = ScoreboardUtils.createScoreboard(
                 msg.get("scoreboard." + type + ".title"),
-                msg.getList("scoreboard.waiting"),
+                msg.getList("scoreboard." + type + ".waiting"),
                 "players", "0",
                 "maxplayers", maxPlayersPerTeam * 2,
                 "needed", minPlayersPerTeam * 2);
         CGAPI.games.add(this);
+    }
+
+    public void depositFlag(Player plr, boolean secondTeam) {
+        sendTitle((secondTeam ? team2 : team1).values(), "deposityou", "player", plr.getName());
+        sendTitle((secondTeam ? team1 : team2).values(), "depositopponent", "player", plr.getName());
+        if (secondTeam)
+            ++team2Collected;
+        else
+            ++team1Collected;
+        resetFlag(!secondTeam);
+        if (team1Collected >= type.getFlagCount() || team2Collected >= type.getFlagCount())
+            finish();
     }
 
     public void fastTick() {
@@ -72,33 +93,23 @@ public class Game {
     }
 
     public void finish() {
-        if (team1.size() == team2.size()) {
+        if (type.getFlagCount() > 0 ? team1Collected == team2Collected : team1.size() == team2.size()) {
             for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
-                sendTitle(team.values(), msg.get("draw.title"),
-                        msg.get("draw.subtitle"),
-                        msg.get("draw.actionbar"));
+                sendTitle(team.values(), "draw");
             switchToNextState();
             return;
         }
-        boolean secondTeamWin = team2.size() > team1.size();
+        boolean secondTeamWin = type.getFlagCount() > 0 ? team2Collected > team1Collected : team2.size() > team1.size();
         if (secondTeamWin) {
             for (HashMap<String, PlayerData> team : List.of(team1, team1Spec))
-                sendTitle(team.values(), msg.get("lose.title"),
-                        msg.get("lose.subtitle"),
-                        msg.get("lose.actionbar"));
+                sendTitle(team.values(), "lose");
             for (HashMap<String, PlayerData> team : List.of(team2, team2Spec))
-                sendTitle(team.values(), msg.get("win.title"),
-                        msg.get("win.subtitle"),
-                        msg.get("win.actionbar"));
+                sendTitle(team.values(), "win");
         } else {
             for (HashMap<String, PlayerData> team : List.of(team1, team1Spec))
-                sendTitle(team.values(), msg.get("win.title"),
-                        msg.get("win.subtitle"),
-                        msg.get("win.actionbar"));
+                sendTitle(team.values(), "win");
             for (HashMap<String, PlayerData> team : List.of(team2, team2Spec))
-                sendTitle(team.values(), msg.get("lose.title"),
-                        msg.get("lose.subtitle"),
-                        msg.get("lose.actionbar"));
+                sendTitle(team.values(), "lose");
         }
         if (prize > 0) {
             (secondTeamWin ? team2 : team1).values().forEach(pd -> {
@@ -123,6 +134,12 @@ public class Game {
         msg.msg(sender, "game.start");
     }
 
+    public void forceStop() {
+        for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
+            sendTitle(team.values(), "forcestop");
+        stop();
+    }
+
     private int getNeededPlayerCount() {
         int neededIndividual = Math.max(minPlayersPerTeam - team1.size(), minPlayersPerTeam - team2.size());
         return Math.max(neededIndividual, minPlayersPerTeam * 2 - team1.size() - team2.size());
@@ -133,7 +150,12 @@ public class Game {
                 "prize", prize,
                 "players", team1.size() + team2.size(),
                 "spec", team1Spec.size() + team2Spec.size(),
-                "counter", counter);
+                "counter", counter,
+                "flagCount", type.getFlagCount(),
+                (secondTeam ? "opponent" : "team") + "FlagCarrier", team1Carrier == null ? "Noone" : team1Carrier,
+                (secondTeam ? "team" : "opponent") + "FlagCarrier", team2Carrier == null ? "Noone" : team2Carrier,
+                (secondTeam ? "opponent" : "team") + "Collected", team1Collected,
+                (secondTeam ? "team" : "opponent") + "Collected", team2Collected);
         List<PlayerData> team1List = team1.values().stream().sorted(Comparator.comparing(PlayerData::getName)).toList();
         List<PlayerData> team2List = team2.values().stream().sorted(Comparator.comparing(PlayerData::getName)).toList();
         for (int i = 1; i <= maxPlayersPerTeam; ++i) {
@@ -142,7 +164,7 @@ public class Game {
         }
 
         out.add("winner");
-        boolean secondTeamWin = team2.size() > team1.size();
+        boolean secondTeamWin = type.getFlagCount() > 0 ? team2Collected > team1Collected : team2.size() > team1.size();
         boolean type1v1 = arena.getType().equals("1v1");
         if (team1.size() == team2.size())
             out.add("Noone");
@@ -156,7 +178,7 @@ public class Game {
 
     private boolean join(HashMap<String, PlayerData> team, List<Player> players) {
         for (Player plr : players)
-            team.put(plr.getName(), new PlayerData(plr, LocUtils.fixLoc(arena.getQueue().randomLoc())));
+            team.put(plr.getName(), new PlayerData(this, plr, fixLoc(arena.getQueue().randomLoc())));
 
         boolean secondTeam = team == team2;
         if (state == GameState.WAITING && team1.size() >= minPlayersPerTeam && team2.size() >= minPlayersPerTeam) {
@@ -208,6 +230,19 @@ public class Game {
         return join(secondTeam ? team2 : team1, players);
     }
 
+    public void pickupFlag(Player plr, boolean secondTeam) {
+        if (secondTeam) {
+            team1Flag.remove();
+            team2Carrier = plr.getName();
+        } else {
+            team2Flag.remove();
+            team1Carrier = plr.getName();
+        }
+        plr.getInventory().setItem(8, (secondTeam ? conf.getFlag1() : conf.getFlag2()).clone());
+        sendTitle((secondTeam ? team2 : team1).values(), "pickupyou", "player", plr.getName());
+        sendTitle((secondTeam ? team1 : team2).values(), "pickupopponent", "player", plr.getName());
+    }
+
     public void quit(Player plr) {
         String pln = plr.getName();
         team1Board.getTeam("team1").removeEntry(pln);
@@ -226,6 +261,12 @@ public class Game {
         pd.reset(plr);
 
         CGAPI.playerGames.remove(pln);
+        if (type.getFlagCount() > 0) {
+            if (pln.equals(team1Carrier))
+                resetFlag(true);
+            else if (pln.equals(team2Carrier))
+                resetFlag(false);
+        }
         if (team1.isEmpty() && team2.isEmpty()) {
             CGAPI.games.remove(this);
             return;
@@ -249,7 +290,28 @@ public class Game {
         }
     }
 
-    private void sendTitle(Collection<PlayerData> playerList, String title, String subtitle, String actionbar) {
+    public void resetFlag(boolean secondTeam) {
+        Area area = secondTeam ? arena.getTeam2() : arena.getTeam1();
+        Location loc = fixLoc(area.randomLoc()).subtract(0, 1, 0);
+        ArmorStand as = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+        as.setBasePlate(false);
+        as.setVisible(false);
+        as.setHelmet(secondTeam ? conf.getFlag2() : conf.getFlag1());
+        as.setGravity(false);
+        as.addDisabledSlots(EquipmentSlot.values());
+        if (secondTeam) {
+            team2Flag = as;
+            team1Carrier = null;
+        } else {
+            team1Flag = as;
+            team2Carrier = null;
+        }
+    }
+
+    private void sendTitle(Collection<PlayerData> playerList, String key, Object... vars) {
+        String title = msg.get(key + ".title", vars);
+        String subtitle = msg.get(key + ".subtitle", vars);
+        String actionbar = msg.get(key + ".actionbar", vars);
         for (PlayerData pd : playerList) {
             Player plr = pd.getPlayer();
             plr.sendTitle(title, subtitle, conf.getTitleFadeIn(), conf.getTitleShowTime(), conf.getTitleFadeOut());
@@ -267,14 +329,6 @@ public class Game {
         (secondTeam ? team2Spec : team1Spec).put(pln, pd);
         if (state == GameState.INGAME && (team1.isEmpty() || team2.isEmpty()))
             finish();
-    }
-
-    public void forceStop() {
-        for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
-            sendTitle(team.values(), msg.get("forcestop.title"),
-                    msg.get("forcestop.subtitle"),
-                    msg.get("forcestop.actionbar"));
-        stop();
     }
 
     private void stop() {
@@ -295,11 +349,10 @@ public class Game {
     }
 
     private void switchToNextState() {
-        String type = arena.getType();
         switch (state) {
             case STARTING -> {
-                team1.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getTeam1().randomLoc(), arena.getTeam1Rot())));
-                team2.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getTeam2().randomLoc(), arena.getTeam2Rot())));
+                team1.values().forEach(pd -> pd.getPlayer().teleport(fixLoc(arena.getTeam1().randomLoc(), arena.getTeam1Rot())));
+                team2.values().forEach(pd -> pd.getPlayer().teleport(fixLoc(arena.getTeam2().randomLoc(), arena.getTeam2Rot())));
                 state = GameState.INARENA;
                 counter = counters.getInarena();
                 team1.values().forEach(pd -> pd.getUpgrades().values().forEach((upg) -> conf.getUpgrades().get(upg).apply(pd)));
@@ -312,6 +365,10 @@ public class Game {
                 counter = counters.getIngame();
                 updateScoreboard(team1Board, msg.getList("scoreboard." + type + ".ingame"), getVariables(false));
                 updateScoreboard(team2Board, msg.getList("scoreboard." + type + ".ingame"), getVariables(true));
+                if (type.getFlagCount() > 0) {
+                    resetFlag(false);
+                    resetFlag(true);
+                }
             }
             case INGAME -> {
                 state = GameState.FINISH;

@@ -13,8 +13,8 @@ public class UpgradesGUI extends CustomGUI {
     private Game game;
     private PlayerData pd;
 
-    public UpgradesGUI(Player plr) {
-        super(plr, conf.getUpgradesGUI());
+    public UpgradesGUI(Player plr, GUIConfig guiConfig) {
+        super(plr, guiConfig);
     }
 
     @Override

@@ -23,6 +23,7 @@ public class PlayerData {
     private final boolean allowFlight;
     private final boolean flying;
     private final int food;
+    private final Game game;
     private final GameMode gameMode;
     private final double health;
     private final List<ItemStack> items = new ArrayList<>();
@@ -35,8 +36,9 @@ public class PlayerData {
     private final HashMap<String, String> upgrades = new HashMap<>();
     private final int xp;
 
-    public PlayerData(Player plr, Location loc) {
+    public PlayerData(Game game, Player plr, Location loc) {
         this.name = plr.getName();
+        this.game = game;
 
         this.allowFlight = plr.getAllowFlight();
         this.flying = plr.isFlying();
@@ -49,7 +51,7 @@ public class PlayerData {
         this.food = plr.getFoodLevel();
         this.saturation = plr.getSaturation();
         this.scoreboard = plr.getScoreboard();
-        conf.getDefaultUpgrades().forEach((upg) -> upgrades.put(conf.getUpgrades().get(upg).getType(), upg));
+        game.getType().getDefaultUpgrades().forEach((upg) -> upgrades.put(conf.getUpgrades().get(upg).getType(), upg));
 
         saveAndClearInv(plr);
 
@@ -73,14 +75,6 @@ public class PlayerData {
 
     public Player getPlayer() {
         return Bukkit.getPlayerExact(name);
-    }
-
-    public void giveItems() {
-        Player plr = getPlayer();
-        PlayerInventory pi = plr.getInventory();
-        for (int i = 0; i < conf.getIngameItems().size(); ++i) {
-            pi.setItem(i, conf.getIngameItems().get(i));
-        }
     }
 
     public void reset(Player plr) {

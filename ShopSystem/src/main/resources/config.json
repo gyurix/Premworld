@@ -30,11 +30,18 @@
       "command": "coliseum queue <player> 4v4"
     },
     "ctfs": {
-      "icon": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
-      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "icon": "YELLOW_WOOL name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "YELLOW_WOOL name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
       "durationMin": 6.5,
       "price": 20,
       "command": "coliseum queue <player> ctf"
+    },
+    "ctf2s": {
+      "icon": "ORANGE_WOOL name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "durationMin": 6.5,
+      "price": 20,
+      "command": "coliseum queue <player> ctf2"
     },
     "1v1m": {
       "icon": "STONE_SWORD 4 name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
@@ -65,11 +72,18 @@
       "command": "coliseum queue <player> 4v4"
     },
     "ctfm": {
-      "icon": "ORANGE_WOOL 4 name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
-      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "icon": "YELLOW_WOOL 4 name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "YELLOW_WOOL name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
       "durationMin": 65,
       "price": 140,
       "command": "coliseum queue <player> ctf"
+    },
+    "ctf2m": {
+      "icon": "ORANGE_WOOL 4 name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "durationMin": 65,
+      "price": 140,
+      "command": "coliseum queue <player> ctf2"
     },
     "1v1l": {
       "icon": "STONE_SWORD 16 name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
@@ -100,11 +114,18 @@
       "command": "coliseum queue <player> 4v4"
     },
     "ctfl": {
-      "icon": "ORANGE_WOOL 16 name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
-      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "icon": "YELLOW_WOOL 16 name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "YELLOW_WOOL name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
       "durationMin": 650,
       "price": 330,
       "command": "coliseum queue <player> ctf"
+    },
+    "ctf2l": {
+      "icon": "ORANGE_WOOL 16 name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "durationMin": 650,
+      "price": 330,
+      "command": "coliseum queue <player> ctf2"
     },
     "1v1xl": {
       "icon": "STONE_SWORD 64 name:&6&l1v1_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
@@ -135,11 +156,18 @@
       "command": "coliseum queue <player> 4v4"
     },
     "ctfxl": {
-      "icon": "ORANGE_WOOL 64 name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
-      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "icon": "YELLOW_WOOL 64 name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "YELLOW_WOOL name:&6&lCapture_The_Flag_6v6_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
       "durationMin": 6500,
       "price": 1200,
       "command": "coliseum queue <player> ctf"
+    },
+    "ctf2xl": {
+      "icon": "ORANGE_WOOL 64 name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
+      "item": "ORANGE_WOOL name:&6&lCapture_The_Flag_12v12_Pass lore:&6|&e•_Owner:&f_<owner>|&e•_Expiration:&f_<expiration> luck:1 hide:enchants",
+      "durationMin": 6500,
+      "price": 1200,
+      "command": "coliseum queue <player> ctf2"
     },
     "hunts": {
       "icon": "LEATHER 1 name:&6&lHunting_Games_Pass lore:&6|&e•_Duration:&f_<duration>|&e•_Price:&f_$<price>",
@@ -223,10 +251,10 @@
       "title": "&4&lShop - Coliseum",
       "layout": [
         "back  glass glass glass glass glass glass glass exit",
-        "glass glass 1v1s  2v2s  3v3s  4v4s  ctfs  glass glass",
-        "glass glass 1v1m  2v2m  3v3m  4v4m  ctfm  glass glass",
-        "glass glass 1v1l  2v2l  3v3l  4v4l  ctfl  glass glass",
-        "glass glass 1v1xl 2v2xl 3v3xl 4v4xl ctfxl glass glass",
+        "glass 1v1s  2v2s  3v3s  4v4s  glass ctfs  ctf2s  glass",
+        "glass 1v1m  2v2m  3v3m  4v4m  glass ctfm  ctf2m  glass",
+        "glass 1v1l  2v2l  3v3l  4v4l  glass ctfl  ctf2l  glass",
+        "glass 1v1xl 2v2xl 3v3xl 4v4xl glass ctfxl ctf2xl glass",
         "glass glass glass glass glass glass glass glass glass"
       ],
       "staticItems": {

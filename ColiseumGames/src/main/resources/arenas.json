@@ -96,7 +96,7 @@
     "team2Rot": 0,
     "spec": "world -15 6 -787 33 28 -721",
     "name": "ctfa",
-    "type": "ctf"
+    "type": "ctf1"
   },
   "ctfb": {
     "area": "world -34 3 -880 58 12 -797",
@@ -107,6 +107,6 @@
     "team2Rot": 0,
     "spec": "world -15 6 -870 33 28 -804",
     "name": "ctfb",
-    "type": "ctf"
+    "type": "ctf2"
   }
 }

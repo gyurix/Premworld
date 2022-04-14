@@ -14,11 +14,12 @@ public class MoveDetector implements Runnable {
     public HashMap<String, Location> oldLoc = new HashMap<>();
 
     public boolean cancelMove(Player plr, Location to) {
-        Game game = CGAPI.playerGames.get(plr.getName());
+        String pln = plr.getName();
+        Game game = CGAPI.playerGames.get(pln);
         if (game == null)
             return false;
-        boolean secondTeam = game.getTeam2().containsKey(plr.getName());
-        PlayerData pd = (secondTeam ? game.getTeam2() : game.getTeam1()).get(plr.getName());
+        boolean secondTeam = game.getTeam2().containsKey(pln);
+        PlayerData pd = (secondTeam ? game.getTeam2() : game.getTeam1()).get(pln);
         Arena arena = game.getArena();
         Area area = arena.getArea();
         if (pd == null)
@@ -31,6 +32,11 @@ public class MoveDetector implements Runnable {
                 return !(secondTeam ? arena.getTeam2() : arena.getTeam1()).contains(to);
             }
             case INGAME, FINISH -> {
+                if (pln.equals(game.getTeam1Carrier()) && arena.getTeam1().contains(to)) {
+                    game.depositFlag(plr,false);
+                } else if (pln.equals(game.getTeam2Carrier()) && arena.getTeam2().contains(to)) {
+                    game.depositFlag(plr,true);
+                }
                 return !area.contains(to);
             }
         }

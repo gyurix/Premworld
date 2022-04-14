@@ -32,114 +32,11 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
     public static List<String> arenaCommands = List.of("create", "remove", "info", "set");
     public static List<String> mainCommands = List.of("help", "arena", "start", "stop", "queue", "ticket");
     public static List<String> settings = Lists.newArrayList("area", "queue", "spec", "team1", "team2", "type");
-    public static List<String> types = Lists.newArrayList("1v1", "2v2", "3v3", "4v4", "ctf");
 
     public CommandColiseum() {
         PluginCommand cmd = pl.getCommand("coliseum");
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
-    }
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String string, @NotNull String[] args) {
-        if (!sender.hasPermission("lsdc.admin")) {
-            sender.sendMessage("§cYou don't have permission for using this command");
-            return true;
-        }
-        String sub = args.length == 0 ? "help" : args[0].toLowerCase();
-        switch (sub) {
-            case "help" -> {
-                msg.msg(sender, "help");
-                return true;
-            }
-            case "arena" -> {
-                if (args.length == 1) {
-                    msg.msg(sender, "arena.help",
-                            "settings", StringUtils.join(settings, ", "),
-                            "arenas", StringUtils.join(arenas.keySet(), ", "));
-                    return true;
-                }
-                if (args.length == 2) {
-                    msg.msg(sender, "arena.none",
-                            "arenas", StringUtils.join(arenas.keySet(), ", "));
-                    return true;
-                }
-                arenaCmd(sender, args);
-                return true;
-            }
-            case "start" -> {
-                withGame(sender, args, game -> game.forceStart(sender));
-                return true;
-            }
-            case "stop" -> {
-                withGame(sender, args, game -> {
-                    game.forceStop();
-                    msg.msg(sender, "game.stop");
-                });
-                return true;
-            }
-            case "queue" -> {
-                withPlayer(sender, args, (target) -> {
-                    String type = args.length < 3 ? "1v1" : args[2].toLowerCase();
-                    if (!types.contains(type)) {
-                        msg.msg(sender, "game.wrongtype", "type", type, "types", StringUtils.join(types, ", "));
-                        return;
-                    }
-                    msg.msg(sender, CGAPI.queue(target, type) ? "game.queue" : "game.queuefail", "player", target.getName());
-                });
-                return true;
-            }
-        }
-        msg.msg(sender, "wrongsub");
-        return true;
-    }
-
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String string, @NotNull String[] args) {
-        if (!sender.hasPermission("lsdc.admin"))
-            return List.of();
-
-        if (args.length == 1)
-            return filterStart(mainCommands, args[0]);
-
-        String subCmd = args[0].toLowerCase();
-        switch (subCmd) {
-            case "arena" -> {
-                if (args.length == 2)
-                    return filterStart(arenaCommands, args[1]);
-                String arenaCmd = args[1].toLowerCase();
-                if (args.length == 3) {
-                    if (!arenaCmd.equals("create") && arenaCommands.contains(arenaCmd))
-                        return filterStart(arenas.keySet(), args[2]);
-                    return List.of();
-                } else if (arenaCmd.equals("set")) {
-                    if (args.length == 4)
-                        return filterStart(settings, args[3]);
-                    if (args.length == 5 && args[3].equalsIgnoreCase("type"))
-                        return filterStart(types, args[4]);
-                }
-                return List.of();
-            }
-            case "start", "stop" -> {
-                if (args.length == 2)
-                    return filterStart(playerGames.keySet(), args[1]);
-
-                return List.of();
-            }
-            case "queue" -> {
-                if (args.length == 2)
-                    return filterStart(Bukkit.getOnlinePlayers().stream()
-                            .map(Player::getName)
-                            .filter(name -> !playerGames.containsKey(name))
-                            .toList(), args[1]);
-
-                if (args.length == 3)
-                    return filterStart(types, args[2]);
-
-                return List.of();
-            }
-        }
-        return List.of();
     }
 
     @SneakyThrows
@@ -189,12 +86,12 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                 }
                 if (setting.equals("type")) {
                     if (args.length == 4) {
-                        msg.msg(sender, "game.notype", "types", StringUtils.join(types, ", "));
+                        msg.msg(sender, "game.notype", "types", StringUtils.join(conf.getGameTypes().keySet(), ", "));
                         return;
                     }
                     String type = args[4].toLowerCase();
-                    if (!types.contains(type)) {
-                        msg.msg(sender, "game.wrongtype", "type", type, "types", StringUtils.join(types, ", "));
+                    if (!conf.getGameTypes().containsKey(type)) {
+                        msg.msg(sender, "game.wrongtype", "type", type, "types", StringUtils.join(conf.getGameTypes().keySet(), ", "));
                         return;
                     }
                     arena.setType(type);
@@ -262,6 +159,108 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
             out.add(String.valueOf(i));
 
         return out;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String string, @NotNull String[] args) {
+        if (!sender.hasPermission("lsdc.admin")) {
+            sender.sendMessage("§cYou don't have permission for using this command");
+            return true;
+        }
+        String sub = args.length == 0 ? "help" : args[0].toLowerCase();
+        switch (sub) {
+            case "help" -> {
+                msg.msg(sender, "help");
+                return true;
+            }
+            case "arena" -> {
+                if (args.length == 1) {
+                    msg.msg(sender, "arena.help",
+                            "settings", StringUtils.join(settings, ", "),
+                            "arenas", StringUtils.join(arenas.keySet(), ", "));
+                    return true;
+                }
+                if (args.length == 2) {
+                    msg.msg(sender, "arena.none",
+                            "arenas", StringUtils.join(arenas.keySet(), ", "));
+                    return true;
+                }
+                arenaCmd(sender, args);
+                return true;
+            }
+            case "start" -> {
+                withGame(sender, args, game -> game.forceStart(sender));
+                return true;
+            }
+            case "stop" -> {
+                withGame(sender, args, game -> {
+                    game.forceStop();
+                    msg.msg(sender, "game.stop");
+                });
+                return true;
+            }
+            case "queue" -> {
+                withPlayer(sender, args, (target) -> {
+                    String type = args.length < 3 ? "1v1" : args[2].toLowerCase();
+                    if (!conf.getGameTypes().containsKey(type)) {
+                        msg.msg(sender, "game.wrongtype", "type", type, "types", StringUtils.join(conf.getGameTypes().keySet(), ", "));
+                        return;
+                    }
+                    msg.msg(sender, CGAPI.queue(target, type) ? "game.queue" : "game.queuefail", "player", target.getName());
+                });
+                return true;
+            }
+        }
+        msg.msg(sender, "wrongsub");
+        return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String string, @NotNull String[] args) {
+        if (!sender.hasPermission("lsdc.admin"))
+            return List.of();
+
+        if (args.length == 1)
+            return filterStart(mainCommands, args[0]);
+
+        String subCmd = args[0].toLowerCase();
+        switch (subCmd) {
+            case "arena" -> {
+                if (args.length == 2)
+                    return filterStart(arenaCommands, args[1]);
+                String arenaCmd = args[1].toLowerCase();
+                if (args.length == 3) {
+                    if (!arenaCmd.equals("create") && arenaCommands.contains(arenaCmd))
+                        return filterStart(arenas.keySet(), args[2]);
+                    return List.of();
+                } else if (arenaCmd.equals("set")) {
+                    if (args.length == 4)
+                        return filterStart(settings, args[3]);
+                    if (args.length == 5 && args[3].equalsIgnoreCase("type"))
+                        return filterStart(conf.getGameTypes().keySet(), args[4]);
+                }
+                return List.of();
+            }
+            case "start", "stop" -> {
+                if (args.length == 2)
+                    return filterStart(playerGames.keySet(), args[1]);
+
+                return List.of();
+            }
+            case "queue" -> {
+                if (args.length == 2)
+                    return filterStart(Bukkit.getOnlinePlayers().stream()
+                            .map(Player::getName)
+                            .filter(name -> !playerGames.containsKey(name))
+                            .toList(), args[1]);
+
+                if (args.length == 3)
+                    return filterStart(conf.getGameTypes().keySet(), args[2]);
+
+                return List.of();
+            }
+        }
+        return List.of();
     }
 
     private String toStr(Object obj) {
