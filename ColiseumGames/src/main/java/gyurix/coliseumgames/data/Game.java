@@ -1,12 +1,10 @@
 package gyurix.coliseumgames.data;
 
 import com.google.common.collect.Lists;
-import com.nftworlds.wallet.objects.NFTPlayer;
-import com.nftworlds.wallet.objects.Network;
 import gyurix.coliseumgames.CGAPI;
 import gyurix.coliseumgames.enums.GameState;
-import gyurix.coliseumgames.util.LocUtils;
 import gyurix.coliseumgames.util.ScoreboardUtils;
+import gyurix.levelingsystem.LevelingAPI;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -43,7 +41,6 @@ public class Game {
     private int counter = 0;
     private int maxPlayersPerTeam;
     private int minPlayersPerTeam;
-    private int prize = 0;
     private GameState state = GameState.WAITING;
     private String team1Carrier, team2Carrier;
     private int team1Collected, team2Collected;
@@ -96,6 +93,14 @@ public class Game {
         if (type.getFlagCount() > 0 ? team1Collected == team2Collected : team1.size() == team2.size()) {
             for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
                 sendTitle(team.values(), "draw");
+            if (type.getDrawExp() > 0) {
+                team1.values().forEach(pd ->
+                        LevelingAPI.withPlayer(pd.getPlayer(),
+                                lpd -> lpd.addExp(type.getDrawExp(), "Playing " + arena.getType().toUpperCase() + " Coliseum Games")));
+                team2.values().forEach(pd ->
+                        LevelingAPI.withPlayer(pd.getPlayer(),
+                                lpd -> lpd.addExp(type.getDrawExp(), "Playing " + arena.getType().toUpperCase() + " Coliseum Games")));
+            }
             switchToNextState();
             return;
         }
@@ -111,15 +116,15 @@ public class Game {
             for (HashMap<String, PlayerData> team : List.of(team2, team2Spec))
                 sendTitle(team.values(), "lose");
         }
-        if (prize > 0) {
-            (secondTeamWin ? team2 : team1).values().forEach(pd -> {
-                try {
-                    NFTPlayer.getByUUID(pd.getPlayer().getUniqueId()).getPrimaryWallet().payWRLD(prize, Network.POLYGON,
-                            "Winning " + arena.getType().toUpperCase() + " Coliseum Games");
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-            });
+        if (type.getWinExp() > 0) {
+            (secondTeamWin ? team2 : team1).values().forEach(pd ->
+                    LevelingAPI.withPlayer(pd.getPlayer(),
+                            lpd -> lpd.addExp(type.getWinExp(), "Winning " + arena.getType().toUpperCase() + " Coliseum Games")));
+        }
+        if (type.getLoseExp() > 0) {
+            (secondTeamWin ? team1 : team2).values().forEach(pd ->
+                    LevelingAPI.withPlayer(pd.getPlayer(),
+                            lpd -> lpd.addExp(type.getLoseExp(), "Playing " + arena.getType().toUpperCase() + " Coliseum Games")));
         }
         switchToNextState();
     }
@@ -147,7 +152,6 @@ public class Game {
 
     private Object[] getVariables(boolean secondTeam) {
         List<Object> out = Lists.newArrayList(
-                "prize", prize,
                 "players", team1.size() + team2.size(),
                 "spec", team1Spec.size() + team2Spec.size(),
                 "counter", counter,
@@ -300,9 +304,13 @@ public class Game {
         as.setGravity(false);
         as.addDisabledSlots(EquipmentSlot.values());
         if (secondTeam) {
+            if (team1Carrier != null)
+                Bukkit.getPlayerExact(team1Carrier).getInventory().setItem(8, null);
             team2Flag = as;
             team1Carrier = null;
         } else {
+            if (team2Carrier != null)
+                Bukkit.getPlayerExact(team2Carrier).getInventory().setItem(8, null);
             team1Flag = as;
             team2Carrier = null;
         }

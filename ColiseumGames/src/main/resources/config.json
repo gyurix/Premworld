@@ -20,7 +20,10 @@
         "leather_armor",
         "wooden_sword"
       ],
-      "upgradesGUI": "upgrades"
+      "upgradesGUI": "upgrades",
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     },
     "2v2": {
       "minPlayersPerTeam": 2,
@@ -37,7 +40,10 @@
         "leather_armor",
         "wooden_sword"
       ],
-      "upgradesGUI": "upgrades"
+      "upgradesGUI": "upgrades",
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     },
     "3v3": {
       "minPlayersPerTeam": 3,
@@ -54,7 +60,10 @@
         "leather_armor",
         "wooden_sword"
       ],
-      "upgradesGUI": "upgrades"
+      "upgradesGUI": "upgrades",
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     },
     "4v4": {
       "minPlayersPerTeam": 4,
@@ -71,7 +80,10 @@
         "leather_armor",
         "wooden_sword"
       ],
-      "upgradesGUI": "upgrades"
+      "upgradesGUI": "upgrades",
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     },
     "ctf1": {
       "minPlayersPerTeam": 6,
@@ -89,7 +101,10 @@
         "wooden_sword"
       ],
       "flagCount": 5,
-      "upgradesGUI": "upgrades"
+      "upgradesGUI": "upgrades",
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     },
     "ctf2": {
       "minPlayersPerTeam": 12,
@@ -107,7 +122,10 @@
         "wooden_sword"
       ],
       "flagCount": 5,
-      "upgradesGUI": "upgrades"
+      "upgradesGUI": "upgrades",
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     }
   },
   "guis": {
@@ -122,7 +140,10 @@
       "staticItems": {
         "glass": "BLACK_STAINED_GLASS_PANE name:&c",
         "exit": "BARRIER name:&c&lClose_GUI"
-      }
+      },
+      "winExp": 100,
+      "loseExp": 10,
+      "drawExp": 50
     }
   },
   "upgrades": {

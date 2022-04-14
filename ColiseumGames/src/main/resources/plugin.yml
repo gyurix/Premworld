@@ -4,7 +4,7 @@ api-version: 1.13
 main: gyurix.coliseumgames.CGPlugin
 version: 1.0
 softdepend: [ WRLDPaymentsAPI ]
-depend: [ WorldEdit, PartySystem ]
+depend: [ WorldEdit, PartySystem, LevelingSystem ]
 commands:
   coliseum:
 

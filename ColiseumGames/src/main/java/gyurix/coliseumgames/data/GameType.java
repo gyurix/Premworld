@@ -9,6 +9,9 @@ public class GameType {
     private String name;
     private int minPlayersPerTeam;
     private int maxPlayersPerTeam;
+    private int winExp;
+    private int loseExp;
+    private int drawExp;
     private Counter counters;
     private List<String> defaultUpgrades;
     private int flagCount;
