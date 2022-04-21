@@ -1,0 +1,127 @@
+{
+  "upgradeItem": "BEACON name:&b&lUpgrades luck:1 hide:enchants",
+  "upgradeItemSlot": 4,
+  "minPlayers": 4,
+  "maxPlayers": 16,
+  "mobSpawnChance": 0.5,
+  "mobSpawnCount": 5,
+  "maxMobsPerPlayer": 30,
+  "counters": {
+    "starting": 15,
+    "maxplayer": 15,
+    "inarena": 5,
+    "ingame": 120,
+    "finish": 5
+  },
+  "defaultUpgrades": [
+    "wooden_sword"
+  ],
+  "winExp": 100,
+  "loseExp": 10,
+  "drawExp": 50,
+  "upgradesGui": {
+    "title": "&1&lUpgrades",
+    "layout": [
+      "glass glass glass glass glass   glass glass glass exit",
+      "glass glass bow   glass shotgun glass rifle glass glass",
+      "glass glass glass trap  glass   lure  glass glass glass",
+      "glass glass glass glass glass   glass glass glass glass"
+    ],
+    "staticItems": {
+      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+      "exit": "BARRIER name:&c&lClose_GUI"
+    }
+  },
+  "mobHpSuffix": "&7 (&c<hp> ♥&7)",
+  "mobs": {
+    "bear": {
+      "chance": 0.1,
+      "type": "POLAR_BEAR",
+      "name": "&6&lBear",
+      "hp": 40,
+      "points": 10
+    },
+    "fox": {
+      "chance": 0.3,
+      "type": "FOX",
+      "name": "&4&lFox",
+      "hp": 25,
+      "points": 2
+    },
+    "chicken": {
+      "chance": 0.25,
+      "type": "CHICKEN",
+      "name": "&f&lChicken",
+      "hp": 10,
+      "points": 3
+    },
+    "axolotl": {
+      "chance": 0.05,
+      "type": "AXOLOTL",
+      "name": "&b&lAxolotl",
+      "hp": 50,
+      "points": 15
+    },
+    "cow": {
+      "chance": 0.1,
+      "type": "COW",
+      "name": "&d&lCow",
+      "hp": 15,
+      "points": 3
+    },
+    "donkey": {
+      "chance": 0.2,
+      "type": "DONKEY",
+      "name": "&e&lDonkey",
+      "hp": 30,
+      "points": 1
+    }
+  },
+  "upgrades": {
+    "wooden_sword": {
+      "damage": 5,
+      "item": "WOODEN_SWORD name:&6&lHunter's_Sword lore:&c|&7•_&eMax_Damage:&c_5 luck:1 hide:enchants"
+    },
+    "bow": {
+      "damage": 10,
+      "item": "BOW name:&e&lHunter's_Bow lore:&c|&7•_&eDamage:&c_2-10 luck:1 hide:enchants",
+      "minDamage": 2,
+      "price": 1
+    },
+    "shotgun": {
+      "damage": 50,
+      "delay": 1200,
+      "item": "IRON_HOE name:&f&lHunter's_Shotgun lore:&c|&7•_&eDamage:&c_5-50|&7•_&eShot_Delay:&c_1.2s|&7•_&eOptimal_Shot_Distance:&c_0_-_0.5_blocks|&7•_&eMax_Shot_Distance:&c_2.5_blocks luck:1 hide:enchants",
+      "maxDist": 0.5,
+      "minDamage": 5,
+      "minDist": 2.5,
+      "price": 2
+    },
+    "rifle": {
+      "damage": 12,
+      "delay": 250,
+      "item": "DIAMOND_HOE name:&b&lHunter's_Rifle lore:&c|&7•_&eDamage:&c_12|&7•_&eShot_Delay:&c_0.25s luck:1 hide:enchants",
+      "price": 3
+    },
+    "trap": {
+      "delay": 15000,
+      "item": "TRIPWIRE_HOOK name:&c&lTrap lore:&c|&7•_&eUsage_Delay:&c_15s luck:1 hide:enchants",
+      "price": 1,
+      "barText": "&c&lTrap Cooldown",
+      "barColor": "RED"
+    },
+    "lure": {
+      "delay": 30000,
+      "item": "WARPED_FUNGUS_ON_A_STICK name:&c&lLure lore:&c|&7•_&eRange:&c_15_blocks|&7•_&eUsage_Delay:&c_30s luck:1 hide:enchants",
+      "maxDist": 15,
+      "price": 1,
+      "barText": "&b&lLure Cooldown",
+      "barColor": "BLUE"
+    }
+  },
+  "titleFadeIn": 0,
+  "titleShowTime": 60,
+  "titleFadeOut": 10,
+  "rifleSound": "ENTITY_ENDER_EYE_LAUNCH",
+  "shotgunSound": "ENTITY_GENERIC_EXPLODE"
+}

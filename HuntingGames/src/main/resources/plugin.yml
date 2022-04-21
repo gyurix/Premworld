@@ -1,0 +1,10 @@
+name: HuntingGames
+author: gyuriX
+api-version: 1.13
+main: gyurix.huntinggames.HGPlugin
+version: 1.0
+softdepend: [ WRLDPaymentsAPI ]
+depend: [ WorldEdit, PartySystem, LevelingSystem ]
+commands:
+  hunt:
+

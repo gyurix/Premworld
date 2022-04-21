@@ -1,13 +1,13 @@
-package gyurix.coliseumgames;
+package gyurix.huntinggames;
 
 import com.google.common.collect.Lists;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.regions.Region;
-import gyurix.coliseumgames.data.Area;
-import gyurix.coliseumgames.data.Arena;
-import gyurix.coliseumgames.data.Game;
+import gyurix.huntinggames.data.Area;
+import gyurix.huntinggames.data.Arena;
+import gyurix.huntinggames.data.Game;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,19 +22,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static gyurix.coliseumgames.CGAPI.games;
-import static gyurix.coliseumgames.CGAPI.playerGames;
-import static gyurix.coliseumgames.CGPlugin.pl;
-import static gyurix.coliseumgames.conf.ConfigManager.*;
-import static gyurix.coliseumgames.util.StrUtils.DF;
+import static gyurix.huntinggames.HGAPI.games;
+import static gyurix.huntinggames.HGAPI.playerGames;
+import static gyurix.huntinggames.HGPlugin.pl;
+import static gyurix.huntinggames.conf.ConfigManager.*;
+import static gyurix.huntinggames.util.StrUtils.DF;
 
-public class CommandColiseum implements CommandExecutor, TabCompleter {
+public class CommandHunt implements CommandExecutor, TabCompleter {
     public static List<String> arenaCommands = List.of("create", "remove", "info", "set");
     public static List<String> mainCommands = List.of("help", "arena", "start", "stop", "queue");
-    public static List<String> settings = Lists.newArrayList("area", "queue", "spec", "team1", "team2", "type");
+    public static List<String> settings = Lists.newArrayList("area", "queue", "spawn");
 
-    public CommandColiseum() {
-        PluginCommand cmd = pl.getCommand("coliseum");
+    public CommandHunt() {
+        PluginCommand cmd = pl.getCommand("hunt");
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
     }
@@ -67,10 +67,8 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                 msg.msg(sender, "arena.info", "arena", name,
                         "area", toStr(arena.getArea()),
                         "queue", toStr(arena.getQueue()),
-                        "spec", toStr(arena.getSpec()),
-                        "team1", toStr(arena.getTeam1()),
-                        "team2", toStr(arena.getTeam2()),
-                        "type", toStr(arena.getType()),
+                        "spawn", toStr(arena.getSpawn()),
+                        "spawnRot", DF.format(arena.getSpawnRot()),
                         "configured", arena.isConfigured() ? "§ayes" : "§cno");
                 return;
             }
@@ -84,43 +82,22 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                     msg.msg(sender, "arena.wrongsetting", "settings", StringUtils.join(settings, ", "));
                     return;
                 }
-                if (setting.equals("type")) {
-                    if (args.length == 4) {
-                        msg.msg(sender, "game.notype", "types", StringUtils.join(conf.getGameTypes().keySet(), ", "));
+                Field f = Arena.class.getDeclaredField(setting);
+                f.setAccessible(true);
+                if (f.getType() == Area.class) {
+                    Region region = null;
+                    BukkitPlayer bPlayer = BukkitAdapter.adapt((Player) sender);
+                    try {
+                        region = WorldEdit.getInstance().getSessionManager().get(bPlayer).getSelection(bPlayer.getWorld());
+                    } catch (Throwable ignored) {
+                    }
+                    if (region == null) {
+                        msg.msg(sender, "arena.nosel");
                         return;
                     }
-                    String type = args[4].toLowerCase();
-                    if (!conf.getGameTypes().containsKey(type)) {
-                        msg.msg(sender, "game.wrongtype", "type", type, "types", StringUtils.join(conf.getGameTypes().keySet(), ", "));
-                        return;
-                    }
-                    arena.setType(type);
-                    msg.msg(sender, "arena.set", "setting", setting, "arena", name, "value", type);
-                } else {
-                    Field f = Arena.class.getDeclaredField(setting);
-                    f.setAccessible(true);
-                    if (f.getType() == Area.class) {
-                        Region region = null;
-                        BukkitPlayer bPlayer = BukkitAdapter.adapt((Player) sender);
-                        try {
-                            region = WorldEdit.getInstance().getSessionManager().get(bPlayer).getSelection(bPlayer.getWorld());
-                        } catch (Throwable ignored) {
-                        }
-                        if (region == null) {
-                            msg.msg(sender, "arena.nosel");
-                            return;
-                        }
-                        Area area = new Area(bPlayer.getWorld().getName(), region);
-                        f.set(arena, area);
-                        msg.msg(sender, "arena.set", "setting", setting, "arena", name, "value", area);
-                        if (setting.equals("team1")) {
-                            arena.setTeam1Rot(((Player) sender).getLocation().getYaw());
-                            msg.msg(sender, "arena.set", "setting", "team1Rot", "arena", name, "value", DF.format(arena.getTeam1Rot()));
-                        } else if (setting.equals("team2")) {
-                            arena.setTeam2Rot(((Player) sender).getLocation().getYaw());
-                            msg.msg(sender, "arena.set", "setting", "team2Rot", "arena", name, "value", DF.format(arena.getTeam2Rot()));
-                        }
-                    }
+                    Area area = new Area(bPlayer.getWorld().getName(), region);
+                    f.set(arena, area);
+                    msg.msg(sender, "arena.set", "setting", setting, "arena", name, "value", area);
                 }
                 saveArenas();
                 return;
@@ -152,18 +129,9 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
         return list.stream().filter(el -> el.toLowerCase().startsWith(prefixLower)).sorted().toList();
     }
 
-    private Collection<String> numberRange(int size) {
-        List<String> out = new ArrayList<>();
-
-        for (int i = 0; i < size; ++i)
-            out.add(String.valueOf(i));
-
-        return out;
-    }
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String string, @NotNull String[] args) {
-        if (!sender.hasPermission("coliseum.admin")) {
+        if (!sender.hasPermission("hunt.admin")) {
             sender.sendMessage("§cYou don't have permission for using this command");
             return true;
         }
@@ -200,14 +168,8 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                 return true;
             }
             case "queue" -> {
-                withPlayer(sender, args, (target) -> {
-                    String type = args.length < 3 ? "1v1" : args[2].toLowerCase();
-                    if (!conf.getGameTypes().containsKey(type)) {
-                        msg.msg(sender, "game.wrongtype", "type", type, "types", StringUtils.join(conf.getGameTypes().keySet(), ", "));
-                        return;
-                    }
-                    msg.msg(sender, CGAPI.queue(target, type) ? "game.queue" : "game.queuefail", "player", target.getName());
-                });
+                withPlayer(sender, args,
+                        target -> msg.msg(sender, HGAPI.queue(target) ? "game.queue" : "game.queuefail", "player", target.getName()));
                 return true;
             }
         }
@@ -217,7 +179,7 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String string, @NotNull String[] args) {
-        if (!sender.hasPermission("lsdc.admin"))
+        if (!sender.hasPermission("hunt.admin"))
             return List.of();
 
         if (args.length == 1)
@@ -236,8 +198,6 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                 } else if (arenaCmd.equals("set")) {
                     if (args.length == 4)
                         return filterStart(settings, args[3]);
-                    if (args.length == 5 && args[3].equalsIgnoreCase("type"))
-                        return filterStart(conf.getGameTypes().keySet(), args[4]);
                 }
                 return List.of();
             }
@@ -253,9 +213,6 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                             .map(Player::getName)
                             .filter(name -> !playerGames.containsKey(name))
                             .toList(), args[1]);
-
-                if (args.length == 3)
-                    return filterStart(conf.getGameTypes().keySet(), args[2]);
 
                 return List.of();
             }
