@@ -4,18 +4,19 @@ import gyurix.huntinggames.HGAPI;
 import gyurix.huntinggames.data.Game;
 import gyurix.huntinggames.data.PlayerData;
 import gyurix.huntinggames.data.Upgrade;
-import gyurix.huntinggames.conf.ConfigManager;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import static gyurix.huntinggames.conf.ConfigManager.conf;
+import static gyurix.huntinggames.conf.ConfigManager.msg;
 
 public class UpgradesGUI extends CustomGUI {
     private Game game;
     private PlayerData pd;
 
     public UpgradesGUI(Player plr) {
-        super(plr, conf.getUpgradesGUI());
+        super(plr, conf.getUpgradesGui());
     }
 
     @Override
@@ -43,7 +44,11 @@ public class UpgradesGUI extends CustomGUI {
         Upgrade upg = conf.getUpgrades().get(type);
         if (upg == null)
             return;
+        if (pd.getUpgrades().contains(type)){
+            msg.msg(plr,"upgrade.already");
+            return;
+        }
         upg.select(game, plr);
-        plr.closeInventory();
+        update();
     }
 }

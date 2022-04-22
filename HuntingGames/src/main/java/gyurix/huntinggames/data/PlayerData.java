@@ -1,10 +1,14 @@
 package gyurix.huntinggames.data;
 
+import gyurix.huntinggames.util.StrUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -20,10 +24,12 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import static gyurix.huntinggames.conf.ConfigManager.conf;
 import static gyurix.huntinggames.conf.ConfigManager.msg;
+import static gyurix.huntinggames.util.StrUtils.rand;
 
 @Getter
 public class PlayerData {
@@ -40,7 +46,7 @@ public class PlayerData {
     private final String name;
     private final float saturation;
     private final Scoreboard scoreboard;
-    private final HashSet<String> upgrades = new HashSet<>();
+    private final LinkedHashSet<String> upgrades = new LinkedHashSet<>();
     private final int xp;
     private int points;
     private int targets;
@@ -80,23 +86,24 @@ public class PlayerData {
         lureBar = createBar(plr, conf.getUpgrades().get("lure"));
     }
 
-    public void addPoints(int pointsToAdd) {
+    public void addPoints(Mob mob) {
+        int pointsToAdd=mob.getPoints();
         points += pointsToAdd;
         ++targets;
         Player plr = getPlayer();
         if (pointsToAdd > 1) {
-            plr.sendTitle(msg.get("points.title", "amount", pointsToAdd)
-                    , msg.get("points.subtitle", "amount", pointsToAdd), conf.getTitleFadeIn(), conf.getTitleShowTime(), conf.getTitleFadeOut());
-            plr.sendActionBar(msg.get("points.actionbar", "amount", pointsToAdd));
+            plr.sendTitle(msg.get("points.title", "amount", pointsToAdd, "mob", mob.getName())
+                    , msg.get("points.subtitle", "amount", pointsToAdd, "mob", mob.getName()), conf.getTitleFadeIn(), conf.getTitleShowTime(), conf.getTitleFadeOut());
+            plr.sendActionBar(msg.get("points.actionbar", "amount", pointsToAdd, "mob", mob.getName()));
         } else {
-            plr.sendTitle(msg.get("point.title", "amount", pointsToAdd)
-                    , msg.get("point.subtitle", "amount", pointsToAdd), conf.getTitleFadeIn(), conf.getTitleShowTime(), conf.getTitleFadeOut());
-            plr.sendActionBar(msg.get("point.actionbar", "amount", pointsToAdd));
+            plr.sendTitle(msg.get("point.title", "amount", pointsToAdd, "mob", mob.getName())
+                    , msg.get("point.subtitle", "amount", pointsToAdd, "mob", mob.getName()), conf.getTitleFadeIn(), conf.getTitleShowTime(), conf.getTitleFadeOut());
+            plr.sendActionBar(msg.get("point.actionbar", "amount", pointsToAdd, "mob", mob.getName()));
         }
     }
 
     private BossBar createBar(Player plr, Upgrade upgrade) {
-        BossBar bar = Bukkit.createBossBar(upgrade.getBarText(), upgrade.getBarColor(), BarStyle.SOLID);
+        BossBar bar = Bukkit.createBossBar(StrUtils.colorize(upgrade.getBarText()), upgrade.getBarColor(), BarStyle.SOLID);
         bar.setProgress(0);
         bar.setVisible(false);
         bar.addPlayer(plr);
@@ -108,6 +115,8 @@ public class PlayerData {
     }
 
     public void reset(Player plr) {
+        trapBar.removeAll();
+        lureBar.removeAll();
         plr.teleport(loc);
         plr.setGameMode(gameMode);
         plr.setTotalExperience(xp);
@@ -156,9 +165,10 @@ public class PlayerData {
         Upgrade settings = conf.getUpgrades().get("rifle");
         rifleReset = time + settings.getDelay();
         Player plr = getPlayer();
-        Snowball ball = getPlayer().launchProjectile(Snowball.class, plr.getLocation().getDirection().multiply(10));
+        Snowball ball = getPlayer().launchProjectile(Snowball.class);
+        ball.setVelocity(ball.getVelocity().multiply(3));
         ball.setCustomName("rifle");
-        plr.playSound(plr.getLocation(), Sound.valueOf(conf.getRifleSound()),1,1);
+        plr.playSound(plr.getLocation(), Sound.valueOf(conf.getRifleSound()), 1, 1);
     }
 
     public void useShotgun() {
@@ -168,7 +178,7 @@ public class PlayerData {
         Upgrade settings = conf.getUpgrades().get("shotgun");
         shotgunReset = time + settings.getDelay();
         Player plr = getPlayer();
-        plr.playSound(plr.getLocation(), Sound.valueOf(conf.getShotgunSound()),1,1);
+        plr.playSound(plr.getLocation(), Sound.valueOf(conf.getShotgunSound()), 1, 1);
         Location shotPoint = plr.getLocation().add(plr.getLocation().getDirection());
         for (LivingEntity ent : plr.getWorld().getLivingEntities()) {
             if (ent instanceof Player)
@@ -177,11 +187,70 @@ public class PlayerData {
             if (dist > settings.getMaxDist())
                 continue;
             if (dist <= settings.getMinDist()) {
-                ent.damage(settings.getDamage(), plr);
+                game.damageMob(plr, ent, settings.getDamage());
                 continue;
             }
             double damage = 1 - (dist - settings.getMinDist()) / (settings.getMaxDist() - settings.getMinDist());
-            ent.damage(settings.getMinDamage() + damage * (settings.getDamage() - settings.getMinDamage()), plr);
+            damage = settings.getMinDamage() + damage * (settings.getDamage() - settings.getMinDamage());
+            game.damageMob(plr, ent, damage);
         }
+    }
+
+    public void useTrap() {
+        long time = System.currentTimeMillis();
+        if (trapReset > time)
+            return;
+        Upgrade settings = conf.getUpgrades().get("trap");
+        Player plr = getPlayer();
+        Block target = plr.getTargetBlock(6);
+        if (target == null) {
+            msg.msg(plr, "trap.notlooking");
+            return;
+        }
+        target = target.getRelative(BlockFace.UP);
+        if (target.getType() != Material.AIR) {
+            msg.msg(plr, "trap.notair");
+            return;
+        }
+        Loc loc = new Loc(target);
+        if (!game.getArena().getArea().contains(loc)) {
+            msg.msg(plr, "outside");
+            return;
+        }
+        msg.msg(plr, "trap.place");
+        trapReset = time + settings.getDelay();
+        target.setType(Material.NETHER_PORTAL);
+        game.getPortalOwners().put(loc, name);
+    }
+
+    public void useLure() {
+        long time = System.currentTimeMillis();
+        if (lureReset > time)
+            return;
+        Upgrade settings = conf.getUpgrades().get("lure");
+        Player plr = getPlayer();
+        Location to = plr.getLocation().add(plr.getLocation().getDirection().multiply(3));
+        if (!game.getArena().getArea().contains(to)) {
+            msg.msg(plr, "outside");
+            return;
+        }
+        int count = 0;
+        for (LivingEntity ent : plr.getWorld().getLivingEntities()) {
+            if (ent instanceof Player)
+                continue;
+            if (ent.getLocation().distance(plr.getLocation()) < settings.getMaxDist()) {
+                Location idealLoc = to.clone().add(rand.nextDouble() * 3 - 1.5, 0, rand.nextDouble() * 3 - 1.5);
+                if (!game.getArena().getArea().contains(idealLoc))
+                    idealLoc = to;
+                ent.teleport(idealLoc);
+                ++count;
+            }
+        }
+        if (count == 0) {
+            msg.msg(plr, "lure0");
+            return;
+        }
+        lureReset = time + settings.getDelay();
+        msg.msg(plr, count > 1 ? "lure" : "lure1", "count", count);
     }
 }

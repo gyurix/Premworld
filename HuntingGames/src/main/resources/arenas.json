@@ -1,2 +1,10 @@
 {
+  "forest": {
+    "area": "world 59 4 -30 125 21 18",
+    "queue": "world 89 24 -9 95 27 -3",
+    "spawn": "world 90 6 -8 94 9 -4",
+    "name": "forest",
+    "spawnRot": 90,
+    "queueRot": 90
+  }
 }

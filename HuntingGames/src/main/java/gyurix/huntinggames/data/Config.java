@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 @SuppressWarnings("unused")
 @Getter
@@ -24,7 +23,7 @@ public class Config implements PostProcessable {
     private int upgradeItemSlot;
     private HashMap<String, Upgrade> upgrades;
     private HashMap<String, Mob> mobs;
-    private GUIConfig upgradesGUI;
+    private GUIConfig upgradesGui;
 
     @Override
     public void postProcess() {

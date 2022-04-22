@@ -11,7 +11,7 @@ public class Arena {
     private Area area, queue, spawn;
     private String name;
     @Setter
-    private float spawnRot;
+    private float spawnRot, queueRot;
 
     public Arena(String name) {
         this.name = name;

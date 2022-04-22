@@ -93,8 +93,9 @@ public class CGListener implements Listener {
         if (dmgr == null)
             return;
         Game game1 = CGAPI.playerGames.get(dmgr.getName());
+        if (game1==null)
+            return;
         if (!(ent instanceof Player victim)) {
-            System.out.println("Damage - " + ent.getUniqueId() + " - F1: " + game1.getTeam1Flag().getUniqueId() + ", F2: " + game1.getTeam2Flag().getUniqueId());
             if (game1.getTeam1().containsKey(dmgr.getName()) && game1.getTeam1Carrier() == null
                     && ent.getUniqueId().equals(game1.getTeam2Flag().getUniqueId()))
                 game1.pickupFlag(dmgr, false);

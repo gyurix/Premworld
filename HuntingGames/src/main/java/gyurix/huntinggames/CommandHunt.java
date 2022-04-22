@@ -67,6 +67,7 @@ public class CommandHunt implements CommandExecutor, TabCompleter {
                 msg.msg(sender, "arena.info", "arena", name,
                         "area", toStr(arena.getArea()),
                         "queue", toStr(arena.getQueue()),
+                        "queueRot", DF.format(arena.getQueueRot()),
                         "spawn", toStr(arena.getSpawn()),
                         "spawnRot", DF.format(arena.getSpawnRot()),
                         "configured", arena.isConfigured() ? "§ayes" : "§cno");
@@ -98,6 +99,14 @@ public class CommandHunt implements CommandExecutor, TabCompleter {
                     Area area = new Area(bPlayer.getWorld().getName(), region);
                     f.set(arena, area);
                     msg.msg(sender, "arena.set", "setting", setting, "arena", name, "value", area);
+                    if (setting.equals("queue")){
+                        arena.setQueueRot(bPlayer.getLocation().getYaw());
+                        msg.msg(sender, "arena.set", "setting", "queueRot", "arena", name, "value", DF.format(arena.getQueueRot()));
+                    }
+                    if (setting.equals("spawn")){
+                        arena.setSpawnRot(bPlayer.getLocation().getYaw());
+                        msg.msg(sender, "arena.set", "setting", "spawnRot", "arena", name, "value", DF.format(arena.getSpawnRot()));
+                    }
                 }
                 saveArenas();
                 return;

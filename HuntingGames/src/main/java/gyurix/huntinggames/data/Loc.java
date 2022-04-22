@@ -1,12 +1,14 @@
 package gyurix.huntinggames.data;
 
 import gyurix.huntinggames.conf.StringSerializable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 @Getter
+@EqualsAndHashCode
 public class Loc implements StringSerializable {
     private String world;
     private int x, y, z;

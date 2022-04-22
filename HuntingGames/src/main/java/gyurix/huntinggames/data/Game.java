@@ -8,21 +8,17 @@ import gyurix.huntinggames.util.LocUtils;
 import gyurix.levelingsystem.LevelingAPI;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.scoreboard.Objective;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +37,7 @@ public class Game {
     private final Scoreboard board;
     private final HashMap<UUID, Mob> mobs = new HashMap<>();
     private final HashMap<String, PlayerData> players = new HashMap<>();
+    private final HashMap<Loc, String> portalOwners = new HashMap<>();
     private int counter = 0;
     private GameState state = GameState.WAITING;
     private PlayerData winner;
@@ -65,14 +62,18 @@ public class Game {
             return;
         }
         if (amount >= ent.getHealth()) {
+            ent.playEffect(EntityEffect.WITCH_MAGIC);
             mobs.remove(ent.getUniqueId());
             ent.remove();
-            PlayerData pd = players.get(plr.getName());
-            pd.addPoints(mob.getPoints());
+            if (plr != null) {
+                PlayerData pd = players.get(plr.getName());
+                pd.addPoints(mob);
+            }
             return;
         }
         ent.setHealth(ent.getHealth() - amount);
         ent.setCustomName(mob.getName() + conf.getMobHpSuffix().replace("<hp>", DF.format(ent.getHealth())));
+        ent.playEffect(EntityEffect.HURT);
     }
 
     public void fastTick() {
@@ -85,23 +86,25 @@ public class Game {
             forceStop();
             return;
         }
-        boolean draw = true;
-        int drawScore = players.values().iterator().next().getPoints();
-        for (PlayerData pd : players.values()) {
-            if (pd.getPoints() != drawScore) {
-                draw = false;
-                break;
+        if (players.size() > 1) {
+            int drawScore = players.values().iterator().next().getPoints();
+            boolean draw = true;
+            for (PlayerData pd : players.values()) {
+                if (pd.getPoints() != drawScore) {
+                    draw = false;
+                    break;
+                }
             }
-        }
-        if (draw) {
-            sendTitle("draw");
-            if (conf.getDrawExp() > 0) {
-                players.values().forEach(pd ->
-                        LevelingAPI.withPlayer(pd.getPlayer(),
-                                lpd -> lpd.addExp(conf.getDrawExp(), "Draw @ Hunting Games")));
+            if (draw) {
+                sendTitle("draw");
+                if (conf.getDrawExp() > 0) {
+                    players.values().forEach(pd ->
+                            LevelingAPI.withPlayer(pd.getPlayer(),
+                                    lpd -> lpd.addExp(conf.getDrawExp(), "Draw @ Hunting Games")));
+                }
+                switchToNextState();
+                return;
             }
-            switchToNextState();
-            return;
         }
         List<PlayerData> sortedPlayers = this.players.values().stream().sorted(Comparator.comparing(PlayerData::getPoints).reversed()).toList();
         winner = sortedPlayers.get(0);
@@ -120,7 +123,7 @@ public class Game {
             return;
         }
         state = GameState.STARTING;
-        counter = 3;
+        counter = 7;
         msg.msg(sender, "game.start");
     }
 
@@ -130,23 +133,18 @@ public class Game {
     }
 
     private int getNeededPlayerCount() {
-        return players.size() - conf.getMinPlayers();
+        return conf.getMinPlayers() - players.size();
     }
 
     private Object[] getVariables() {
         List<Object> out = Lists.newArrayList(
                 "players", players.size(),
+                "needed", getNeededPlayerCount(),
+                "maxplayers", conf.getMaxPlayers(),
                 "counter", counter,
                 "winner", winner == null ? "" : winner.getName());
         List<PlayerData> players = this.players.values().stream().sorted(Comparator.comparing(PlayerData::getPoints).reversed()).toList();
-        for (int i = 1; i <= conf.getMaxPlayers(); ++i) {
-            if (players.size() < i) {
-                out.addAll(List.of(
-                        "top" + i, "",
-                        "top" + i + "points", "",
-                        "top" + i + "targets", ""));
-                continue;
-            }
+        for (int i = 1; i <= players.size(); ++i) {
             PlayerData pd = players.get(i - 1);
             out.addAll(List.of(
                     "top" + i, pd.getName(),
@@ -155,7 +153,6 @@ public class Game {
         }
         return out.toArray();
     }
-
 
     public boolean join(List<Player> newPlayers) {
         if (state != GameState.WAITING && state != GameState.STARTING)
@@ -177,6 +174,8 @@ public class Game {
 
         ScoreboardUtils.updateScoreboard(board,
                 msg.getList(state == GameState.WAITING ? "scoreboard.waiting" : "scoreboard.starting"),
+                "players", players.size(),
+                "maxplayers", conf.getMaxPlayers(),
                 "needed", getNeededPlayerCount(),
                 "counter", counter);
 
@@ -218,6 +217,20 @@ public class Game {
         }
     }
 
+    private List<String> removeEmptyTeams(List<String> list) {
+        for (int i = players.size() + 1; i < conf.getMaxPlayers(); ++i) {
+            int topId = i;
+            list.removeIf(s -> s.contains("<top" + topId));
+        }
+        return list;
+    }
+
+    public Player removePortalOwner(Loc loc) {
+        String pln = portalOwners.remove(loc);
+        loc.toBlock().setType(Material.AIR);
+        return pln == null ? null : Bukkit.getPlayerExact(pln);
+    }
+
     private void sendTitle(String key, Object... vars) {
         String title = msg.get(key + ".title", vars);
         String subtitle = msg.get(key + ".subtitle", vars);
@@ -247,6 +260,7 @@ public class Game {
     }
 
     private void stop() {
+        portalOwners.keySet().forEach(loc -> loc.toBlock().setType(Material.AIR));
         arena.getArea().clearEntities();
 
         players.forEach((pln, pd) -> {
@@ -267,18 +281,24 @@ public class Game {
                 players.values().forEach(pd -> pd.getPlayer().teleport(LocUtils.fixLoc(arena.getSpawn().randomLoc(), arena.getSpawnRot())));
                 state = GameState.INARENA;
                 counter = conf.getCounters().getInarena();
-                players.values().forEach(pd -> pd.getUpgrades().forEach((upg) -> conf.getUpgrades().get(upg).apply(pd)));
-                updateScoreboard(board, msg.getList("scoreboard.inarena"), getVariables());
+                players.values().forEach(pd -> {
+                    PlayerInventory pi = pd.getPlayer().getInventory();
+                    pi.setItem(conf.getUpgradeItemSlot(), null);
+                    if (pd.getUpgrades().contains("bow"))
+                        pi.setItem(9, new ItemStack(Material.ARROW));
+                    pd.getUpgrades().forEach((upg) -> conf.getUpgrades().get(upg).apply(pd));
+                });
+                updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.inarena")), getVariables());
             }
             case INARENA -> {
                 state = GameState.INGAME;
                 counter = conf.getCounters().getIngame();
-                updateScoreboard(board, msg.getList("scoreboard.ingame"), getVariables());
+                updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.ingame")), getVariables());
             }
             case INGAME -> {
                 state = GameState.FINISH;
                 finish();
-                updateScoreboard(board, msg.getList("scoreboard.finish"), getVariables());
+                updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.finish")), getVariables());
                 counter = conf.getCounters().getFinish();
             }
             case FINISH -> {
@@ -291,6 +311,7 @@ public class Game {
         --counter;
         if (counter == 0) {
             switchToNextState();
+            players.values().forEach(pd -> pd.getPlayer().setLevel(counter));
             return;
         }
         if (counter > 0) {
@@ -298,15 +319,15 @@ public class Game {
         }
         switch (state) {
             case STARTING -> {
-                updateScoreboard(board, msg.getList("scoreboard.starting"), getVariables());
+                updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.starting")), getVariables());
             }
             case INARENA -> {
-                updateScoreboard(board, msg.getList("scoreboard.inarena"), getVariables());
+                updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.inarena")), getVariables());
             }
             case INGAME -> {
                 if (rand.nextDouble() < conf.getMobSpawnChance())
                     spawnMobs();
-                updateScoreboard(board, msg.getList("scoreboard.ingame"), getVariables());
+                updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.ingame")), getVariables());
             }
             case FINISH -> {
 

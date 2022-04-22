@@ -396,6 +396,8 @@ public class Game {
         --counter;
         if (counter == 0) {
             switchToNextState();
+            for (HashMap<String, PlayerData> team : List.of(team1, team2, team1Spec, team2Spec))
+                team.values().forEach(pd -> pd.getPlayer().setLevel(counter));
             return;
         }
         if (counter > 0) {

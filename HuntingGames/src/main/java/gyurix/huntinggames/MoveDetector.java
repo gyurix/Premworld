@@ -23,7 +23,10 @@ public class MoveDetector implements Runnable {
             case WAITING, STARTING -> {
                 return !arena.getQueue().contains(to);
             }
-            case INARENA, INGAME, FINISH -> {
+            case INARENA -> {
+                return !arena.getSpawn().contains(to);
+            }
+            case INGAME, FINISH -> {
                 return !arena.getArea().contains(to);
             }
         }

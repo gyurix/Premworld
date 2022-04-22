@@ -3,33 +3,37 @@ package gyurix.huntinggames;
 import com.nftworlds.wallet.event.PlayerTransactEvent;
 import gyurix.huntinggames.data.Arena;
 import gyurix.huntinggames.data.Game;
-import gyurix.huntinggames.enums.GameState;
+import gyurix.huntinggames.data.Loc;
+import gyurix.huntinggames.data.Upgrade;
 import gyurix.huntinggames.gui.UpgradeRunnable;
 import gyurix.huntinggames.gui.UpgradesGUI;
-import gyurix.huntinggames.util.LocUtils;
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.ProjectileSource;
 
-import static gyurix.huntinggames.HGPlugin.pl;
 import static gyurix.huntinggames.conf.ConfigManager.arenas;
 import static gyurix.huntinggames.conf.ConfigManager.conf;
 import static gyurix.huntinggames.conf.ConfigManager.msg;
@@ -66,6 +70,12 @@ public class HGListener implements Listener {
                 game.getPlayers().get(pln).useShotgun();
             else if (dn.equals(conf.getUpgrades().get("rifle").getItem().getItemMeta().getDisplayName()))
                 game.getPlayers().get(pln).useRifle();
+            else if (dn.equals(conf.getUpgrades().get("trap").getItem().getItemMeta().getDisplayName()))
+                game.getPlayers().get(pln).useTrap();
+            else if (dn.equals(conf.getUpgrades().get("lure").getItem().getItemMeta().getDisplayName()))
+                game.getPlayers().get(pln).useLure();
+            else
+                e.setCancelled(false);
         }
     }
 
@@ -101,8 +111,12 @@ public class HGListener implements Listener {
             if (projectileSource instanceof Player)
                 dmgr = (Player) projectileSource;
         }
-        if (dmgr == null)
+        if (dmgr == null) {
+            for (Game game : HGAPI.games)
+                if (game.getArena().getArea().contains(ent.getLocation()))
+                    e.setCancelled(true);
             return;
+        }
         Game game = HGAPI.playerGames.get(dmgr.getName());
         if (game == null)
             return;
@@ -111,10 +125,23 @@ public class HGListener implements Listener {
             return;
         }
         e.setCancelled(true);
-        ItemStack is = damager != dmgr ? null : dmgr.getInventory().getItemInMainHand();
-        if (is != null && is.getType() == Material.WOODEN_SWORD)
-            e.setDamage(EntityDamageEvent.DamageModifier.BASE, conf.getUpgrades().get("wooden_sword").getDamage());
-        game.damageMob(dmgr, (LivingEntity) ent, e.getFinalDamage());
+        double damage = e.getDamage();
+        if (damager instanceof Arrow) {
+            double multiplier = Math.max(0, Math.min((damage - 1) / 5, 1));
+            Upgrade bowUpgrade = conf.getUpgrades().get("bow");
+            damage = bowUpgrade.getMinDamage() + multiplier * (bowUpgrade.getDamage() - bowUpgrade.getMinDamage());
+            damager.remove();
+        } else if (damager instanceof Snowball) {
+            Upgrade rifleUpgrade = conf.getUpgrades().get("rifle");
+            damage = rifleUpgrade.getDamage();
+            damager.remove();
+        } else {
+            ItemStack is = damager == dmgr ? dmgr.getInventory().getItemInMainHand() : null;
+            if (is != null && is.getType() == Material.WOODEN_SWORD) {
+                damage = conf.getUpgrades().get("wooden_sword").getDamage();
+            }
+        }
+        game.damageMob(dmgr, (LivingEntity) ent, damage);
     }
 
     @EventHandler
@@ -126,6 +153,27 @@ public class HGListener implements Listener {
             game.quit(plr);
     }
 
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityPortalEnter(EntityPortalEvent e) {
+        if (!(e.getEntity() instanceof LivingEntity))
+            return;
+        for (Game game : HGAPI.games) {
+            Location from = e.getFrom();
+            for (int xFix = -2; xFix <= 2; ++xFix) {
+                for (int yFix = -1; yFix <= 1; ++yFix) {
+                    for (int zFix = -2; zFix <= 2; ++zFix) {
+                        Loc loc = new Loc(from.getBlock().getRelative(xFix, yFix, zFix));
+                        if (game.getPortalOwners().containsKey(loc)) {
+                            e.setCancelled(true);
+                            game.damageMob(game.removePortalOwner(loc), (LivingEntity) e.getEntity(), 1000000);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent e) {
         Player plr = e.getPlayer();
@@ -134,6 +182,13 @@ public class HGListener implements Listener {
             msg.msg(plr, "game.nodrop");
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onPlayerPortalEnter(PlayerPortalEvent e) {
+        Game game = HGAPI.playerGames.get(e.getPlayer().getName());
+        if (game != null)
+            e.setCancelled(true);
     }
 
     @EventHandler

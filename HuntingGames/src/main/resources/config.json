@@ -48,12 +48,12 @@
       "hp": 25,
       "points": 2
     },
-    "chicken": {
+    "ocelot": {
       "chance": 0.25,
-      "type": "CHICKEN",
-      "name": "&f&lChicken",
+      "type": "OCELOT",
+      "name": "&e&lOcelot",
       "hp": 10,
-      "points": 3
+      "points": 5
     },
     "axolotl": {
       "chance": 0.05,
@@ -72,7 +72,7 @@
     "donkey": {
       "chance": 0.2,
       "type": "DONKEY",
-      "name": "&e&lDonkey",
+      "name": "&f&lDonkey",
       "hp": 30,
       "points": 1
     }
@@ -84,7 +84,7 @@
     },
     "bow": {
       "damage": 10,
-      "item": "BOW name:&e&lHunter's_Bow lore:&c|&7•_&eDamage:&c_2-10 luck:1 hide:enchants",
+      "item": "BOW name:&e&lHunter's_Bow lore:&c|&7•_&eDamage:&c_2-10 arrow_infinite:1 luck:1 hide:enchants",
       "minDamage": 2,
       "price": 1
     },
@@ -92,15 +92,15 @@
       "damage": 50,
       "delay": 1200,
       "item": "IRON_HOE name:&f&lHunter's_Shotgun lore:&c|&7•_&eDamage:&c_5-50|&7•_&eShot_Delay:&c_1.2s|&7•_&eOptimal_Shot_Distance:&c_0_-_0.5_blocks|&7•_&eMax_Shot_Distance:&c_2.5_blocks luck:1 hide:enchants",
-      "maxDist": 0.5,
+      "maxDist": 2.5,
       "minDamage": 5,
-      "minDist": 2.5,
+      "minDist": 0.5,
       "price": 2
     },
     "rifle": {
       "damage": 12,
       "delay": 250,
-      "item": "DIAMOND_HOE name:&b&lHunter's_Rifle lore:&c|&7•_&eDamage:&c_12|&7•_&eShot_Delay:&c_0.25s luck:1 hide:enchants",
+      "item": "DIAMOND_HOE name:&6&lHunter's_Rifle lore:&c|&7•_&eDamage:&c_12|&7•_&eShot_Delay:&c_0.25s luck:1 hide:enchants",
       "price": 3
     },
     "trap": {
@@ -112,10 +112,10 @@
     },
     "lure": {
       "delay": 30000,
-      "item": "WARPED_FUNGUS_ON_A_STICK name:&c&lLure lore:&c|&7•_&eRange:&c_15_blocks|&7•_&eUsage_Delay:&c_30s luck:1 hide:enchants",
+      "item": "WARPED_FUNGUS_ON_A_STICK name:&9&lLure lore:&c|&7•_&eRange:&c_15_blocks|&7•_&eUsage_Delay:&c_30s luck:1 hide:enchants",
       "maxDist": 15,
       "price": 1,
-      "barText": "&b&lLure Cooldown",
+      "barText": "&9&lLure Cooldown",
       "barColor": "BLUE"
     }
   },

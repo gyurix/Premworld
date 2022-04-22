@@ -45,6 +45,6 @@ public class UpgradesGUI extends CustomGUI {
         if (upg == null)
             return;
         upg.select(game, plr);
-        plr.closeInventory();
+        update();
     }
 }
