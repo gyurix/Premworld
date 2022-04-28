@@ -1,5 +1,7 @@
 package gyurix.shopsystem;
 
+import gyurix.shopsystem.cmd.CommandJoin;
+import gyurix.shopsystem.cmd.CommandQuit;
 import gyurix.shopsystem.cmd.CommandShop;
 import gyurix.shopsystem.conf.ConfigManager;
 import gyurix.shopsystem.gui.GUIListener;
@@ -23,6 +25,8 @@ public class ShopSystem extends JavaPlugin {
 
     private void registerCommands() {
         new CommandShop();
+        new CommandJoin();
+        new CommandQuit();
     }
 
     private void registerTasks() {

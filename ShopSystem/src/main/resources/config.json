@@ -1,4 +1,13 @@
 {
+  "allowedCommands": [
+    "quit",
+    "leave",
+    "l",
+    "m",
+    "msg",
+    "r",
+    "tell"
+  ],
   "expirationFormat": "dd MMM @ HH:mm:ss",
   "tickets": {
     "1v1s": {
@@ -224,6 +233,40 @@
       "durationMin": 14400,
       "price": 1500,
       "command": "trials queue <player>"
+    }
+  },
+  "joinGUI": {
+    "title": "&4&lJoin Game",
+    "layout": [
+      "glass glass glass glass   glass glass  glass glass exit",
+      "glass glass glass glass   glass glass  glass glass glass",
+      "glass 1v1   2v2   3v3     4v4   glass  ctf1  ctf2  glass",
+      "glass glass glass hunting glass trials glass glass glass",
+      "glass glass glass glass   glass glass  glass glass glass"
+    ],
+    "staticItems": {
+      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+      "exit": "BARRIER name:&c&lClose_GUI"
+    },
+    "customItems": {
+      "hunting": "BOW name:&6&lHunting_Games lore:&7|&7Collect_the_most|&7amount_of_points_by|&7hunting_down_mobs|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "trials": "MINECART name:&6&lTimed_Trials lore:&7|&7Win_the_race_by|&7driving_your_vehicle|&7to_the_finish_line_first|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "1v1": "STONE_SWORD name:&6&l1v1 lore:&7|&7Defeat_your_enemy|&7in_a_1v1_battle|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "2v2": "IRON_SWORD 2 name:&6&l2v2 lore:&7|&7Defeat_your_enemies|&7in_a_2v2_battle|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "3v3": "DIAMOND_SWORD 3 name:&6&l3v3 lore:&7|&7Defeat_your_enemies|&7in_a_3v3_battle|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "4v4": "NETHERITE_SWORD 4 name:&6&l4v4 lore:&7|&7Defeat_your_enemies|&7in_a_4v4_battle|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "ctf1": "YELLOW_WOOL 6 name:&6&lCapture_The_Flag_6v6 lore:&7|&7Capture_the_enemies_flag|&7and_bring_it_back_to|&7your_base_multiple_times|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>",
+      "ctf2": "ORANGE_WOOL 12 name:&6&lCapture_The_Flag_12v12 lore:&7|&7Capture_the_enemies_flag|&7and_bring_it_back_to|&7your_base_multiple_times|&7|&e•_Players:_&c<players>|&e•_Has_Ticket:_<ticket>"
+    },
+    "ticketCommands": {
+      "1v1": "coliseum queue <player> 1v1",
+      "2v2": "coliseum queue <player> 2v2",
+      "3v3": "coliseum queue <player> 3v3",
+      "4v4": "coliseum queue <player> 4v4",
+      "ctf1": "coliseum queue <player> ctf1",
+      "ctf2": "coliseum queue <player> ctf2",
+      "hunting": "hunt queue <player>",
+      "trials": "trials queue <player>"
     }
   },
   "shops": {

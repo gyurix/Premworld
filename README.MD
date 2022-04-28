@@ -17,6 +17,7 @@
 | Plugin         | Command      | Permission      | Description                                                            |
 |----------------|--------------|-----------------|------------------------------------------------------------------------|
 | All minigames  | -            | shopsystem.free | Get upgrades in minigames for free                                     |
+| All minigames  | -            | shopsystem.cmd  | Allow using commands while being in a minigame                         |
 | ColiseumGames  | /coliseum    | coliseum.admin  | Admin command for controlling ColiseumGames                            |
 | HuntingGames   | /hunt        | hunt.admin      | Admin command for controlling HuntingGames                             |
 | LevelingSystem | /leaderboard | -               | Player command for opening the leaderboard gui                         |

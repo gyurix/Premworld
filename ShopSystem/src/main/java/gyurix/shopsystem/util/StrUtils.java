@@ -1,5 +1,7 @@
 package gyurix.shopsystem.util;
 
+import org.bukkit.inventory.ItemStack;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,38 +65,5 @@ public class StrUtils {
         if (sb.length() == 0 || s > 0)
             sb.append(s).append('s').append(sep);
         return sb.substring(0, sb.length() - sep.length());
-    }
-
-    public static String getInvisibleText(List<String> list) {
-        if (list == null)
-            return null;
-        for (String s : list) {
-            String text = getInvisibleText(s);
-            if (text != null)
-                return text;
-        }
-        return null;
-    }
-
-    public static String getInvisibleText(String text) {
-        int idx = text.indexOf("§\u1311");
-        if (idx != -1) {
-            boolean skip = false;
-            StringBuilder out = new StringBuilder();
-            for (char c : text.substring(idx + 2).toCharArray()) {
-                skip = !skip;
-                if (!skip)
-                    out.append(c);
-            }
-            return out.toString();
-        }
-        return null;
-    }
-
-    public static String toInvisibleText(String text) {
-        StringBuilder out = new StringBuilder("§\u1311");
-        for (char c : text.toCharArray())
-            out.append('§').append(c);
-        return out.toString();
     }
 }

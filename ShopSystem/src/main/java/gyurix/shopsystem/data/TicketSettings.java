@@ -24,7 +24,8 @@ public class TicketSettings {
 
     public ItemStack getItem(Player plr) {
         long expiration = (long) (System.currentTimeMillis() + durationMin * 60000L);
-        return ItemUtils.fillVariables(item, "owner", plr.getName(), "expiration",
-            new SimpleDateFormat(conf.expirationFormat).format(expiration) + StrUtils.toInvisibleText(expiration + " " + command));
+        return ItemUtils.setCustomNBTTag(ItemUtils.fillVariables(item, "owner", plr.getName(), "expiration",
+                        new SimpleDateFormat(conf.expirationFormat).format(expiration)),
+                "ticketData", expiration + " " + command);
     }
 }

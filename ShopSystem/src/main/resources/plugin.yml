@@ -3,7 +3,11 @@ author: gyuriX
 api-version: 1.13
 main: gyurix.shopsystem.ShopSystem
 version: 1.0
-softdepend: [ WRLDPaymentsAPI ]
-depend: [ WorldEdit ]
+depend: [ WorldEdit, ColiseumGames, HuntingGames, TimedTrials, WRLDPaymentsAPI ]
 commands:
+  quit:
+    aliases: [ l, leave ]
+  join:
+    aliases: [ play ]
   shop:
+    aliases: [ buy ]

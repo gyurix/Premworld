@@ -1,12 +1,10 @@
-package gyurix.shopsystem.util;
+package gyurix.timedtrials.util;
 
 import com.google.common.collect.Lists;
-import lombok.SneakyThrows;
-import net.kyori.adventure.text.Component;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagString;
+import gyurix.timedtrials.TTPlugin;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -24,14 +22,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-
-import static gyurix.shopsystem.ShopSystem.pl;
 
 public class ItemUtils {
 
@@ -94,11 +88,7 @@ public class ItemUtils {
         is = is.clone();
         ItemMeta meta = is.getItemMeta();
         meta.setDisplayName(StrUtils.fillVariables(meta.getDisplayName(), vars));
-        List<String> newLore = StrUtils.fillVariables(meta.getLore(), vars);
-        List<Component> newLoreComponents = new ArrayList<>();
-        for (String line : newLore)
-            newLoreComponents.add(Component.text(line));
-        meta.lore(newLoreComponents);
+        meta.setLore(StrUtils.fillVariables(meta.getLore(), vars));
         is.setItemMeta(meta);
         return is;
     }
@@ -110,6 +100,19 @@ public class ItemUtils {
             logError("Material " + s + " does not exist");
             return Material.STONE;
         }
+    }
+
+    public static String getName(ItemStack is) {
+        String s = "§e" + is.getAmount() + "x §f";
+        return s + ChatColor.stripColor(is.getItemMeta().hasDisplayName() ? is.getItemMeta().getDisplayName() : StrUtils.toCamelCase(is.getType().name()));
+    }
+
+    public static ItemStack glow(ItemStack is) {
+        is.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        ItemMeta meta = is.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        is.setItemMeta(meta);
+        return is;
     }
 
     public static String itemToString(ItemStack is) {
@@ -140,14 +143,58 @@ public class ItemUtils {
 
         if (meta instanceof PotionMeta && ((PotionMeta) meta).hasCustomEffects())
             ((PotionMeta) meta).getCustomEffects().forEach(pe ->
-                    sb.append(' ').append(pe.getType()).append(':').append(pe.getAmplifier()).append(':').append(pe.getDuration()));
+                sb.append(' ').append(pe.getType()).append(':').append(pe.getAmplifier()).append(':').append(pe.getDuration()));
 
         meta.getEnchants().forEach((e, lvl) -> sb.append(' ').append(e.getName()).append(':').append(lvl));
         return sb.toString();
     }
 
     private static void logError(String s) {
-        Bukkit.getConsoleSender().sendMessage("§e[" + pl.getName() + "]§f Error, " + s);
+        Bukkit.getConsoleSender().sendMessage("§e[" + TTPlugin.pl.getName() + "]§f Error, " + s);
+    }
+
+    public static ItemStack makeItem(Material mat, int am, short dura, String name, String... lore) {
+        return makeItem(mat, am, dura, name, Lists.newArrayList(lore));
+    }
+
+    public static ItemStack makeItem(Material mat, int am, short dura, String name, List<String> lore) {
+        ItemStack is = new ItemStack(mat, am, dura);
+        ItemMeta meta = is.getItemMeta();
+        meta.addItemFlags(ItemFlag.values());
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        is.setItemMeta(meta);
+        return is;
+    }
+
+    public static ItemStack makeItem(Material mat, String name, String... lore) {
+        return makeItem(mat, name, Lists.newArrayList(lore));
+    }
+
+    public static ItemStack makeItem(Material mat, String name, List<String> lore) {
+        ItemStack is = new ItemStack(mat);
+        ItemMeta meta = is.getItemMeta();
+        meta.addItemFlags(ItemFlag.values());
+        meta.setDisplayName(name);
+        meta.setLore(Lists.newArrayList(lore));
+        is.setItemMeta(meta);
+        return is;
+    }
+
+    public static ItemStack makeSkull(String owner, String name, String... lore) {
+        ItemStack is = makeItem(Material.PLAYER_HEAD, name, lore);
+        SkullMeta meta = (SkullMeta) is.getItemMeta();
+        meta.setOwner(owner);
+        is.setItemMeta(meta);
+        return is;
+    }
+
+    public static ItemStack setAmount(ItemStack is, int amount) {
+        if (is == null)
+            return null;
+        is = is.clone();
+        is.setAmount(amount);
+        return is;
     }
 
     public static ItemStack stringToItemStack(String s) {
@@ -163,11 +210,10 @@ public class ItemUtils {
         for (int i = hasAmount ? 2 : 1; i < d.length; ++i) {
             String m = d[i];
             try {
-                String[] parts = m.split(":", 2);
+                String[] parts = m.split(":",2);
                 switch (parts[0]) {
-                    case "addattribute" ->
-                            meta.addAttributeModifier(Attribute.valueOf(parts[1].toUpperCase()), new AttributeModifier(UUID.randomUUID(),
-                                    UUID.randomUUID().toString().substring(16, 32), Double.parseDouble(parts[3]), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.valueOf(parts[2].toUpperCase())));
+                    case "addattribute" -> meta.addAttributeModifier(Attribute.valueOf(parts[1].toUpperCase()), new AttributeModifier(UUID.randomUUID(),
+                        UUID.randomUUID().toString().substring(16, 32), Double.parseDouble(parts[3]), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.valueOf(parts[2].toUpperCase())));
                     case "name" -> meta.setDisplayName(parts[1].replace("_", " "));
                     case "lore" -> meta.setLore(Lists.newArrayList(parts[1].replace("_", " ").split("\\|")));
                     case "hide" -> meta.addItemFlags(ItemFlag.valueOf("HIDE_" + parts[1].toUpperCase()));
@@ -193,31 +239,6 @@ public class ItemUtils {
                 logError("Invalid meta tag: " + m);
             }
         }
-        is.setItemMeta(meta);
-        return is;
-    }
-
-    @SneakyThrows
-    public static String getCustomNBTTag(ItemStack is, String tag) {
-        if (is == null || !is.hasItemMeta())
-            return null;
-        ItemMeta meta = is.getItemMeta();
-        Field f = meta.getClass().getDeclaredField("unhandledTags");
-        f.setAccessible(true);
-        Map<String, NBTBase> map = (Map<String, NBTBase>) f.get(meta);
-        NBTTagString invisText = (NBTTagString) map.get(tag);
-        if (invisText == null)
-            return null;
-        return invisText.asString();
-    }
-
-    @SneakyThrows
-    public static ItemStack setCustomNBTTag(ItemStack is, String tag, String value) {
-        ItemMeta meta = is.getItemMeta();
-        Field f = meta.getClass().getDeclaredField("unhandledTags");
-        f.setAccessible(true);
-        Map<String, NBTBase> map = (Map<String, NBTBase>) f.get(meta);
-        map.put(tag, NBTTagString.a(value));
         is.setItemMeta(meta);
         return is;
     }

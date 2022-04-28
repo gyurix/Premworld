@@ -6,6 +6,16 @@ notenoughmoney: "&cYou can not afford this item"
 notenoughspace: "&cYou don't have inventory space for this item"
 wrongplayer: "&cPlayer &e<player>&c was not found"
 wrongsub: "&cThe entered subcommand was not found"
+noticket: "&cYou don't have ticket for this game"
+notin:
+- "&6&lGame ► &cYou are not in a game"
+- ""
+quit:
+- "&6&lGame ► &eYou quit your current game"
+- ""
+nocmd:
+- "&6&lGame ► &cYou are not allowed to use this command while being in a game"
+- ""
 expired:
 - "&cThis ticket expired already"
 - "&cBuy a new ticket in &e/shop"

@@ -1,0 +1,9 @@
+name: TimedTrials
+author: gyuriX
+api-version: 1.13
+main: gyurix.timedtrials.TTPlugin
+version: 1.0
+softdepend: [ WRLDPaymentsAPI ]
+depend: [ WorldEdit, PartySystem, LevelingSystem ]
+commands:
+  trials:

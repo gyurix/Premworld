@@ -7,8 +7,4 @@ import java.util.HashMap;
 @Getter
 public class ShopGUIConfig extends GUIConfig {
     private HashMap<String,String> categories;
-    @Override
-    public void postProcess() {
-        super.postProcess();
-    }
 }

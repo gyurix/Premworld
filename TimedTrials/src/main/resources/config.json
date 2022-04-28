@@ -1,0 +1,17 @@
+{
+  "minPlayers": 2,
+  "maxPlayers": 10,
+  "counters": {
+    "starting": 15,
+    "maxplayer": 15,
+    "inarena": 5,
+    "ingame": 120,
+    "finish": 5
+  },
+  "winExp": 100,
+  "loseExp": 10,
+  "drawExp": 50,
+  "titleFadeIn": 0,
+  "titleShowTime": 60,
+  "titleFadeOut": 10
+}
