@@ -69,7 +69,9 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
                         "queue", toStr(arena.getQueue()),
                         "spec", toStr(arena.getSpec()),
                         "team1", toStr(arena.getTeam1()),
+                        "team1Rot", DF.format(arena.getTeam1Rot()),
                         "team2", toStr(arena.getTeam2()),
+                        "team2Rot", DF.format(arena.getTeam2Rot()),
                         "type", toStr(arena.getType()),
                         "configured", arena.isConfigured() ? "§ayes" : "§cno");
                 return;
