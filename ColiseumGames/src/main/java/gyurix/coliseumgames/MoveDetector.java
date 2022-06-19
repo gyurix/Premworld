@@ -52,7 +52,7 @@ public class MoveDetector implements Runnable {
                 oldLoc.put(pln, cur);
                 continue;
             }
-            if (old.distance(cur) < 0.5)
+            if (old.getWorld().equals(cur.getWorld()) && old.distance(cur) < 0.5)
                 continue;
             if (cancelMove(p, cur)) {
                 p.teleport(old);

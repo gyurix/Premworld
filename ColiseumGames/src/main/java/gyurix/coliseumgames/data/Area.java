@@ -95,8 +95,8 @@ public class Area implements StringSerializable {
         double zDif = maxZ - minZ;
         for (int i = 0; i < 100; ++i) {
             Location loc = new Location(Bukkit.getWorld(world), rand.nextDouble() * xDif + minX + 0.5,
-                rand.nextDouble() * yDif + minY + 0.5,
-                rand.nextDouble() * zDif + minZ + 0.5);
+                    rand.nextDouble() * yDif + minY + 0.5,
+                    rand.nextDouble() * zDif + minZ + 0.5);
             boolean correct = true;
             for (Area a : exclude) {
                 if (a.contains(loc)) {
@@ -108,6 +108,10 @@ public class Area implements StringSerializable {
                 return loc;
         }
         throw new RuntimeException("Failed to find a valid random location in area " + this + ", excluding " + Arrays.toString(exclude));
+    }
+
+    public Area shift(int x, int y, int z) {
+        return new Area(world, minX + x, minY + y, minZ + z, maxX + x, maxY + y, maxZ + z);
     }
 
     @Override
