@@ -128,4 +128,8 @@ public class Area implements StringSerializable {
     public String toString() {
         return world + " " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ;
     }
+
+    public Area shift(int x, int y, int z) {
+        return new Area(world, minX + x, minY + y, minZ + z, maxX + x, maxY + y, maxZ + z);
+    }
 }

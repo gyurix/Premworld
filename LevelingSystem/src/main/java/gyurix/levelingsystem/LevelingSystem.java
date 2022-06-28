@@ -42,7 +42,7 @@ public class LevelingSystem extends JavaPlugin {
     private void registerScoreboard() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         objective = scoreboard.registerNewObjective("levelingexp", "levelingexp", conf.expSuffix, RenderType.INTEGER);
-        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        //objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
         Bukkit.getOnlinePlayers().forEach(plr -> {
             plr.setScoreboard(scoreboard);
             LevelingAPI.loadPlayer(plr, (pd) -> {

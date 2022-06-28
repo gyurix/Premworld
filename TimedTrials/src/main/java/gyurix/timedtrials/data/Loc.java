@@ -39,12 +39,24 @@ public class Loc implements StringSerializable {
         yaw = loc.getYaw();
     }
 
+    public Loc(String world, int x, int y, int z, float yaw) {
+        this.world = world;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.yaw = yaw;
+    }
+
+    public Loc add(int x, int y, int z) {
+        return new Loc(world, this.x + x, this.y + y, this.z + z, yaw);
+    }
+
     public Block toBlock() {
         return Bukkit.getWorld(world).getBlockAt(x, y, z);
     }
 
     public Location toLoc() {
-        return new Location(Bukkit.getWorld(world), x + 0.5, y, z + 0.5, yaw, 0);
+        return new Location(Bukkit.getWorld(world), x + 1, y, z + 1, yaw, 0);
     }
 
     @Override

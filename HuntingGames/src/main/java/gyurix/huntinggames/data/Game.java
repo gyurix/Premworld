@@ -12,6 +12,7 @@ import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -251,7 +252,10 @@ public class Game {
                 if (rand.nextDouble() >= mob.getChance())
                     continue;
                 ++spawned;
-                Location loc = LocUtils.fixLoc(arena.getArea().randomLoc(arena.getSpawn()));
+                Location loc = arena.getArea().randomLoc();
+                Material bottomBlock = loc.getBlock().getRelative(BlockFace.DOWN).getType();
+                if (!bottomBlock.isSolid() || bottomBlock.name().endsWith("_LEAVES"))
+                    continue;
                 mobs.put(mob.summon(loc).getUniqueId(), mob);
                 if (spawned >= spawnCount)
                     return;

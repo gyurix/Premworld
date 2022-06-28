@@ -1,6 +1,6 @@
 {
   "minPlayers": 2,
-  "maxPlayers": 10,
+  "maxPlayers": 9,
   "counters": {
     "starting": 15,
     "maxplayer": 15,

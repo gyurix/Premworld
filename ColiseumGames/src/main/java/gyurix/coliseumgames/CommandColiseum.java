@@ -282,7 +282,7 @@ public class CommandColiseum implements CommandExecutor, TabCompleter {
         }
         Game game = playerGames.get(pln);
         if (game == null) {
-            msg.msg(sender, target == sender ? "game.notin" : "game.notinothers");
+            msg.msg(sender, target == sender ? "game.notin" : "game.notinothers", "player", target.getName());
             return;
         }
         con.accept(game);

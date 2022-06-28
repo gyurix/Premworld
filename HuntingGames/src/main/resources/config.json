@@ -37,6 +37,7 @@
     "bear": {
       "chance": 0.1,
       "type": "POLAR_BEAR",
+      "model": "bear",
       "name": "&6&lBear",
       "hp": 40,
       "points": 10
@@ -44,6 +45,7 @@
     "fox": {
       "chance": 0.3,
       "type": "FOX",
+      "model": "fox",
       "name": "&4&lFox",
       "hp": 25,
       "points": 2
@@ -55,24 +57,27 @@
       "hp": 10,
       "points": 5
     },
-    "axolotl": {
+    "turkey": {
       "chance": 0.05,
       "type": "AXOLOTL",
-      "name": "&b&lAxolotl",
+      "name": "&b&lTurkey",
+      "model": "turkey",
       "hp": 50,
       "points": 15
     },
-    "cow": {
+    "bison": {
       "chance": 0.1,
       "type": "COW",
-      "name": "&d&lCow",
+      "name": "&d&lBison",
+      "model": "bison",
       "hp": 15,
       "points": 3
     },
-    "donkey": {
+    "deer": {
       "chance": 0.2,
       "type": "DONKEY",
-      "name": "&f&lDonkey",
+      "name": "&f&lDeer",
+      "model": "deer",
       "hp": 30,
       "points": 1
     }

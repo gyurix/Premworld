@@ -4,7 +4,7 @@ api-version: 1.13
 main: gyurix.huntinggames.HGPlugin
 version: 1.0
 softdepend: [ WRLDPaymentsAPI ]
-depend: [ WorldEdit, PartySystem, LevelingSystem ]
+depend: [ WorldEdit, PartySystem, LevelingSystem, ModelEngine ]
 commands:
   hunt:
 

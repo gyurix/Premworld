@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import static gyurix.shopsystem.conf.ConfigManager.conf;
-import static gyurix.shopsystem.conf.ConfigManager.msg;
 
 public class JoinGUI extends CustomGUI {
     public JoinGUI(Player plr) {
@@ -16,8 +15,7 @@ public class JoinGUI extends CustomGUI {
 
     @Override
     public ItemStack getCustomItem(String name) {
-        return ItemUtils.fillVariables(config.getCustomItems().get(name), "players", ShopAPI.getPlayers(name),
-                "ticket", ShopAPI.hasTicket(plr, ((JoinGUIConfig) config).getTicketCommands().get(name)) ? "§ayes" : "§cno");
+        return ItemUtils.fillVariables(config.getCustomItems().get(name), "players", ShopAPI.getPlayers(name));
     }
 
     @Override
@@ -35,10 +33,6 @@ public class JoinGUI extends CustomGUI {
         String cmd = ((JoinGUIConfig) config).getTicketCommands().get(slotName);
         if (cmd == null)
             return;
-        if (!ShopAPI.hasTicket(plr, cmd)) {
-            msg.msg(plr, "noticket");
-            return;
-        }
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("<player>", plr.getName()));
     }
 }

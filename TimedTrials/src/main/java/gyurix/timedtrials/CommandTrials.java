@@ -5,16 +5,19 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.regions.Region;
+import gyurix.timedtrials.conf.ConfigManager;
 import gyurix.timedtrials.data.Area;
 import gyurix.timedtrials.data.Arena;
 import gyurix.timedtrials.data.Game;
-import gyurix.timedtrials.conf.ConfigManager;
 import gyurix.timedtrials.data.Loc;
-import gyurix.timedtrials.util.StrUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -252,12 +255,12 @@ public class CommandTrials implements CommandExecutor, TabCompleter {
         String pln = args.length == 1 ? sender.getName() : args[1];
         Player target = Bukkit.getPlayer(pln);
         if (target == null) {
-            ConfigManager.msg.msg(sender, "player.wrong", "player", args[0]);
+            ConfigManager.msg.msg(sender, "player.wrong", "player", pln);
             return;
         }
         Game game = TTAPI.playerGames.get(pln);
         if (game == null) {
-            ConfigManager.msg.msg(sender, target == sender ? "game.notin" : "game.notinothers");
+            ConfigManager.msg.msg(sender, target == sender ? "game.notin" : "game.notinothers", "player", target.getName());
             return;
         }
         con.accept(game);

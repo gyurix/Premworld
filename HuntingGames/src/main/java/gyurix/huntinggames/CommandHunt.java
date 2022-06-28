@@ -5,6 +5,9 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.regions.Region;
+import com.ticxo.modelengine.api.ModelEngineAPI;
+import com.ticxo.modelengine.api.model.ActiveModel;
+import com.ticxo.modelengine.api.model.ModeledEntity;
 import gyurix.huntinggames.data.Area;
 import gyurix.huntinggames.data.Arena;
 import gyurix.huntinggames.data.Game;
@@ -12,6 +15,8 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -165,6 +170,18 @@ public class CommandHunt implements CommandExecutor, TabCompleter {
                 arenaCmd(sender, args);
                 return true;
             }
+            case "model" -> {
+                Player plr = (Player)sender;
+                Entity ent = plr.getWorld().spawnEntity(plr.getLocation(), EntityType.COW);
+                ent.setGravity(false);
+                ActiveModel model = ModelEngineAPI.api.getModelManager().createActiveModel(args[1]);
+                ModeledEntity modeledEntity = ModelEngineAPI.api.getModelManager().createModeledEntity(ent);
+                modeledEntity.addActiveModel(model);
+                modeledEntity.detectPlayers();
+                modeledEntity.setInvisible(true);
+                plr.sendMessage("created model");
+                return true;
+            }
             case "start" -> {
                 withGame(sender, args, game -> game.forceStart(sender));
                 return true;
@@ -246,7 +263,7 @@ public class CommandHunt implements CommandExecutor, TabCompleter {
         }
         Game game = playerGames.get(pln);
         if (game == null) {
-            msg.msg(sender, target == sender ? "game.notin" : "game.notinothers");
+            msg.msg(sender, target == sender ? "game.notin" : "game.notinothers", "player", target.getName());
             return;
         }
         con.accept(game);

@@ -1,41 +1,35 @@
 package gyurix.timedtrials.data;
 
 import com.google.common.collect.Lists;
+import com.ticxo.modelengine.api.ModelEngineAPI;
+import com.ticxo.modelengine.api.model.ActiveModel;
+import com.ticxo.modelengine.api.model.ModeledEntity;
+import gyurix.levelingsystem.LevelingAPI;
 import gyurix.timedtrials.TTAPI;
 import gyurix.timedtrials.enums.GameState;
-import gyurix.timedtrials.util.ScoreboardUtils;
 import gyurix.timedtrials.util.LocUtils;
-import gyurix.levelingsystem.LevelingAPI;
-import gyurix.timedtrials.conf.ConfigManager;
+import gyurix.timedtrials.util.ScoreboardUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import static gyurix.timedtrials.conf.ConfigManager.conf;
 import static gyurix.timedtrials.conf.ConfigManager.msg;
-import static gyurix.timedtrials.util.LocUtils.fixLoc;
 import static gyurix.timedtrials.util.ScoreboardUtils.updateScoreboard;
 import static gyurix.timedtrials.util.StrUtils.DF;
-import static gyurix.timedtrials.util.StrUtils.rand;
 
 @Getter
 public class Game {
@@ -232,9 +226,13 @@ public class Game {
                     Location loc = arena.getSpawns().get(spawnId).toLoc();
                     Boat boat = (Boat) loc.getWorld().spawnEntity(loc, EntityType.BOAT);
                     boat.addPassenger(pd.getPlayer());
+                    ActiveModel model = ModelEngineAPI.api.getModelManager().createActiveModel("jetski");
+                    ModeledEntity modeledEntity = ModelEngineAPI.api.getModelManager().createModeledEntity(boat);
+                    modeledEntity.addActiveModel(model);
+                    modeledEntity.setInvisible(true);
                     ++spawnId;
                 }
-                arena.getWall().changeBlock(Material.BARRIER);
+                arena.getWall().changeBlock(Material.RED_STAINED_GLASS);
                 state = GameState.INARENA;
                 counter = conf.getCounters().getInarena();
                 updateScoreboard(board, removeEmptyTeams(msg.getList("scoreboard.inarena")), getVariables());

@@ -4,12 +4,12 @@ import com.nftworlds.wallet.objects.NFTPlayer;
 import com.nftworlds.wallet.objects.Network;
 import com.nftworlds.wallet.objects.Wallet;
 import gyurix.shopsystem.conf.ShopRunnable;
-import gyurix.shopsystem.data.TicketSettings;
-import gyurix.shopsystem.util.ItemUtils;
+import gyurix.shopsystem.data.GameUpgrade;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import static gyurix.shopsystem.PlayerManager.withPlayerData;
 import static gyurix.shopsystem.conf.ConfigManager.conf;
 import static gyurix.shopsystem.conf.ConfigManager.msg;
 
@@ -18,9 +18,27 @@ public class ShopGUI extends CustomGUI {
         super(plr, config);
     }
 
+    private void buyTicket(GameUpgrade upgrade) {
+        double price = upgrade.getPrice();
+        Wallet wallet = NFTPlayer.getByUUID(plr.getUniqueId()).getPrimaryWallet();
+        double balance = wallet.getPolygonWRLDBalance();
+        if (plr.hasPermission("shopsystem.free")) {
+            withPlayerData(plr.getUniqueId(),
+                    pd -> pd.addBoughtItem(upgrade.getName(), System.currentTimeMillis() + upgrade.getDuration()));
+            return;
+        }
+        if (balance < price) {
+            msg.msg(plr, "notenoughmoney");
+            return;
+        }
+        wallet.requestWRLD(price, Network.POLYGON, "Buying " + upgrade.getName(), false,
+                (ShopRunnable) () -> withPlayerData(plr.getUniqueId(),
+                        pd -> pd.addBoughtItem(upgrade.getName(), System.currentTimeMillis() + upgrade.getDuration())));
+    }
+
     @Override
     public ItemStack getCustomItem(String name) {
-        return conf.tickets.get(name).getIcon();
+        return conf.upgrades.get(name).getIcon();
     }
 
     @Override
@@ -39,31 +57,6 @@ public class ShopGUI extends CustomGUI {
             openCategory(category);
             return;
         }
-
-        TicketSettings ticketSettings = conf.tickets.get(slotName);
-        if (ticketSettings != null)
-            buyTicket(ticketSettings);
-    }
-
-    private void buyTicket(TicketSettings ticketSettings) {
-        double price = ticketSettings.getPrice();
-        ItemStack is = ticketSettings.getItem(plr);
-        if (ItemUtils.countItemSpace(plr, is) < 1) {
-            msg.msg(plr, "notenoughspace");
-            return;
-        }
-        Wallet wallet = NFTPlayer.getByUUID(plr.getUniqueId()).getPrimaryWallet();
-        double balance = wallet.getPolygonWRLDBalance();
-        if (plr.hasPermission("shopsystem.free")) {
-            plr.getInventory().addItem(is);
-            return;
-        }
-        if (balance < price) {
-            msg.msg(plr, "notenoughmoney");
-            return;
-        }
-        wallet.requestWRLD(price, Network.POLYGON, "Buying " + ticketSettings.getItem().getItemMeta().getDisplayName(), false,
-                (ShopRunnable) () -> plr.getInventory().addItem(is));
     }
 
     private void openCategory(String category) {

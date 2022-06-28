@@ -10,6 +10,7 @@ import java.util.List;
 import static gyurix.timedtrials.conf.ConfigManager.conf;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class Arena {
     private Area area, queue, wall, finish;

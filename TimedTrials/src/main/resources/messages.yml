@@ -51,7 +51,6 @@ scoreboard:
   - "&67. <top7>:&e <top7dist>m left"
   - "&68. <top8>:&e <top8dist>m left"
   - "&69. <top9>:&e <top9dist>m left"
-  - "&610. <top10>:&e <top10dist>m left"
   - "&7---------------"
   finish:
   - "&3&7---------------"
@@ -68,7 +67,6 @@ scoreboard:
   - "&67. <top7>:&e <top7dist>m left"
   - "&68. <top8>:&e <top8dist>m left"
   - "&69. <top9>:&e <top9dist>m left"
-  - "&610. <top10>:&e <top10dist>m left"
 win:
   title: "&a&lVictory"
   subtitle: "&aCongratulation you won the game"
@@ -123,7 +121,6 @@ arena:
   - "&e7. &f<spawn7>"
   - "&e8. &f<spawn8>"
   - "&e9. &f<spawn9>"
-  - "&e10. &f<spawn10>"
   notset: "&cNot set"
   none:
   - "&f&l----- Timed Trials - Error --------"

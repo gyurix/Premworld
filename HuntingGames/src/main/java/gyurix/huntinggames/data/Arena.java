@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.bukkit.enchantments.Enchantment;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class Arena {
     private Area area, queue, spawn;

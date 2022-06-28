@@ -1,10 +1,162 @@
 {
-  "forest": {
-    "area": "world 59 4 -30 125 21 18",
-    "queue": "world 89 24 -9 95 27 -3",
-    "spawn": "world 90 6 -8 94 9 -4",
-    "name": "forest",
-    "spawnRot": 90,
-    "queueRot": 90
+  "hunt01": {
+    "area": "arenas 4859 58 -87 5102 109 82",
+    "queue": "arenas 4998 64 -4 5004 67 3",
+    "spawn": "arenas 4998 64 -4 5004 67 3",
+    "name": "hunt01",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt02": {
+    "area": "arenas 4859 58 913 5102 109 1082",
+    "queue": "arenas 4998 64 996 5004 67 1003",
+    "spawn": "arenas 4998 64 996 5004 67 1003",
+    "name": "hunt02",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt03": {
+    "area": "arenas 4859 58 1913 5102 109 2082",
+    "queue": "arenas 4998 64 1996 5004 67 2003",
+    "spawn": "arenas 4998 64 1996 5004 67 2003",
+    "name": "hunt03",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt04": {
+    "area": "arenas 4859 58 2913 5102 109 3082",
+    "queue": "arenas 4998 64 2996 5004 67 3003",
+    "spawn": "arenas 4998 64 2996 5004 67 3003",
+    "name": "hunt04",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt05": {
+    "area": "arenas 4859 58 3913 5102 109 4082",
+    "queue": "arenas 4998 64 3996 5004 67 4003",
+    "spawn": "arenas 4998 64 3996 5004 67 4003",
+    "name": "hunt05",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt06": {
+    "area": "arenas 4859 58 4913 5102 109 5082",
+    "queue": "arenas 4998 64 4996 5004 67 5003",
+    "spawn": "arenas 4998 64 4996 5004 67 5003",
+    "name": "hunt06",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt07": {
+    "area": "arenas 4859 58 5913 5102 109 6082",
+    "queue": "arenas 4998 64 5996 5004 67 6003",
+    "spawn": "arenas 4998 64 5996 5004 67 6003",
+    "name": "hunt07",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt08": {
+    "area": "arenas 4859 58 6913 5102 109 7082",
+    "queue": "arenas 4998 64 6996 5004 67 7003",
+    "spawn": "arenas 4998 64 6996 5004 67 7003",
+    "name": "hunt08",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt09": {
+    "area": "arenas 4859 58 7913 5102 109 8082",
+    "queue": "arenas 4998 64 7996 5004 67 8003",
+    "spawn": "arenas 4998 64 7996 5004 67 8003",
+    "name": "hunt09",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt10": {
+    "area": "arenas 4859 58 8913 5102 109 9082",
+    "queue": "arenas 4998 64 8996 5004 67 9003",
+    "spawn": "arenas 4998 64 8996 5004 67 9003",
+    "name": "hunt10",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt11": {
+    "area": "arenas 4859 58 9913 5102 109 10082",
+    "queue": "arenas 4998 64 9996 5004 67 10003",
+    "spawn": "arenas 4998 64 9996 5004 67 10003",
+    "name": "hunt11",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt12": {
+    "area": "arenas 4859 58 10913 5102 109 11082",
+    "queue": "arenas 4998 64 10996 5004 67 11003",
+    "spawn": "arenas 4998 64 10996 5004 67 11003",
+    "name": "hunt12",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt13": {
+    "area": "arenas 4859 58 11913 5102 109 12082",
+    "queue": "arenas 4998 64 11996 5004 67 12003",
+    "spawn": "arenas 4998 64 11996 5004 67 12003",
+    "name": "hunt13",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt14": {
+    "area": "arenas 4859 58 12913 5102 109 13082",
+    "queue": "arenas 4998 64 12996 5004 67 13003",
+    "spawn": "arenas 4998 64 12996 5004 67 13003",
+    "name": "hunt14",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt15": {
+    "area": "arenas 4859 58 13913 5102 109 14082",
+    "queue": "arenas 4998 64 13996 5004 67 14003",
+    "spawn": "arenas 4998 64 13996 5004 67 14003",
+    "name": "hunt15",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt16": {
+    "area": "arenas 4859 58 14913 5102 109 15082",
+    "queue": "arenas 4998 64 14996 5004 67 15003",
+    "spawn": "arenas 4998 64 14996 5004 67 15003",
+    "name": "hunt16",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt17": {
+    "area": "arenas 4859 58 15913 5102 109 16082",
+    "queue": "arenas 4998 64 15996 5004 67 16003",
+    "spawn": "arenas 4998 64 15996 5004 67 16003",
+    "name": "hunt17",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt18": {
+    "area": "arenas 4859 58 16913 5102 109 17082",
+    "queue": "arenas 4998 64 16996 5004 67 17003",
+    "spawn": "arenas 4998 64 16996 5004 67 17003",
+    "name": "hunt18",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt19": {
+    "area": "arenas 4859 58 17913 5102 109 18082",
+    "queue": "arenas 4998 64 17996 5004 67 18003",
+    "spawn": "arenas 4998 64 17996 5004 67 18003",
+    "name": "hunt19",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
+  },
+  "hunt20": {
+    "area": "arenas 4859 58 18913 5102 109 19082",
+    "queue": "arenas 4998 64 18996 5004 67 19003",
+    "spawn": "arenas 4998 64 18996 5004 67 19003",
+    "name": "hunt20",
+    "spawnRot": -180.0,
+    "queueRot": -180.0
   }
 }
