@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 
-import static gyurix.shopsystem.conf.ConfigManager.conf;
 import static gyurix.shopsystem.conf.ConfigManager.msg;
 
 @SuppressWarnings("NullableProblems")
@@ -24,7 +23,7 @@ public class CommandShop implements CommandExecutor {
             msg.msg(sender, "noconsole");
             return true;
         }
-        new ShopGUI(plr, conf.shops.get("main"));
+        new ShopGUI(plr);
         return true;
     }
 }

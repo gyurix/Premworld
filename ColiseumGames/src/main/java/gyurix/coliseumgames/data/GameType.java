@@ -15,7 +15,6 @@ public class GameType {
     private Counter counters;
     private List<String> defaultUpgrades;
     private int flagCount;
-    private String upgradesGUI;
 
     @Override
     public String toString() {

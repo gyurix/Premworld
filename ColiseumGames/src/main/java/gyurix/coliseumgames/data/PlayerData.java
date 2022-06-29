@@ -1,5 +1,6 @@
 package gyurix.coliseumgames.data;
 
+import gyurix.shopsystem.ShopAPI;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -52,6 +53,11 @@ public class PlayerData {
         this.saturation = plr.getSaturation();
         this.scoreboard = plr.getScoreboard();
         game.getType().getDefaultUpgrades().forEach((upg) -> upgrades.put(conf.getUpgrades().get(upg).getType(), upg));
+        conf.getUpgrades().values().forEach(upgrade ->
+                ShopAPI.hasUpgrade(plr, upgrade.getName(), (result) -> {
+                    if (result)
+                        upgrades.put(upgrade.getType(), upgrade.getName());
+                }));
 
         saveAndClearInv(plr);
 

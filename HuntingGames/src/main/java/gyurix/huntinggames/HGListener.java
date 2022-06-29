@@ -5,13 +5,12 @@ import gyurix.huntinggames.data.Arena;
 import gyurix.huntinggames.data.Game;
 import gyurix.huntinggames.data.Loc;
 import gyurix.huntinggames.data.Upgrade;
+import gyurix.huntinggames.gui.HuntingUpgradesGUI;
 import gyurix.huntinggames.gui.UpgradeRunnable;
-import gyurix.huntinggames.gui.UpgradesGUI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -20,7 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -65,7 +63,7 @@ public class HGListener implements Listener {
                 return;
             e.setCancelled(true);
             if (dn.equals(conf.getUpgradeItem().getItemMeta().getDisplayName()))
-                new UpgradesGUI(plr);
+                new HuntingUpgradesGUI(plr);
             else if (dn.equals(conf.getUpgrades().get("shotgun").getItem().getItemMeta().getDisplayName()))
                 game.getPlayers().get(pln).useShotgun();
             else if (dn.equals(conf.getUpgrades().get("rifle").getItem().getItemMeta().getDisplayName()))

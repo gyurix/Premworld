@@ -173,6 +173,6 @@ upgrade:
     - "&7"
     - "&7• &ePrice:&c <price>$"
     - "&7"
-    - "&2&m---&a Purchased &2&m---"
+    - "&2&m---&a Expires in &e<expire> &2&m---"
   buy: "Bought <upgrade>"
   already: "&cYou have this upgrade purchased already"

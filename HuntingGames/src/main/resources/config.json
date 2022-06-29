@@ -20,7 +20,7 @@
   "loseExp": 10,
   "drawExp": 50,
   "upgradesGui": {
-    "title": "&1&lUpgrades",
+    "title": "&1Upgrades - &4Hunting Games",
     "layout": [
       "glass glass glass glass glass   glass glass glass exit",
       "glass glass bow   glass shotgun glass rifle glass glass",

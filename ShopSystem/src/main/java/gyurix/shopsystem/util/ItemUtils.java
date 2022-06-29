@@ -1,10 +1,7 @@
 package gyurix.shopsystem.util;
 
 import com.google.common.collect.Lists;
-import lombok.SneakyThrows;
 import net.kyori.adventure.text.Component;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagString;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -24,11 +21,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static gyurix.shopsystem.ShopSystem.pl;
@@ -193,31 +188,6 @@ public class ItemUtils {
                 logError("Invalid meta tag: " + m);
             }
         }
-        is.setItemMeta(meta);
-        return is;
-    }
-
-    @SneakyThrows
-    public static String getCustomNBTTag(ItemStack is, String tag) {
-        if (is == null || !is.hasItemMeta())
-            return null;
-        ItemMeta meta = is.getItemMeta();
-        Field f = meta.getClass().getDeclaredField("unhandledTags");
-        f.setAccessible(true);
-        Map<String, NBTBase> map = (Map<String, NBTBase>) f.get(meta);
-        NBTTagString invisText = (NBTTagString) map.get(tag);
-        if (invisText == null)
-            return null;
-        return invisText.asString();
-    }
-
-    @SneakyThrows
-    public static ItemStack setCustomNBTTag(ItemStack is, String tag, String value) {
-        ItemMeta meta = is.getItemMeta();
-        Field f = meta.getClass().getDeclaredField("unhandledTags");
-        f.setAccessible(true);
-        Map<String, NBTBase> map = (Map<String, NBTBase>) f.get(meta);
-        map.put(tag, NBTTagString.a(value));
         is.setItemMeta(meta);
         return is;
     }

@@ -9,6 +9,14 @@
     "tell"
   ],
   "expirationFormat": "dd MMM @ HH:mm:ss",
+  "upgradeExpiration": 604800,
+  "mySQL": {
+    "database": "s1_leveling",
+    "table": "shopsystem",
+    "host": "localhost",
+    "password": "NVd8mquogm!F^o8tuUj0gJWW",
+    "username": "u1_pxg8pQWIes"
+  },
   "joinGUI": {
     "title": "&4&lJoin Game",
     "layout": [
@@ -43,77 +51,18 @@
       "trials": "trials queue <player>"
     }
   },
-  "shops": {
-    "main": {
-      "title": "&4&lShop",
-      "layout": [
-        "glass glass glass    glass glass   glass glass   glass exit",
-        "glass glass coliseum glass hunting glass trials  glass glass",
-        "glass glass glass    glass glass   glass glass   glass glass"
-      ],
-      "staticItems": {
-        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
-        "coliseum": "DIAMOND_SWORD name:&6&lColiseum_Games",
-        "hunting": "BOW name:&6&lHunting_Games",
-        "trials": "MINECART name:&6&lTimed_Trials",
-        "exit": "BARRIER name:&c&lClose_GUI"
-      },
-      "categories": {
-        "coliseum": "coliseum",
-        "hunting": "hunting",
-        "trials": "trials"
-      }
-    },
-    "coliseum": {
-      "title": "&4&lShop - Coliseum",
-      "layout": [
-        "back  glass glass glass glass glass glass glass exit",
-        "glass 1v1s  2v2s  3v3s  4v4s  glass ctfs  ctf2s  glass",
-        "glass 1v1m  2v2m  3v3m  4v4m  glass ctfm  ctf2m  glass",
-        "glass 1v1l  2v2l  3v3l  4v4l  glass ctfl  ctf2l  glass",
-        "glass 1v1xl 2v2xl 3v3xl 4v4xl glass ctfxl ctf2xl glass",
-        "glass glass glass glass glass glass glass glass glass"
-      ],
-      "staticItems": {
-        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
-        "back": "ARROW name:&6&l<--&e_Back_to_main_menu",
-        "exit": "BARRIER name:&c&lClose_GUI"
-      },
-      "categories": {
-        "back": "main"
-      }
-    },
-    "hunting": {
-      "title": "&4&lShop - Hunting",
-      "layout": [
-        "back  glass glass glass glass glass glass glass  exit",
-        "glass hunts glass huntm glass huntl glass huntxl glass",
-        "glass glass glass glass glass glass glass glass  glass"
-      ],
-      "staticItems": {
-        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
-        "back": "ARROW name:&6&l<--&e_Back_to_main_menu",
-        "exit": "BARRIER name:&c&lClose_GUI"
-      },
-      "categories": {
-        "back": "main"
-      }
-    },
-    "trials": {
-      "title": "&4&lShop - Trials",
-      "layout": [
-        "back  glass glass glass glass glass glass glass exit",
-        "glass trs   glass trm   glass trl   glass trxl  glass",
-        "glass glass glass glass glass glass glass glass glass"
-      ],
-      "staticItems": {
-        "glass": "BLACK_STAINED_GLASS_PANE name:&c",
-        "back": "ARROW name:&6&l<--&e_Back_to_main_menu",
-        "exit": "BARRIER name:&c&lClose_GUI"
-      },
-      "categories": {
-        "back": "main"
-      }
+  "shop": {
+    "title": "&4&lShop",
+    "layout": [
+      "glass glass glass    glass glass glass glass   glass exit",
+      "glass glass coliseum glass glass glass hunting glass glass",
+      "glass glass glass    glass glass glass glass   glass glass"
+    ],
+    "staticItems": {
+      "glass": "BLACK_STAINED_GLASS_PANE name:&c",
+      "coliseum": "DIAMOND_SWORD name:&6&lColiseum_Games",
+      "hunting": "BOW name:&6&lHunting_Games",
+      "exit": "BARRIER name:&c&lClose_GUI"
     }
   }
 }

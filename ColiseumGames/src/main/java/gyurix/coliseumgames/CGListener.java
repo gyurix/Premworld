@@ -4,17 +4,14 @@ import com.nftworlds.wallet.event.PlayerTransactEvent;
 import gyurix.coliseumgames.data.Arena;
 import gyurix.coliseumgames.data.Game;
 import gyurix.coliseumgames.enums.GameState;
+import gyurix.coliseumgames.gui.ColiseumUpgradesGUI;
 import gyurix.coliseumgames.gui.UpgradeRunnable;
-import gyurix.coliseumgames.gui.UpgradesGUI;
 import gyurix.coliseumgames.util.LocUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -23,11 +20,9 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import static gyurix.coliseumgames.CGPlugin.pl;
 import static gyurix.coliseumgames.conf.ConfigManager.arenas;
@@ -56,7 +51,7 @@ public class CGListener implements Listener {
             Game game = CGAPI.playerGames.get(pln);
             if (game == null)
                 return;
-            new UpgradesGUI(plr, conf.getGuis().get(game.getType().getUpgradesGUI()));
+            new ColiseumUpgradesGUI(plr);
         }
     }
 

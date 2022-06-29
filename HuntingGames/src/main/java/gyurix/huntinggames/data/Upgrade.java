@@ -7,6 +7,9 @@ import gyurix.huntinggames.HGAPI;
 import gyurix.huntinggames.enums.GameState;
 import gyurix.huntinggames.gui.UpgradeRunnable;
 import gyurix.huntinggames.util.ItemUtils;
+import gyurix.huntinggames.util.StrUtils;
+import gyurix.shopsystem.PlayerManager;
+import gyurix.shopsystem.ShopAPI;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.boss.BarColor;
@@ -15,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static gyurix.huntinggames.conf.ConfigManager.msg;
 import static gyurix.huntinggames.util.StrUtils.DF;
@@ -38,12 +42,24 @@ public class Upgrade {
         pi.addItem(item.clone());
     }
 
-    public ItemStack getGUIItem(PlayerData pd) {
-        List<String> loreSuffix = msg.getList("upgrade.lore." + (pd.getUpgrades().contains(name) ? "purchased" : "buy"));
-        return ItemUtils.addLore(item, loreSuffix, "price", DF.format(price));
+    public ItemStack getGUIItem(Player plr) {
+        AtomicLong expiration = new AtomicLong();
+        PlayerManager.withPlayerData(plr.getUniqueId(),
+                pd -> expiration.set(pd.getBoughtItems().getOrDefault(name, 0L)));
+        long time = System.currentTimeMillis();
+        List<String> loreSuffix = msg.getList("upgrade.lore." + (expiration.get() > time ? "purchased" : "buy"));
+        return ItemUtils.addLore(item, loreSuffix, "price", DF.format(price), "expire", StrUtils.formatTime(expiration.get() - time));
     }
 
     public void select(Game game, Player plr) {
+        AtomicLong expiration = new AtomicLong();
+        PlayerManager.withPlayerData(plr.getUniqueId(),
+                pd -> expiration.set(pd.getBoughtItems().getOrDefault(name, 0L)));
+        long time = System.currentTimeMillis();
+        if (expiration.get() > time) {
+            msg.msg(plr, "upgrade.already");
+            return;
+        }
         if (price == 0 || plr.hasPermission("shopsystem.free")) {
             selectNow(game, plr);
             return;
@@ -55,10 +71,13 @@ public class Upgrade {
 
     public void selectNow(Game game, Player plr) {
         Game curGame = HGAPI.playerGames.get(plr.getName());
-        if (game != curGame || game.getState() != GameState.STARTING && game.getState() != GameState.WAITING)
+        if (game != curGame || game != null && game.getState() != GameState.STARTING && game.getState() != GameState.WAITING)
             return;
-        PlayerData pd = game.getPlayers().get(plr.getName());
+        if (game != null) {
+            PlayerData pd = game.getPlayers().get(plr.getName());
+            pd.getUpgrades().add(name);
+        }
         msg.msg(plr, "upgrade.buy", "upgrade", item.getItemMeta().getDisplayName());
-        pd.getUpgrades().add(name);
+        ShopAPI.activateUpgrade(plr, name);
     }
 }

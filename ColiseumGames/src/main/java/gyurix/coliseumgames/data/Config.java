@@ -13,7 +13,7 @@ import java.util.TreeMap;
 @Getter
 public class Config implements PostProcessable {
     private TreeMap<String, GameType> gameTypes;
-    private HashMap<String, GUIConfig> guis;
+    private GUIConfig upgradesGUI;
     private String healthSuffix;
     private int titleFadeIn, titleShowTime, titleFadeOut;
     private ItemStack upgradeItem, flag1, flag2;

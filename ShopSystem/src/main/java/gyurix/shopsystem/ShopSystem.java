@@ -30,6 +30,7 @@ public class ShopSystem extends JavaPlugin {
     }
 
     private void registerTasks() {
+        PlayerManager.initTable();
         Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
         Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
     }

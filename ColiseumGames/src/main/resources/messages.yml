@@ -443,3 +443,5 @@ game:
   stop: "Force stopped game"
   upgrade: "Selected <upgrade>&e upgrade"
   wrongtype: "&cType &e<type>&c was not found. Valid types:&e <types>"
+upgrade:
+  already: "&cYou have this upgrade purchased already"
