@@ -1,9 +1,6 @@
 package gyurix.timedtrials.data;
 
 import com.google.common.collect.Lists;
-import com.ticxo.modelengine.api.ModelEngineAPI;
-import com.ticxo.modelengine.api.model.ActiveModel;
-import com.ticxo.modelengine.api.model.ModeledEntity;
 import gyurix.levelingsystem.LevelingAPI;
 import gyurix.timedtrials.TTAPI;
 import gyurix.timedtrials.enums.GameState;
@@ -226,10 +223,10 @@ public class Game {
                     Location loc = arena.getSpawns().get(spawnId).toLoc();
                     Boat boat = (Boat) loc.getWorld().spawnEntity(loc, EntityType.BOAT);
                     boat.addPassenger(pd.getPlayer());
-                    ActiveModel model = ModelEngineAPI.api.getModelManager().createActiveModel("jetski");
+                    /*ActiveModel model = ModelEngineAPI.api.getModelManager().createActiveModel("jetski");
                     ModeledEntity modeledEntity = ModelEngineAPI.api.getModelManager().createModeledEntity(boat);
                     modeledEntity.addActiveModel(model);
-                    modeledEntity.setInvisible(true);
+                    modeledEntity.setInvisible(true);*/
                     ++spawnId;
                 }
                 arena.getWall().changeBlock(Material.RED_STAINED_GLASS);
